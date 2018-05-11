@@ -13,7 +13,7 @@ Vue.use(VueRouter)
 import navbar from './component/common/navBar.vue'
 import zmodal from './component/common/modal.vue'
 import zbanner from './component/common/banner.vue'
-import zfooter from './component/common/footer-pc.vue'
+import zfooter from './component/common/footer.vue'
 import zhistory from './component/common/goback.vue'
 import backhome from './component/common/back-home.vue'
 import zlogo from './component/common/logo.vue'
