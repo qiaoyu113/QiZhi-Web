@@ -103,4 +103,4 @@ export const loginService = {
         return axios.get('/kaptchas' + cs.getParam(params))
     },
 }
-// export default {loginService}
+export default {loginService}

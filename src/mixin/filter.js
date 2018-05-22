@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import {common} from '../assets/js/common'
+import store from '../vuex'
+import {commonService} from '../service/commonService'
 
 Vue.filter('dateFormate', function (value) {
     function getDateTimeStamp(dateStr){
@@ -31,7 +32,7 @@ Vue.filter('dateFormate', function (value) {
     // 	result="" + parseInt(weekC) + "周前";
     // }
     if(dayC>1){
-        result = common.getFormatOfDate(value*1, 'yyyy-MM-dd');
+        result = commonService.getFormatOfDate(value*1, 'yyyy-MM-dd');
     }
     else if(dayC==1){ //文章信息流时间显示
         result=""+ "昨天";
@@ -57,5 +58,9 @@ Vue.filter('readNumFormate',function(value) {
     } else if(value <= 9999){
         result = value
     }
+    return result
+})
+Vue.filter('picTurn',function(value) {
+    let result = store.state.picHead + value
     return result
 })

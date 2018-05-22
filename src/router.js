@@ -32,6 +32,25 @@ Vue.component('loadMore', loadMore)
 // 定义组件
 const short = (resolve) => {require(['./pages/short.vue'],resolve)}
 const home = (resolve) => {require(['./pages/home/home.vue'],resolve)}
+const search = (resolve) => {require(['./pages/home/search.vue'],resolve)}
+// 咨询
+const news = (resolve) => {require(['./pages/consult/index.vue'],resolve)}
+const passage = (resolve) => {require(['./pages/consult/detail.vue'],resolve)}
+const keywords = (resolve) => {require(['./pages/consult/keywords.vue'],resolve)}
+// 关注
+const concern = (resolve) => {require(['./pages/concern/index.vue'],resolve)}
+const concernDetail = (resolve) => {require(['./pages/concern/detail.vue'],resolve)}
+// 活动
+const activity = (resolve) => {require(['./pages/activity/index.vue'],resolve)}
+const activityDetail = (resolve) => {require(['./pages/activity/detail.vue'],resolve)}
+// 付费读
+const subject = (resolve) => {require(['./pages/subject/index.vue'],resolve)}
+const subjectDetail = (resolve) => {require(['./pages/subject/detail.vue'],resolve)}
+// 资料库
+const database = (resolve) => {require(['./pages/database/index.vue'],resolve)}
+// 会员中心
+const vip = (resolve) => {require(['./pages/vip/index.vue'],resolve)}
+const vipPoints = (resolve) => {require(['./pages/vip/detail.vue'],resolve)}
 // 登录注册
 const login = (resolve) => {require(['./pages/login/loginhome.vue'],resolve)} //密码登录页面
 const phone = (resolve) => {require(['./pages/login/loginPhoneHome.vue'],resolve)} //手机号验证码登录页面
@@ -52,8 +71,27 @@ const error = (resolve) => {require(['./pages/error.vue'],resolve)}
 const routers = [
     {path: '/d/:shortId', component: short},
     {name: 'home',path:'/',component: home, meta: {keepAlive: true}},
-    // {name: 'search',path:'/search',component: search},
+    {name: 'search',path:'/search',component: search},
     {name: 'err',path:'/s/404',component: error}, //错误跳到404页面
+    // 资讯
+    {name: 'news',path:'/news',component: news},
+    {name: 'passage',path:'/news/:id',component: passage},
+    {name: 'keywords',path:'/keywords/:id',component: keywords},
+    // 关注
+    {name: 'concern',path:'/concern',component: concern},
+    {name: 'concernDetail',path:'/concern/:id',component: concernDetail},
+    
+    // 活动
+    {name: 'activity',path:'/activity',component: activity},
+    {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
+    // 付费阅读
+    {name: 'subject',path:'/subject',component: subject},
+    {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
+    // 资料库
+    {name: 'database',path:'/database',component: database},
+    // 会员
+    {name: 'vip',path:'/vip',component: vip},
+    {name: 'vipPoints',path:'/vip/points',component: vipPoints},
     
     // 登录注册模块
     {name: 'login', path:'/login',component: login}, // 密码登录页

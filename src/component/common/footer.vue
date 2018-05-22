@@ -1,45 +1,36 @@
 <template>
-  <div class="footer" id="footer">
-    <div class="footer_center">
-      <div class="foot_left">
-        <!--<img class="fot_image" src="../../assets/image/common/fot_lft.png">-->
-        <p class="zong">关注我们获取更多信息</p>
+<div id="footer">
+  <div class="color-line"></div>
+  <div class="new-footer-center">
+      <div class="fot-left">
+          <img src="../../assets/image/wx.png">
+          <div class="right">
+              <p class="title"><span class="big">运联传媒</span>关注货运业 · 关怀货运人</p>
+              <p class="des"> 2012-2017  版权所有 运联（北京）会展有限公司<br>
+              北京市海淀区学清路甲18号中关村东升科技园学院园D609室<br>
+              京ICP备17001150号-1
+                  
+              </p>
+          </div>
       </div>
-      <div class="foot_center">
-        <ul class="typ1">
-          <li class="tit">010-12345678</li>
-          <li class="sub">客服电话</li>
-          <!--<li class="sub"><img class="fot-logo" src="../../assets/image/common/logo_footer.png"></li>-->
-        </ul>
-        <ul class="typ-line"></ul>
-        <ul class="typ2">
-          <li class="tit">合通产品</li>
-          <li class="sub"><router-link :to="{name:'free'}">免费试用</router-link></li>
-          <li class="sub"><router-link :to="{name:'demoList'}">演示视频</router-link></li>
-        </ul>
-        <ul class="typ2">
-          <li class="tit">关于我们</li>
-          <li class="sub"><router-link :to="{name:'concern'}">关于合通机器人</router-link></li>
-          <li class="sub"><router-link :to="{name: 'partner'}">合通合作伙伴</router-link></li>
-        </ul>
-        <ul class="typ2">
-          <li class="tit">其它</li>
-          <li class="sub"><router-link :to="{name:'items'}">用户条款</router-link></li>
-          <li class="sub"><router-link :to="{name:'statement'}">免责声明</router-link></li>
-        </ul>
-      </div>
-      <div class="foot_right">
-        <!--<img class="fot_image" @click="jumpUrl()" src="../../assets/image/common/fot_rit.png" alt="">-->
-      </div>
-    </div>
-    <div class="foot_bottom">
-      <p>© 2018 北京慧问数据科技有限公司 版权所有 京ICP备18001904号-1</p>
-    </div>
+      <ul>
+          <li class="title">关于</li>
+          <li><a href="">关于我们</a></li>
+          <li><a href="">加入我们</a></li>
+          <li><a href="">合作伙伴</a></li>
+      </ul>
+      <ul class="margin-left-no">
+          <li class="title">合作&联系</li>
+          <li>电话：<a>010-62958252</a></li>
+          <li>传真：<a>010-52071951</a></li>
+          <li>客服微信：<a>010-62958252</a></li>
+      </ul>
   </div>
+</div>
+  
 </template>
 
 <script type="text/ecmascript-6">
-//  import {indexService} from '../../service/indexService'
   export default {
     data() {
       return{
@@ -63,69 +54,26 @@
 
 <style lang="less" scoped>
   #footer{
-    width: 100%;
-    height: 240px;
-    background-color:  #333333;
-  .footer_center{
-    padding-top: 40px;
-    width: 832px;
-    height: 150px;
-    margin: 0 auto;
-    display:flex; align-items:center; justify-content: space-between;
-    .fot_image{width: 120px;height: 120px;cursor: pointer;}
-    .zong{width: 14px;font-size: 10px;
-      margin-left:11px;
-      -webkit-transform: scale(1);
-      -moz-transform: scale(1);
-      -ms-transform: scale(1);
-      -o-transform: scale(1);
-      transform: scale(1);
-      color: #FFFFFF;
-      letter-spacing: 0.83px;
-      line-height: 14px;}
-    .foot_left{
-      display:flex;align-items:center; justify-content: space-between;
-    }
-    .foot_center{
-       width: 493px;
-      display:flex; align-items:center; justify-content: space-between;
-      .fot-logo{width:70px;height:26px;}
-      .typ1 .sub,.typ2 .sub{
-        font-size: 12px;
-        color: #FFFFFF;
-        letter-spacing: 1px;
-        margin-bottom: 10px;
-        a{
-          font-size: 12px;
-          color: #FFFFFF;
-          letter-spacing: 1px;
-        }
-      }
-      .typ1{
-      .tit{font-size: 16px;
-        margin-bottom: 15px;
-        color: #FFFFFF;
-        letter-spacing: 1.33px;}
-      }
-      .typ2{
-      .tit{font-size: 14px;
-        margin-bottom: 15px;
-        color: #FFFFFF;
-        letter-spacing: 1.17px;}
-      }
-      .typ-line{width:0;height:101px;border: 1px solid #404040;}
-    }
-  }
-  .foot_bottom{
-    height: 50px;
-    line-height: 30px;
-    text-align: center;
-  P{
-    font-size: 12px;
-    color: #999;
-    letter-spacing: 1px;
-  }
-  }
+    min-width:1200px;/*height:238px;*/overflow:hidden;margin-top:55px;background-color:#fafafa;height:238px;
+    .new-footer-center{width:1200px;margin:0 auto;}
+    .color-line{height:2px;background-image: linear-gradient(47deg, #4D8BFF 0%, #E56E97 85%, #FF6985 100%);}
+    .fot-left{height:120px;margin:50px 0 0 0;display:inline-block;}
+    .fot-left > img {width:120px;height:120px;float:left;}
+    .fot-left .right{margin-left:26px;float:right;}
+    .fot-left .title{line-height:38px;font-size:14px;color: #303958;}
+    .fot-left .title .big{font-size:18px;}
+    ul{margin: 50px 30px 0 49px;float:right;}
+    li, li a, .fot-left .des{line-height: 22px;font-size: 12px;color: #666;}
+    .fot-left .des2{margin-top:10px;}
+    li a:hover{text-decoration:underline;cursor:pointer;}
+    li a.l{margin-right:10px;}
+    li a.r{margin-left:10px;}
+    li.title{line-height:38px;font-size: 18px;color: #303958;}
+    .margin-right{margin-right:258px;}
+    .margin-left-no{margin-left:0;}
+    .friendly-links{width:1200px;margin:20px auto 40px;line-height:38px;overflow:hidden;}
+    .friendly-links .title{font-size:18px;color: #303958;float:left;}
+    .friendly-links a{margin-right:8px;font-size: 12px;color: #666;float:left;}
   }
 
 </style>

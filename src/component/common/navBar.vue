@@ -4,20 +4,23 @@
         <div id="img" v-bind:class="{'backlogo':this.$route.name=='home'&& ticking==false}" @click="goHome()"></div>
         <!-- <img src="../../assets/image/common/logo.png" alt=""> -->
         <div class="nav_ul">
-            <router-link :to="{name:'home'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false,'li_red':current1}">首页<span v-if="current1" class="select_line"></span></router-link>
-            <router-link :to="{name:'production'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false, 'li_red':current2}">合通产品<span v-if="current2" class="select_line"></span></router-link>
-            <router-link :to="{name:'partner'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false, 'li_red':current3}">合通合作伙伴<span v-if="current3" class="select_line"></span></router-link>
-            <router-link :to="{name:'news'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false, 'li_red':current4}">合通新闻<span v-if="current4" class="select_line"></span></router-link>
-            <router-link :to="{name:'concern'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false, 'li_red':current5}">关于合通机器人<span v-if="current5" class="select_line"></span></router-link>
-            <router-link :to="{name:'free'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false, 'li_red':current6}">免费模板<span v-if="current6" class="select_line"></span></router-link>
+            <router-link :to="{name:'home'}" v-bind:class="{'li_red':current1}">首页<span v-if="current1" class="select_line"></span></router-link>
+            <router-link :to="{name:'news'}" v-bind:class="{'li_red':current2}">资讯<span v-if="current2" class="select_line"></span></router-link>
+            <router-link :to="{name:'activity'}" v-bind:class="{'li_red':current3}">活动<span v-if="current3" class="select_line"></span></router-link>
+            <router-link :to="{name:'concern'}" v-bind:class="{'li_red':current4}">关注<span v-if="current4" class="select_line"></span></router-link>
+            <router-link :to="{name:'subject'}" v-bind:class="{'li_red':current5}">专题<span v-if="current5" class="select_line"></span></router-link>
+            <router-link :to="{name:'database'}" v-bind:class="{'li_red':current6}">资料库<span v-if="current6" class="select_line"></span></router-link>
+            <router-link :to="{name:'vip'}" v-bind:class="{'li_red':current7}">会员中心<span v-if="current7" class="select_line"></span></router-link>
         </div>
-        <router-link v-if="!loginFlag" :to="{name:'register'}" v-bind:class="{'colorfont1 backcolor1 bordsize1':this.$route.name=='home'&& ticking==false}" id="nav_register">注册</router-link>
-        <router-link v-if="!loginFlag" :to="{name:'login'}" v-bind:class="{'colorfont1 backcolor1 bordsize1':this.$route.name=='home'&& ticking==false}" id="nav_login">登录</router-link>
-        <router-link v-if="!loginFlag" :to="{name:'search'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
+        <!-- <router-link v-if="!loginFlag" :to="{name:''}" id="vip">会员中心</router-link> -->
+        <router-link v-if="!loginFlag" :to="{name:'register'}" id="nav_register">注册</router-link>
+        <router-link v-if="!loginFlag" :to="{name:'login'}" id="nav_login">登录</router-link>
+        <i class="iconfont icon-pep"></i>
+        <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
+        <a href="" class="fabu">发布</a>
 
-        <router-link v-if="loginFlag" class="personname" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false,'li_red':this.$route.path=='/'}" :to="{name:'myContract'}">{{name}}</router-link>
-        <router-link v-if="loginFlag" class="personimg" :to="{name:'myContract'}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link>
-        <router-link v-if="loginFlag" :to="{name:'search'}" v-bind:class="{'colorfont1':this.$route.name=='home'&& ticking==false}" id="nav_search"><i class="iconfont icon-sousuo"></i></router-link>
+        <router-link v-if="loginFlag" class="personname" :to="{name:'myContract'}">{{name}}</router-link>
+        <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link>
     </div>
   </div>
 </template>
@@ -38,6 +41,7 @@
                 current4:false,
                 current5:false,
                 current6:false,
+                current7:false,
 
             }
         },
@@ -66,7 +70,6 @@
           },
           currentPage(){
             let currentUrl = this.$route.path
-            //console.log('111currentUrl', currentUrl.indexOf('production'))
             if(currentUrl == '/'){
               this.current1 = true
               this.current2=false
@@ -74,76 +77,62 @@
               this.current4=false
               this.current5=false
               this.current6=false
-            } else if (currentUrl.indexOf('production') != -1) {
+              this.current7=false
+            } else if (currentUrl.indexOf('news') != -1) {
               this.current2 = true
               this.current1 = false
               this.current3=false
               this.current4=false
               this.current5=false
               this.current6=false
-            } else if (currentUrl.indexOf('partner') != -1) {
+              this.current7=false
+              
+            } else if (currentUrl.indexOf('activity') != -1) {
               this.current3 = true
               this.current1 = false
               this.current2=false
               this.current4=false
               this.current5=false
               this.current6=false
-            } else if (currentUrl.indexOf('news') != -1) {
+              this.current7=false
+            } else if (currentUrl.indexOf('concern') != -1) {
               this.current4 = true
               this.current1 = false
               this.current2=false
               this.current3=false
               this.current5=false
               this.current6=false
-            } else if (currentUrl.indexOf('aboutus') != -1) {
+              this.current7=false
+            } else if (currentUrl.indexOf('subject') != -1) {
               this.current5 = true
               this.current1 = false
               this.current2=false
               this.current3=false
               this.current4=false
               this.current6=false
-            } else if (currentUrl.indexOf('free') != -1) {
+              this.current7=false
+            } else if (currentUrl.indexOf('database') != -1) {
               this.current6 = true
               this.current1 = false
               this.current2=false
               this.current3=false
               this.current4=false
               this.current5=false
-            } else {
+              this.current7=false
+            } else if (currentUrl.indexOf('vip') != -1) {
               this.current6 = false
               this.current1 = false
               this.current2=false
               this.current3=false
               this.current4=false
               this.current5=false
+              this.current7=true
             }
             //console.log('当前页面', currentUrl.indexOf('production'))
           },
           goHome(){
             this.$router.push({name:'home'})
           },
-          // getlogin(){
-          //   const that = this;
-          //   if(localStorage.token && localStorage.token!='undefined'){
-          //     that.loginFlag = true;
-          //     that.name=that.$store.state.loginStore.name,
-          //     that.indexLogo=that.$store.state.loginStore.headImg
-          //     // indexService.myCenter({
-          //     // }).then(function (res) {
-          //     //   that.name = res.data.datas.baseUser.name
-          //     //   that.$store.state.indexName = res.data.datas.baseUser.name
-
-          //     //   console.log('0000', that.name)
-          //     //   if(res.data.datas.baseUser.headimgurl == null){
-          //     //     that.indexLogo = ''
-          //     //   } else {
-          //     //     that.indexLogo = that.$store.state.picHead + res.data.datas.baseUser.headimgurl
-          //     //     that.$store.state.indexLogo = res.data.datas.baseUser.headimgurl
-          //     //   }
-          //     //     console.log('获取个人信息', res.data.datas)
-          //     // }
-          //   }
-          // },
           handleScroll () {
             this.pos = window.scrollY;
             if(this.pos > 1&&!this.ticking){
@@ -161,111 +150,115 @@
 
 <style lang="less">
   // class变化
-  .backcolor1{}
-  .bordbu1{}
-  .colorfont1{}
-  .bordsize1{}
-  .backlogo{}
-  .dingwei{}
-  // .backcolor1{transition:background 2s;background-color: transparent !important;}
-  // .bordbu1{border-bottom: 0px !important;}
-  // .colorfont1{color:#fff !important;}
-  // .bordsize1{border: 1px solid #fff !important;}
-  // .backlogo{background-image: url('../../assets/image/common/logo2.png') !important;}
-  // .dingwei{z-index: 10;position: absolute;top:0;left: 0;}
-
-
   #navBar{
     height: 60px;;
     width: 100%;
-    border-bottom: 1px solid #eeeeee;
-    transition:background .5s;
-    background-color: #FFF;
+    background: #FAFAFA;
+    box-shadow: inset 0 -1px 0 0 rgba(224,224,224,0.50);
     .nav_center{
       margin:0 auto;
       width: 90%;
       min-width:1200px;
       max-width:1400px;
       height: 100%;
+      .fabu{
+        float: right;
+        font-size: 14px;
+        display: inline-block;
+        padding: 4px 15px;
+        margin-top: 15px;
+        color: #389BFF;
+        border: 1px solid #389BFF;
+        border-radius: 20px;
+      }
+      .icon-pep{
+        display: inline-block;
+        float: right;
+        color: #B2B2B2;
+        margin-top: 17px;
+        font-size: 20px;
+        margin-left: 30px;
+      }
       #img{
         margin-top: 13px;
-        width:90px;
+        width:136px;
         height:34px;
         float: left;
-        /*background-image: url('../../assets/image/common/logo.png');*/
+        background-image: url('../../assets/image/logo.png');
         background-repeat: no-repeat;
         background-size:cover;
         cursor:pointer;
+      }
+      #vip{
+        float: right;
+        line-height: 60px;
+        font-size: 14px;
+        color: #7F7F7F;
+        letter-spacing: 1.17px;
+        margin-left: 10px;
       }
       .nav_ul{
         display:inline-block;
         height: 100%;
         .li_red{
-          color:#B8002E !important;
+          color:#389BFF !important;
         }
         a{
           position: relative;
           cursor: pointer;
           display: inline-block;
           float: left;
-          margin-left: 50px;
+          margin-left: 45px;
           height: 100%;
-          line-height: 70px;
-          font-size: 16px;
-          color: #333333;
-          letter-spacing: 1.33px;
+          line-height: 60px;
+          font-size: 14px;
+          color: #4E4E4E;
+          letter-spacing: 1.17px;
           .select_line{
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left:-10px;
+            top: 50%;
+            transform: translateY(-50%);
             display: inline-block;
-            width: 20px;
-            height:3px;
-            background: #B8002E;
+            width: 4px;
+            height: 4px;
+            background: #389BFF;
           }
         }
       }
       #nav_search{
         cursor: pointer;
         padding: 6px 15px;
-        margin-top: 16px;
+        margin-top: 13px;
         margin-left: 20px;
         float: right;
         display: inline-block;
-        font-size: 16px;
-        color: #333333;
+        font-size: 14px;
+        color: #7F7F7F;
         letter-spacing: 1.33px;
         .icon-sousuo{
           margin-right:5px;
-          font-size: 20px;
+          font-size: 18px;
         }
       }
       #nav_login{
         cursor: pointer;
-        margin-top: 16px;
-        margin-left: 20px;
+        margin-top: 20px;
+        padding:0 10px;
         float: right;
         display: inline-block;
-        padding: 6px 15px;
-        font-size: 16px;
-        color: #B8002E;
-        letter-spacing: 1.33px; 
-        background: #FFFFFF;
-        border: 1px solid #B8002E;
+        font-size: 14px;
+        color: #7F7F7F;
       }
       #nav_register{
         cursor: pointer;
-        margin-top: 16px;
-        margin-left: 20px;
+        padding:0 10px;
+        margin-top: 20px;
         float: right;
         display: inline-block;
-        padding: 6px 15px;
-        font-size: 16px;
-        color: #fff;
-        letter-spacing: 1.33px; 
-        background: #B8002E;
-        border: 1px solid #B8002E;
+        font-size: 14px;
+        color: #7F7F7F;
+        border-left: 1px solid #d8d8d8;
       }
       .personname{
         float: right;

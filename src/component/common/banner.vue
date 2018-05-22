@@ -56,12 +56,13 @@
           },
           clickLink:function(index){
             if(!this.canClick) return;
-            if(this.bannerData[index].bannerType== '0'){
-              window.location.href = this.bannerData[index].picLink
-            }
-            if(this.bannerData[index].bannerType== '1'){
-              this.start(index);
-            }
+            window.location.href = this.bannerData[index].picLink
+            // if(this.bannerData[index].bannerType== '0'){
+            //   window.location.href = this.bannerData[index].picLink
+            // }
+            // if(this.bannerData[index].bannerType== '1'){
+            //   this.start(index);
+            // }
           },
           start:function(index){
             const that = this;
@@ -123,10 +124,10 @@
             transform:translate(-50%,-50%);
             p:nth-child(1){
                 width: 100%;
-                font-size: 34px;
-                line-height:55px;
+                font-size: 20px;
                 color: #FFFFFF;
-                text-shadow: 0 2px 20px rgba(0,0,0,0.21);
+                line-height: 40px;
+                text-shadow: 0 2px 2px rgba(0,0,0,0.50);
                 margin-bottom: 10px;
                 text-align:center;
             }
@@ -150,8 +151,40 @@
         }
 
     }
+    .el-icon-arrow-left{
+        font-size: 18px;
+    }
+    .el-icon-arrow-right{
+        font-size: 18px;
+    }
+    .el-carousel__arrow--left{
+        left:0;
+    }
+    .el-carousel__arrow--right{
+        right:0;
+    }
+    .el-carousel__arrow{
+        border-radius: 0px !important;
+        background: rgba(0,0,0,0.40);
+        width: 30px;
+        height: 45px;
+    }
+    .el-carousel__indicators{
+        bottom: 15px;
+    }
+    .el-carousel__indicator{
+        margin: 3px;
+    }
+    .el-carousel__indicator,.el-carousel__button{
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        border-radius: 10px;
+        border: 1px solid #FFFFFF;
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.30);
+    }
     .el-carousel__indicator.is-active .el-carousel__button{
-        background: #B9002D;
+        background: #FFFFFF;
     }
     .el-carousel__item h3 {
         color: #475669;
