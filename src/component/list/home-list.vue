@@ -7,7 +7,7 @@
         <div class="bg_list">
             <div class="bg_list_left">
                 <router-link :to="{name:'passage',params:{id:item.id}}">
-                    <img :src="picHead+item.poster">
+                    <img :src="item.poster| picTurn">
                 </router-link>
             </div>
             <div class="bg_list_right">
@@ -33,7 +33,6 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import {filter} from '../../mixin/filter'
     export default {
         props: ['item'],
         data () {

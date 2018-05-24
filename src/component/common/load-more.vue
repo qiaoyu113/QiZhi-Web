@@ -4,7 +4,7 @@
         page当前页面
 -->
 <template>
-  <div id="loadmore" >
+  <div id="loadmore" v-if="total!=0">
       <div class="more" @click="loadmore()" v-if="status*1===0 && page*1!==total*1">加载更多</div>
       <div class="more-end" v-if="status*1===1 && page*1!==total*1">
           <svg width="32" height="32">
@@ -12,7 +12,7 @@
               <circle class="tans" cx="16" cy="16" r="10" stroke-width="5"  stroke-linecap="round" stroke="#ccc" fill="none" stroke-dasharray="5 5"></circle>
           </svg>
       </div>
-      <div class="more" v-if="page*1===total*1">没有更多了</div>
+      <!-- <div class="more" v-if="page*1===total*1">没有更多了</div> -->
   </div>
 </template>
 

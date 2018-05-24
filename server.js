@@ -7,8 +7,8 @@ const compression = require('compression')
 const http = require('http');
 const API = require('request');
 
-const isProd = process.env.NODE_ENV === 'production'
-// const isProd = true
+// const isProd = process.env.NODE_ENV === 'production'
+const isProd = false
 
 
 const app = express()

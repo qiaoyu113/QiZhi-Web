@@ -40,6 +40,7 @@ const keywords = (resolve) => {require(['./pages/consult/keywords.vue'],resolve)
 // 关注
 const concern = (resolve) => {require(['./pages/concern/index.vue'],resolve)}
 const concernDetail = (resolve) => {require(['./pages/concern/detail.vue'],resolve)}
+const author = (resolve) => {require(['./pages/concern/author.vue'],resolve)}
 // 活动
 const activity = (resolve) => {require(['./pages/activity/index.vue'],resolve)}
 const activityDetail = (resolve) => {require(['./pages/activity/detail.vue'],resolve)}
@@ -80,6 +81,7 @@ const routers = [
     // 关注
     {name: 'concern',path:'/concern',component: concern},
     {name: 'concernDetail',path:'/concern/:id',component: concernDetail},
+    {name: 'author',path:'/author/:id',component: author},
     
     // 活动
     {name: 'activity',path:'/activity',component: activity},

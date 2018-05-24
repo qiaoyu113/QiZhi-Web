@@ -1,35 +1,40 @@
 <template>
     <div id="app" class="scroll" v-bind="{'minWidth':this.$route.name!='invitelogin'}">
-        <navbar v-if="nocommon == 0"></navbar>
-        <router-view class="view"></router-view>
-        <z-footer v-if="nocommon == 0"></z-footer>
+        <navbar v-if="show == true"></navbar>
+        <router-view class="view" v-if="show == true"></router-view>
+        <z-footer v-if="show == true"></z-footer>
     </div>
 </template>
 
 <script>
     import {appService} from './service/appService'
+    import {filter} from './mixin/filter'
     export default {
         name: 'app',
         data() {
             return{
                 nocommon:null,
                 loginIs:null,
-                noinvite:false
+                noinvite:false,
+                show:false,
             }
         },
         components: {},
         watch: {
             '$route' (to,from) {
                 const that = this;
-                that.hasCommon();
-                that.loginWay();
-                that.hasInvite();
+                // that.hasCommon();
+                // that.loginWay();
+                // that.hasInvite();
             }
         },
         mounted: function () {
-            this.hasCommon()
-            this.loginWay();
-            this.hasInvite()
+            // this.hasCommon()
+            // this.loginWay();
+            // this.hasInvite()
+            this.$nextTick(function(){
+                this.show = true
+            })
             appService.onBridgeReady()
         },
         methods: {
@@ -66,4 +71,8 @@
 <style lang="less">
     @import url('assets/css/base.less');
     @import url('assets/css/icon/iconfont.css');
+    .view{
+        margin-top: 60px;
+        overflow: hidden;
+    }
 </style>

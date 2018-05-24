@@ -17,7 +17,7 @@
         <router-link v-if="!loginFlag" :to="{name:'login'}" id="nav_login">登录</router-link>
         <i class="iconfont icon-pep"></i>
         <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
-        <a href="" class="fabu">发布</a>
+        <a href="http://admin.wetuc.com/admin/login" class="fabu">发布</a>
 
         <router-link v-if="loginFlag" class="personname" :to="{name:'myContract'}">{{name}}</router-link>
         <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link>
@@ -151,7 +151,11 @@
 <style lang="less">
   // class变化
   #navBar{
-    height: 60px;;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    height: 60px;
     width: 100%;
     background: #FAFAFA;
     box-shadow: inset 0 -1px 0 0 rgba(224,224,224,0.50);

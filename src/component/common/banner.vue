@@ -87,6 +87,7 @@
     }
     .backimg{
         /*background-image: url('../../assets/image/common/back2.jpg');*/
+        background-color: #ccc;
         background-repeat: no-repeat;
         background-size:cover;
         background-position:center center;

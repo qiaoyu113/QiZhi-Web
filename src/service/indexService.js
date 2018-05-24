@@ -23,6 +23,10 @@ export const indexService = {
     hotArticles: function(params){
         return axios.get('/articles/hot'+ this.getParam(params))
     },
+    // 文章分类
+    articlesType: function(params){
+        return axios.get('/articles/type'+ this.getParam(params))
+    },
     // 字典相关操作api
     dictionary: function(params){
         return axios.get('/dictionarys/list'+ this.getParam(params))
@@ -30,6 +34,14 @@ export const indexService = {
     // 新闻阅读数加1
     getReadnum: function(params){
         return axios.post('/articles/'+params.articleId+'/readnum',qs.stringify(params))
+    },
+   // 所有社群号（1作者，2主办方）
+   allAdminUser: function(params){
+        return axios.get('/allAdminUser'+ this.getParam(params))
+    },
+    // 关注社群号
+    postFollow: function(params){
+        return axios.post('/myFollow/'+params.adminId,qs.stringify(params))
     },
     getParam: function(param){
         let url = '';
