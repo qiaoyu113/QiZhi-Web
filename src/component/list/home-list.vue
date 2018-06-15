@@ -58,7 +58,7 @@
         .bg_list_left img{width:262px;height:160px;}
         .bg_list_left a{width:100%;height:100%;display:block;}
         .bg_list_left a:hover img{opacity:.9;}
-        .bg_list_right{margin: 30px 1px 0 40px;width: 497px}
+        .bg_list_right{margin: 30px 20px 0 40px;width: 477px}
         .bg_list_right_title{ line-height:24px;font-size:18px; color:#4e4e4e;cursor: pointer;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;}
         .bg_list_right_title a:hover{color:#303030;text-decoration:underline;}
         .bg_list_right_title .gradient_line{display:block;margin-top:13px;margin-bottom:8px;width:100%;height:2px;background: transparent}

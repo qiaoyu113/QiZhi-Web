@@ -4,11 +4,11 @@
           <div class="left">
               <z-logo></z-logo>
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="" prop="phone">
+                <el-form-item prop="phone">
                     <el-input type="phone" v-model="ruleForm2.phone" auto-complete="off" placeholder="手机号"></el-input>
                 </el-form-item>
-                <el-form-item label="" prop="password">
-                    <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="数字和密码组合,且不少于6位"></el-input>
+                <el-form-item prop="password">
+                    <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="密码"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="submitForm('ruleForm2')">登录</el-button>
@@ -19,19 +19,30 @@
                   <div class="forline"><router-link :to="{name:'find'}">忘记密码</router-link>&nbsp;&nbsp;|&nbsp;&nbsp;<router-link :to="{name:'register'}">注册</router-link></div>
             </div>
             <div class="moreSolve">
-                <router-link :to="{name:'qrcode'}" class="solves solvesw"></router-link>
-                <router-link :to="{name:'phone'}" class="solves solvesp"></router-link>
+                <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                    <i class="iconfont icon-weixin"></i>
+                    <p style="margin-top:7px;">微信登录</p>
+                </router-link>
+                <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                    <i class="iconfont icon-qq"></i>
+                    <p style="margin-top:7px;">QQ登录</p>
+                </router-link>
+                <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                    <i class="iconfont icon-sina"></i>
+                    <p style="margin-top:6px;">微博登录</p>
+                </router-link>
+                <router-link :to="{name:'phone'}" class="solves solvesw" >
+                    <i class="iconfont icon-shouji1"></i>
+                    <p style="margin-top:11px;">手机号登录</p>
+                </router-link>
             </div>
-          </div>
-          <div class="right">
-              <div class="ceng"></div>
-              <p>合通机器人是中国首个综合性线上 /线下AI商务交易支持服务云平台</p>
           </div>
       </div>
   </div>
 </template>
 
 <script>
+// require ('../../assets/css/icon/iconfont')
 import {commonService} from '../../service/commonService'
 import {loginService} from '../../service/loginService'
     export default {
@@ -52,7 +63,7 @@ import {loginService} from '../../service/loginService'
             if (value === '') {
                 callback(new Error('请输入密码'));
             } else if(!pass.test(value)) {
-                callback(new Error('数字和密码组合,且不少于6位'));
+                callback(new Error('数字和字母组合,且不少于6位'));
             }else{
                 callback();
             }
@@ -81,9 +92,9 @@ import {loginService} from '../../service/loginService'
         },
         mounted (){
           let that = this
-        //    console.log(localStorage.redirectUrl,1111)
             that.ruleForm2.platform = commonService.getPlatForm();
             that.$store.state.loginStore.platform = that.ruleForm2.platform;
+            document.body.scrollTop = 0;
         },
         methods: {
           submitForm(formName) {
@@ -103,10 +114,10 @@ import {loginService} from '../../service/loginService'
                                 that.$router.replace({name: 'home'});
                             }
                         }else{
-                            /*that.$notify({
+                            that.$notify({
                                 title: res.data.message,
                                 type: 'warning'
-                            })*/
+                            })
                         }
                     });
                 } else {
@@ -124,32 +135,50 @@ import {loginService} from '../../service/loginService'
     #login{
         width: 100%;
         height:750px;
-        /*background-image: url(../../assets/image/common/login3.png);*/
+        background-image: url(../../assets/image/loginback.png);
         background-repeat: no-repeat;
         background-size:cover;
+        background-position: center;
         position: relative;
+        .iconfont {
+            font-size:32px;
+        }
+        .icon-shouji1{
+            font-size:28px;
+            color: #20A0FF;
+        }
+        .icon-weixin{
+            color:#82D349;
+        }
+        .icon-qq{
+            color: #20A0FF;
+        }
+        .icon-sina{
+            color:#F3595C;
+        }
         .center{
-            width: 800px;
-            height: 500px;
+            width: 400px;
+            height: 540px;
             position: absolute;
             top:50%;
             left: 50%;
             transform: translate(-50%,-50%);
-            background: #FFFFFF;
-            box-shadow: 0 2px 40px 0 rgba(105,102,102,0.40);
+             border: 1px solid #EEEEEE;
+            // background: #FFFFFF;
+            // box-shadow: 0 2px 40px 0 rgba(105,102,102,0.40);
+            box-shadow: 0 2px 20px 0 rgba(203,203,203,0.4);
             border-radius: 10px;
             overflow: hidden;
             .left{
-                width: 288px;
-                height: 500px;
+                width: 284px;
+                height: 100%;
                 padding: 0px 56px;
-                float: left;
                 text-align: center;
                 .logo{
-                    height: 48.5px;
+                    height: 41px;
                     width: auto;
-                    margin-top: 80px;
-                    margin-bottom: 35px;
+                    margin-top: 60px;
+                    margin-bottom: 50px;
                     // margin: 80px 140px 35px 140px;
                 }
                 .el-form-item__content{
@@ -165,7 +194,7 @@ import {loginService} from '../../service/loginService'
                 .el-button{
                     width: 100%;
                     border-radius: 0px;
-                    background: #B9002D;
+                    background: #20A0FF;
                     font-size: 14px;
                     color: #FFFFFF;
                     border: none
@@ -191,14 +220,14 @@ import {loginService} from '../../service/loginService'
                         margin-top: 2px;
                     }
                     .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-                        background-color: #B9002D;
-                        border-color: #B9002D;
+                        background: #20A0FF;
+                        // background: #20A0FF;
                     }
                     .el-checkbox__input.is-focus .el-checkbox__inner{
-                        border-color: #B9002D;
+                        // background: #20A0FF;
                     }
                     .el-checkbox__inner:hover{
-                        border-color: #B9002D;
+                        background: #20A0FF;
                     }
                     .forline{
                         float: right;
@@ -213,7 +242,8 @@ import {loginService} from '../../service/loginService'
                 .moreSolve{
                     width: 100%;
                     height: fit-content;
-                    margin-top: 60px;
+                    margin-top: 80px;
+                    display: flex;
                     .solves{
                         width: 40px;
                         height: 40px;
@@ -221,51 +251,14 @@ import {loginService} from '../../service/loginService'
                         background-size:cover;
                         display: inline-block;
                         cursor: pointer;
+                        flex: 1;
+                        p{
+                            font-size: 9.9px;
+                            color: #666666;
+                            letter-spacing: 0;
+                            line-height: 10.8px;
+                        }
                     }
-                    .solvesw{
-                        margin-right: 50px;
-                        /*background-image: url(../../assets/image/common/weixin.png);*/
-                    }
-                    .solvesw:hover{
-                        margin-right: 50px;
-                        /*background-image: url(../../assets/image/common/weixin1.png);*/
-                    }
-                    .solvesp{
-                        /*background-image: url(../../assets/image/common/phone.png);*/
-                    }
-                    .solvesp:hover{
-                        /*background-image: url(../../assets/image/common/phone1.png);*/
-                    }
-                }
-            }
-            .right{
-                width: 400px;
-                height: 500px;
-                float: left;
-                /*background-image: url(../../assets/image/common/login1.jpg);*/
-                background-repeat: no-repeat;
-                // background-size:cover;
-                position: relative;
-                .ceng{
-                    position: absolute;
-                    top:0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 1;
-                    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 3%, #000000 151%);
-                }
-                // background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 3%, #000000 94%);
-                p{
-                    width: 306px;
-                    z-index: 2;
-                    position: absolute;
-                    bottom:40px;
-                    left: 32px;
-                    font-size: 16px;
-                    color: #FFFFFF;
-                    line-height: 30px;
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.50);
                 }
             }
         }

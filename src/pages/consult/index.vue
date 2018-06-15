@@ -73,6 +73,7 @@
     },
     components: {homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth},
     mounted () {
+        document.body.scrollTop = 0;
       this.getType()
       this.getHotNews()
       this.getNews()
@@ -81,6 +82,7 @@
     methods: {
         clicktab :function(id, event){
                 let that = this;
+                that.page.num = 1;
                 let more = document.getElementById('alltheme')
                 more.classList.remove("label-show")
                 let childs = document.getElementById('theme').childNodes;
@@ -94,15 +96,15 @@
                 }else{
                   that.aClassId = id;
                 }
+                console.log('类型',that.aClassId)
                 that.newsData = [];
-                that.getNews();
+                that.getNews(that.aClassId);
             },
     getType(){
         const that = this
         indexService.articlesType({
         }).then(function (res) {
             that.articleTypes = res.data.datas;
-            console.log('分类',that.articleTypes)
         });
     },
       getAdminUsers(){
@@ -124,7 +126,7 @@
               that.hotNews = res.data.datas.datas;
           });
       },
-      getNews(){
+      getNews(item){
           const that = this
           indexService.getArticles({
               pageNo:that.page.num,

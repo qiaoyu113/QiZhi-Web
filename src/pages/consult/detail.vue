@@ -4,31 +4,31 @@
         <div class="left">
            <!--文章信息-->
                     <div class="detail-container">
-                        <div class="article-title">万科独董华生第七次发文：怎样建设一个强大的资本撒的市场建设一个强大的资本撒的市场</div>
+                        <div class="article-title">{{newDetail.title}}</div>
                         <div class="article-label">
-                            <span class="user-role" style="cursor: pointer">五星程序员</span>
-                            <span class="article-time">发表于2016年11月11日  12:23</span>
+                            <span class="user-role" style="cursor: pointer">{{newDetail.originAuthor}}</span>
+                            <span class="article-time">发表于{{newDetail.createDate | dateFormate}}</span>
                             <span class="shuxian">|</span>
-                            <span class="category" style="cursor: pointer">咨询</span>
+                            <span class="category" style="cursor: pointer">{{newDetail.classification}}</span>
                         </div>
-                        <div class="article-content typo">
-                        </div>
+                        <blockquote v-html="newDetail.summary"></blockquote>
+                        <div class="html-content" v-html="newDetail.content"></div>
                         <!--关联文章-->
                         <div class="article-associated">
                             
                         </div>
-                        <div class="article-keywords">
+                        <div class="article-keywords" v-if="newDetail.tag!=null && newDetail.tag.length!=0">
                             <span class="text" style="margin-right: 10px">关键词：</span>
-                            <span class="label1"><i class="shape"></i>电子商务</span>
+                            <span class="label1" v-for="(item,index) in newDetail.tag" :key="index"><i class="shape">{{item}}</i></span>
                         </div>
                         <div class="line"></div>
                         <div class="article-look">
                             <span class="praise"><i class="praise"></i>赞<span class="num">23</span></span>
                             <span class="praise"><i class="praise"></i>赞<span class="num">23</span></span>
                             <span class="praised"><i class="praise"></i>赞<span class="num">23</span></span>
-                            <span class="collection"><i class="Star"></i>收藏<span class="num" th:text="${article.collectNum}">1</span></span>
-                            <span class="collection"><i class="Star"></i>收藏<span class="num" th:text="${article.collectNum}">1</span></span>
-                            <span class="collectioned"><i class="Star"></i>收藏<span class="num" th:text="${article.collectNum}">1</span></span>
+                            <span class="collection"><i class="Star"></i>收藏<span class="num">1</span></span>
+                            <span class="collection"><i class="Star"></i>收藏<span class="num">1</span></span>
+                            <span class="collectioned"><i class="Star"></i>收藏<span class="num">1</span></span>
                             <span class="m-read"><i class="m-read"></i>手机阅读</span>
                             <div class="p1" style="height:60px;float:right;"><span style="margin-top:10px;float:left;">分享到:</span>
                                 <div class="bdsharebuttonbox" style="margin-left:6px;float:left;display:inline-block;">
@@ -88,6 +88,7 @@
     data () {
       return {
         title:'',
+        newDetail:{},
         articleTypes:[],
         newsData:[],
         hotNews:[],
@@ -105,10 +106,22 @@
     },
     components: {homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth},
     mounted () {
+      document.body.scrollTop = 0;  
       this.getHotNews()
       this.getAdminUsers()
+      this.getNewDetai()
+      
     },
     methods: {
+        getNewDetai(){
+            const that = this
+            indexService.getArticleDetail({
+                id:that.$route.params.id,
+            }).then(function (res) {
+                that.newDetail = res.data;
+                console.log(that.newDetail)
+            });
+        },
       getAdminUsers(){
         const that = this
         indexService.allAdminUser({
@@ -155,7 +168,7 @@
             .label a{float:left;}
             .label a li{width:92px;height:30px;line-height:20px;color:#666;box-sizing: border-box;padding:5px;text-align: center;margin:5px;cursor:pointer;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
             .label-show{color:#3c4350;cursor:pointer;background:url("../../assets/image/border.png")no-repeat;background-position:center center;}
-            .article-title{font-size:24px;color:#3c4350;line-height:34px;text-align:left;width: 800px;text-overflow:ellipsis;white-space: nowrap;overflow: hidden}
+            .article-title{font-size:24px;color:#3c4350;line-height:34px;text-align:left;width: 800px;}
             .article-label{margin-top: 25px}
             .article-label span{margin-right: 10px}
             .article-label .category{font-size:14px;color:#389bff;text-align:left;}
@@ -166,7 +179,7 @@
             .article-keywords .text{margin-right: 10px;font-size:13px;color:#999999;text-align:left;}
             .article-keywords span{margin-right: 20px;}
             .article-keywords .label1{font-size:12px;color:#999999;text-align:center;background:#ffffff;border:1px solid #eff2f6;border-radius:2px;height:22px;line-height: 22px;display: inline-block;padding: 0 10px}
-            .article-keywords .label1 .shape{background:url("../../images/PC/icon/Shape.png");width:16px;height:16px;display: inline-block;position: relative;top:3px;margin-right: 8px;}
+            // .article-keywords .label1 .shape{background:url("../../images/PC/icon/Shape.png");width:16px;height:16px;display: inline-block;position: relative;top:3px;margin-right: 8px;}
             .detail-container .line{background:rgba(224,224,224,0.50);width:800px;height:1px;margin-top: 35px}
             .article-look{margin-top: 40px;font-size:14px;color:#999999;position: relative;height: 45px;border: 1px solid transparent}
             .article-look>span{display:inline-block;background:#fafafa;border-radius:2px;width:140px;height:45px;line-height: 45px;text-align: center;margin-right: 10px;cursor: pointer;background:#fafafa;
@@ -187,6 +200,34 @@
             .code-img{margin: 5px 30px 30px 30px}
             .hide{display: none}
             // .img{background:url(../../images/cms/icon/img.png) no-repeat;}
+            .detail-container{
+                blockquote{
+                    border: 0;
+                    font-size: 100%;
+                    font: inherit;
+                    vertical-align: top;
+                    position: relative;
+                    margin: 0px;
+                    background-color: rgba(0,0,0,0.05);
+                    padding: 25px;
+                    padding-left: 56px;
+                    margin-bottom: 30px;
+                    margin-top: 20px;
+                    font-size: 16px;
+                    color: #333;
+                    line-height: 26px;
+                }
+                blockquote:before{
+                    content: '“';
+                    position: absolute;
+                    top: 30px;
+                    left: 16px;
+                    font-family: "Arial";
+                    font-size: 70px;
+                    color: rgba(0,0,0,0.15);
+                }
+
+            } 
         
         
         }
