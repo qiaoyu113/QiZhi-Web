@@ -52,6 +52,20 @@ const database = (resolve) => {require(['./pages/database/index.vue'],resolve)}
 // 会员中心
 const vip = (resolve) => {require(['./pages/vip/index.vue'],resolve)}
 const vipPoints = (resolve) => {require(['./pages/vip/detail.vue'],resolve)}
+
+//个人中心
+const personal = (resolve) => {require(['./pages/personal/index.vue'],resolve)}
+const purchase = (resolve) => {require(['./pages/personal/purchase.vue'],resolve)}
+const collection = (resolve) => {require(['./pages/personal/collection.vue'],resolve)}
+const integral = (resolve) => {require(['./pages/personal/integral.vue'],resolve)}
+const follow = (resolve) => {require(['./pages/personal/follow.vue'],resolve)}
+const code = (resolve) => {require(['./pages/personal/code.vue'],resolve)}
+const notice = (resolve) => {require(['./pages/personal/notice.vue'],resolve)}
+const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
+
+
+
+
 // 登录注册
 const login = (resolve) => {require(['./pages/login/loginhome.vue'],resolve)} //密码登录页面
 const phone = (resolve) => {require(['./pages/login/loginPhoneHome.vue'],resolve)} //手机号验证码登录页面
@@ -94,7 +108,20 @@ const routers = [
     // 会员
     {name: 'vip',path:'/vip',component: vip},
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
-    
+    //个人中心
+    // {name: 'personal',path:'/personal',component: personal},
+    {name: 'personal',path:'/personal',component: personal,redirect:'/personal/purchase',
+         children:[
+          {name: 'purchase',path:'/personal/purchase',component: purchase},   //购买
+          {name: 'collection',path:'/personal/collection',component: collection},   //收藏
+          {name: 'integral',path:'/personal/integral',component: integral},   //积分
+          {name: 'follow',path:'/personal/follow',component: follow},   //关注
+          {name: 'code',path:'/personal/code',component: code},   //总换码
+          {name: 'notice',path:'/personal/notice',component: notice},   //通知
+          {name: 'setup',path:'/personal/setup',component: setup},   //设置
+          ]
+           },
+
     // 登录注册模块
     {name: 'login', path:'/login',component: login}, // 密码登录页
     {name: 'phone', path:'/phone',component: phone}, // 手机号验证码登录页面
