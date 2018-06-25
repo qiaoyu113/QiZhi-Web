@@ -5,7 +5,7 @@
       <div class="fot-left">
           <img src="../../assets/image/wx.png">
           <div class="right">
-              <p class="title"><span class="big">运联传媒</span>关注货运业 · 关怀货运人</p>
+              <p class="title"><span class="big">运联传媒 </span>关注货运业 · 关怀货运人</p>
               <p class="des"> 2012-2017  版权所有 运联（北京）会展有限公司<br>
               北京市海淀区学清路甲18号中关村东升科技园学院园D609室<br>
               京ICP备17001150号-1
@@ -54,7 +54,7 @@
 
 <style lang="less" scoped>
   #footer{
-    min-width:1200px;/*height:238px;*/overflow:hidden;margin-top:55px;background-color:#fafafa;height:238px;
+    min-width:1200px;/*height:238px;*/overflow:hidden;background-color:#fafafa;height:238px;
     .new-footer-center{width:1200px;margin:0 auto;}
     .color-line{height:2px;background-image: linear-gradient(47deg, #4D8BFF 0%, #E56E97 85%, #FF6985 100%);}
     .fot-left{height:120px;margin:50px 0 0 0;display:inline-block;}

@@ -43,6 +43,31 @@ export const indexService = {
     postFollow: function(params){
         return axios.post('/myFollow/'+params.adminId,qs.stringify(params))
     },
+    // 模板阅读数+1
+    templateRead: function(params){
+        return axios.put('/templates/incwatchnum' + this.getParam(params))
+    },
+    // 点击订阅产品包价格查询
+    subscribeOrder: function(params){
+        return axios.put('/productpkgs/subscribe' + this.getParam(params))
+    },
+    // 获取orderNo
+    orderSubmit: function(params){
+        return axios.put('/productpkgs/ordersubmit', qs.stringify(params))
+        // return axios.put('/productpkgs/ordersubmit' + this.getParam(params))
+    },
+    // 支付页面生成支付二维码
+    getErweima: function(params){
+        return axios.put('/orders' + this.getParam(params))
+    },
+    /*  个人中心页  */
+    myCenter:function (params) {
+        return axios.get('/users/center' + this.getParam(params))
+    },
+    // 支付宝支付
+    myOrder:function (params) {
+        return axios.put('/orders' + this.getParam(params))
+    },
     getParam: function(param){
         let url = '';
         for(let key in param){

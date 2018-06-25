@@ -11,6 +11,15 @@
     import {filter} from './mixin/filter'
     export default {
         name: 'app',
+         // 添加以下代码
+        metaInfo () {
+            return {
+                meta: [
+                    { vmid: 'description', name: 'description', content: this.$store.state.description },
+                    { vmid: 'keyWords', name: 'keyWords', content: this.$store.state.keyWords },
+                ]
+            }
+        },
         data() {
             return{
                 nocommon:null,
@@ -29,6 +38,7 @@
             }
         },
         mounted: function () {
+             
             // this.hasCommon()
             // this.loginWay();
             // this.hasInvite()
@@ -70,9 +80,11 @@
 
 <style lang="less">
     @import url('assets/css/base.less');
+     @import url('assets/css/html.less');
     @import url('assets/css/icon/iconfont.css');
     .view{
         margin-top: 60px;
+        min-height:700px;
         overflow: hidden;
     }
 </style>

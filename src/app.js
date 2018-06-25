@@ -3,11 +3,15 @@ import router from './router'
 import store from './vuex';
 import { sync } from 'vuex-router-sync'
 import VueLazyload from 'vue-lazyload'
-import {Carousel,Form,FormItem,Input,Button,Checkbox,CheckboxGroup,Select,Option,CarouselItem} from 'element-ui'
+import ElementUI from 'element-ui'
+// import {Carousel,Form,FormItem,Input,Button,Checkbox,CheckboxGroup,Select,Option,CarouselItem} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import App from './App.vue'
 import './mixin/directive';
+
+import Meta from 'vue-meta'
+Vue.use(Meta)
 
 // 开启debug
 Vue.config.debug = true
@@ -17,16 +21,17 @@ Vue.use(VueLazyload, {
     loading: 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAkA4JaQAA3AA/vqQAAA=',
     attempt: 1
 })
-Vue.use(Carousel)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Input)
-Vue.use(Button)
-Vue.use(Checkbox)
-Vue.use(CheckboxGroup)
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(CarouselItem);
+Vue.use(ElementUI)
+// Vue.use(Carousel)
+// Vue.use(Form)
+// Vue.use(FormItem)
+// Vue.use(Input)
+// Vue.use(Button)
+// Vue.use(Checkbox)
+// Vue.use(CheckboxGroup)
+// Vue.use(Select);
+// Vue.use(Option);
+// Vue.use(CarouselItem);
 
 export function createApp () {
     // 同步路由状态(route state)到 store

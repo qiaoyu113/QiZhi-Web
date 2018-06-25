@@ -15,19 +15,10 @@
                     <span class="validateFromPhone font1" v-if="isFlag" @click="getFromPhone" style="cursor:pointer;"><i class="mid-line"></i>获取验证码</span>
                     <span class="validateFromPhone validateWaiting" v-else><i class="mid-line"></i>(<span id="countDown">90</span>s)重新获取</span>
                 </el-form-item>
-                <!-- <div class="item">
-                    <input type="number" class="form-ipt validatePhone" placeholder="4位短信验证码" v-model="ruleForm2.smsCode">
-                    <span class="validateFromPhone font1" v-if="isFlag" @click="getFromPhone"><i class="mid-line"></i>获取验证码</span>
-                    <span class="validateFromPhone validateWaiting" v-else><i class="mid-line"></i>(<span id="countDown">90</span>s)重新获取</span>
-                </div> -->
                 <el-form-item>
                     <el-button @click="nextStep('ruleForm2')">下一步</el-button>
                 </el-form-item>
               </el-form>
-            <!-- <div class="moreSolve">
-                <router-link :to="{name:'phone'}" class="solves solves1"></router-link>
-                <router-link :to="{name:'login'}" class="solves solves2"></router-link>
-            </div> -->
           </div>
           <div class="left" v-if="step==2">
               <p class="title" style="margin-top:70px;">完善信息</p>
@@ -338,8 +329,6 @@ import {loginService} from '../../service/loginService'
                 that.$store.state.loginStore.name = that.ruleForm1.name; 
                 that.$store.state.loginStore.job = that.ruleForm1.job; 
                 that.$store.state.loginStore.unitType = that.ruleForm1.unitType; 
-                // let newjob = that.ruleForm1.job.split("|");
-                // that.ruleForm1.job = newjob.join(",");
                 loginService.bindRegister(that.ruleForm1).then(function (res) {
                     if(res.data.success){
                         that.$notify({

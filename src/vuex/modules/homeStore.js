@@ -3,11 +3,24 @@
  */
 const homeStore = {
     state: {
-        knowList: '', //用户名
-        livelist: '', // 用户id
-        articleList: '', // 平台类型
-        actlist: '', // 过期日期
-        prolist: '' // ???
+        typeList: [], //分类
+        bannerData: [], // 轮播
+        articleList: [], // 文章
+        hotArticleList:[], // 热门文章
+        articleTypes:[],//文章类型
+        hotAuthors:[],//作者推荐
+        activityList: [], // 活动
+        columnList: [], // 活动
+        searchList: [], // 活动
+        activityOrders: [], // 活动
+        authorList: [], // 活动
+        singleOrders: [], // 活动
+        publish: '', // 页码
+        article: '', // 页码
+        activity: '', // 页码
+        page: '', // 页码
+        pageNo: '', // 页码
+        loadStatus:2,
     },
     mutations: {
 

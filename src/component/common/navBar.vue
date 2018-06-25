@@ -15,17 +15,19 @@
         <!-- <router-link v-if="!loginFlag" :to="{name:''}" id="vip">会员中心</router-link> -->
         <router-link v-if="!loginFlag" :to="{name:'register'}" id="nav_register">注册</router-link>
         <router-link v-if="!loginFlag" :to="{name:'login'}" id="nav_login">登录</router-link>
-        <i class="iconfont icon-pep"></i>
+        <router-link v-if="loginFlag" class="personname" :to="{name:'myContract'}">{{name}}</router-link>
+        <i v-bind:class="{'enterMycenter':loginFlag}" class="iconfont icon-pep" @click="clickIcon()"></i>
         <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
         <a href="http://admin.wetuc.com/admin/login" class="fabu">发布</a>
 
-        <router-link v-if="loginFlag" class="personname" :to="{name:'myContract'}">{{name}}</router-link>
-        <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link>
+        
+        <!-- <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link> -->
     </div>
   </div>
 </template>
 
 <script>
+    import {indexService} from '../../service/indexService'
     export default {
         data() {
             return{
@@ -62,10 +64,20 @@
         updated: function () {
         },
         methods: {
+          clickIcon(){
+            if(loginFlag){
+              this.$router.push({name:'personal'})
+            } 
+          },
           getlogin(){
             const that = this;
             if(localStorage.token && localStorage.token!='undefined'){
               that.loginFlag = true;
+              indexService.myCenter({
+                }).then(function (res) {
+                  let User = res.data.datas
+                  that.name = User.user.nickName
+              })
             }
           },
           currentPage(){
@@ -165,6 +177,9 @@
       min-width:1200px;
       max-width:1400px;
       height: 100%;
+      .enterMycenter{
+        cursor: pointer;
+      }
       .fabu{
         float: right;
         font-size: 14px;
@@ -268,7 +283,9 @@
         float: right;
         line-height: 60px;
         height: 60px;
-        font-size: 16px;
+        font-size: 14px;
+        color: #7F7F7F;
+        margin-left: 3px;
       }
       .personimg{
           float: right;

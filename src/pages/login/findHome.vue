@@ -1,132 +1,31 @@
 <template>
-  <div id="findPass" class="findPass" v-set-title="title">
+  <div id="find" class="login" v-set-title="title">
       <div class="center">
-          <div class="left" v-if="step==1">
-              <p class="title">找回密码</p>
-              <div class="progress">
-                  <div class="leftline redback"></div>
-                  <div class="prodiv redback">
-                      <span class="redback num">1</span>
-                      <span class="text redfont">填写账号</span>
-                  </div>
-                  <div class="prodiv">
-                      <span class="num">2</span>
-                      <span class="text">验证身份</span>
-                  </div>
-                  <div class="prodiv">
-                      <span class="num">3</span>
-                      <span class="text">设置新密码</span>
-                  </div>
-                  <div class="prodiv">
-                      <span class="num">4</span>
-                      <span class="text">完成</span>
-                  </div>
-                  <div class="leftline"></div>
-              </div>
-              <el-form :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm1" label-width="100px" class="demo-ruleForm">
+          <div class="left">
+              <z-logo></z-logo>
+              <!--<img src="../../assets/image/common/logo.png" alt="" class="logoa">-->
+              <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="" prop="phone">
-                    <el-input type="phone" v-model="ruleForm1.phone" auto-complete="off" placeholder="输入绑定的手机号"></el-input>
+                    <el-input type="phone" v-model="ruleForm2.phone" auto-complete="off" placeholder="手机号"></el-input>
                 </el-form-item>
                 <!--滑动验证-->
                 <div id="captcha-box"></div>
                 <!-- 短信验证 -->
-                <el-form-item>
-                    <el-button @click="nextStepa('')">下一步</el-button>
-                </el-form-item>
-              </el-form>
-          </div>
-          <div class="left" v-if="step==2">
-            <p class="title">找回密码</p>
-            <div class="progress">
-                <div class="leftline redback"></div>
-                <div class="prodiv redback">
-                    <span class="redback num">1</span>
-                    <span class="text redfont">填写账号</span>
+                <div class="item">
+                    <el-form-item label="" prop="smsCode">
+                        <el-input type="smsCode" class="form-ipt validatePhone" v-model="ruleForm2.smsCode" auto-complete="off" placeholder="4位短信验证码"></el-input>
+                    </el-form-item>
+                    <!--<input type="number" class="form-ipt validatePhone" placeholder="4位短信验证码" v-model="ruleForm2.smsCode">-->
+                    <span class="validateFromPhone font1" v-if="isFlag" @click="getFromPhone" style="cursor:pointer;"><i class="mid-line"></i>获取验证码</span>
+                    <span class="validateFromPhone validateWaiting" v-else><i class="mid-line"></i>(<span id="countDown">90</span>s)重新获取</span>
                 </div>
-                <div class="prodiv redback">
-                    <span class="num redback">2</span>
-                    <span class="text redfont">验证身份</span>
-                </div>
-                <div class="prodiv">
-                    <span class="num">3</span>
-                    <span class="text">设置新密码</span>
-                </div>
-                <div class="prodiv">
-                    <span class="num">4</span>
-                    <span class="text">完成</span>
-                </div>
-                <div class="leftline"></div>
-            </div>
-            <p class="phonenum">手机号：&nbsp;<span>{{ruleForm1.phone}}</span></p>
-            <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="" prop="smsCode">
-                    <el-input type="smsCode" v-model="ruleForm2.smsCode" auto-complete="off" placeholder="验证码"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button @click="nextStepb('')">下一步</el-button>
-                </el-form-item>
-                <!-- <p class="tishi">校验码已发出，请注意查收短信，如果没有收到，你可以在<span class="redfont">106</span>秒后要求系统<span class="redfont" style="cursor:pointer;">&nbsp;重新发送</span></p> -->
-            </el-form>
-          </div>
-          <div class="left" v-if="step==3">
-              <p class="title">找回密码</p>
-              <div class="progress">
-                <div class="leftline redback"></div>
-                <div class="prodiv redback">
-                    <span class="redback num">1</span>
-                    <span class="text redfont">填写账号</span>
-                </div>
-                <div class="prodiv redback">
-                    <span class="num redback">2</span>
-                    <span class="text redfont">验证身份</span>
-                </div>
-                <div class="prodiv redback">
-                    <span class="num redback">3</span>
-                    <span class="text redfont">设置新密码</span>
-                </div>
-                <div class="prodiv">
-                    <span class="num">4</span>
-                    <span class="text">完成</span>
-                </div>
-                <div class="leftline"></div>
-            </div>
-              <el-form :model="ruleForm3" status-icon :rules="rules3" ref="ruleForm3" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="" prop="password">
-                    <el-input type="password" v-model="ruleForm3.password" auto-complete="off" placeholder="新密码登录"></el-input>
-                </el-form-item>
                 <el-form-item label="" prop="newPassword">
-                    <el-input type="newPassword" v-model="ruleForm3.newPassword" auto-complete="off" placeholder="确认新密码"></el-input>
+                    <el-input type="newPassword" v-model="ruleForm2.newPassword" auto-complete="off" placeholder="设置6-20位密码"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="nextStepc('')">提交新密码</el-button>
+                    <el-button @click="submitForm('ruleForm2')">完成</el-button>
                 </el-form-item>
               </el-form>
-          </div>
-          <div class="left" v-if="step==4">
-              <p class="title">找回密码</p>
-              <div class="progress">
-                <div class="leftline redback"></div>
-                <div class="prodiv redback">
-                    <span class="redback num">1</span>
-                    <span class="text redfont">填写账号</span>
-                </div>
-                <div class="prodiv redback">
-                    <span class="num redback">2</span>
-                    <span class="text redfont">验证身份</span>
-                </div>
-                <div class="prodiv redback">
-                    <span class="num redback">3</span>
-                    <span class="text redfont">设置新密码</span>
-                </div>
-                <div class="prodiv redback">
-                    <span class="num redback">4</span>
-                    <span class="text redfont">完成</span>
-                </div>
-                <div class="leftline redback"></div>
-            </div>
-              <i class="iconfont icon-icon_right"></i>
-              <p class="cona">恭喜你，成功找回密码</p>
-              <p class="cona"><span class="redfont">3</span> 秒后返回&nbsp;<span class="redfont">登录页</span></p>
           </div>
       </div>
   </div>
@@ -135,11 +34,21 @@
 <script>
 import {commonService} from '../../service/commonService'
 import {validate} from '../../assets/js/validate'
-import {appService} from '../../service/appService'
+import {loginCommon} from '../../assets/js/common/loginCommon'
 import {loginService} from '../../service/loginService'
     export default {
       components: {},
       data(){
+        let validatePass = (rule, value, callback) => {
+            var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+           if (value === '') {
+                callback(new Error('请输入密码'));
+            } else if(!pass.test(value)) {
+                callback(new Error('数字和字母组合不少于6位'));
+            }else {
+                callback();
+            }
+        };
         let validatePhone = (rule, value, callback) => {
             var mobile=/^(1+\d{10})$/
             if (!value) {
@@ -150,32 +59,18 @@ import {loginService} from '../../service/loginService'
                 callback();
             }
         };
-        let validatePass = (rule, value, callback) => {
-            var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+        let validatePassa = (rule, value, callback) => {
+            var pass=/^[0-9]{4}$/
            if (value === '') {
-                callback(new Error('请输入新密码'));
+                callback(new Error('请填写验证码'))
             } else if(!pass.test(value)) {
-                callback(new Error('数字和密码组合,且不少于6位'));
+                callback(new Error('验证码不正确'))
             }else {
                 callback();
             }
         };
-        let validatenewPass = (rule, value, callback) =>{
-            var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
-            if (value === '') {
-                callback(new Error('请输入新密码'));
-            } else if(!pass.test(value)) {
-                callback(new Error('数字和密码组合,且不少于6位'));
-            }else if(value != this.ruleForm3.password) {
-                callback(new Error('密码不一致，请重新输入'));
-            }{
-                callback();
-            }
-        }
         return{
             title:'找回密码',
-            step:1,
-            count: 0,
             challenge1:"",
             validate1:"",
             seccode1:"",
@@ -185,39 +80,24 @@ import {loginService} from '../../service/loginService'
             kaptchaKey: '', // 服务器端验证码
             baseCode: '',//验证码图片
             platform: 'WXH5',
-            geetesst: false,
-            newphone:'',
-            ruleForm1:{
-                phone:''
-            },
+            checked:true,
             ruleForm2: {
+                geetesst: false,
                 phone:'',
-                smsCode:'',
-                type:3
-            },
-            ruleForm3:{
-                uuid:'',
-                password:'',
-                phone:'',
-                newPassword:''
-            },
-            rules1: {
-                phone: [
-                    { required: true, validator: validatePhone, trigger: 'blur' }
-                ]
+                platform:'',
+                smsCode:"",
+                newPassword:"",
             },
             rules2: {
                 smsCode: [
-                    { message: '请输入短信验证码', trigger: 'blur' },
+                    { validator: validatePassa, trigger: 'blur' }
                 ],
-            },
-            rules3: {
-                password: [
-                    { validator: validatePass, trigger: 'blur' }
+                phone: [
+                    { validator: validatePhone, trigger: 'blur' }
                 ],
                 newPassword: [
-                    { validator: validatenewPass, trigger: 'blur' }
-                ],
+                    { validator: validatePass, trigger: 'blur' }
+                ]
             }
         }
       },
@@ -227,7 +107,7 @@ import {loginService} from '../../service/loginService'
         mounted (){
             this.getPlatform() //初始化Platform
             this.getgaptchas() //初始化滑块
-            
+            document.body.scrollTop = 0;
         },
         methods: {
             getgaptchas:function(){
@@ -249,33 +129,32 @@ import {loginService} from '../../service/loginService'
                             that.challenge1 = result.geetest_challenge
                             that.validate1 = result.geetest_validate
                             that.seccode1 = result.geetest_seccode
-                            that.geetesst = true;
+                            that.ruleForm2.geetesst = true;
                         })
                     })
                 })
             },
             getPlatform:function(){
                 const that = this
-                that.ruleForm1.platform = appService.getPlatForm();
-                that.$store.state.loginStore.platform = that.ruleForm1.platform;
+                that.ruleForm2.platform = loginCommon.getPlatForm();
             },
-            nextStepa () {
+            getFromPhone () {
                 let that = this;
                 let obj = document.getElementById('kap');
                 //点击获取短信验证码，1.验证手机号是否为空；2.手机号格式是否正确；3验证滑块；
-                if(that.ruleForm1.phone.trim('').length == 0){
+                if(that.ruleForm2.phone.trim('').length == 0){
                     that.$notify({
                         title: '手机号不能为空',
                         type: 'warning'
                     });
                     return
-                } else if(!validate.isPhoneNumber(that.ruleForm1.phone)){
+                } else if(!validate.isPhoneNumber(that.ruleForm2.phone)){
                     that.$notify({
                         title: '请输入正确手机号',
                         type: 'warning'
                     })
                     return
-                } else if (that.geetesst == false){
+                } else if (that.ruleForm2.geetesst == false){
                     that.$notify({
                         title: '请重新拖动滑块',
                         type: 'warning'
@@ -284,12 +163,27 @@ import {loginService} from '../../service/loginService'
                 } else {
                     let seccode2 = that.seccode1.split('|')
                     seccode2 = seccode2.join(',')
-                    commonService.getValidateMess({phone: that.ruleForm1.phone, type: 3,challenge:that.challenge1,validate:that.validate1,seccode:seccode2}).then(function (res) {
+                    loginService.getValidateMess({phone: that.ruleForm2.phone, type: 3,challenge:that.challenge1,validate:that.validate1,seccode:seccode2}).then(function (res) {
                         if(res.data.success){  // 返回正确
-                            that.ruleForm2.phone = that.ruleForm1.phone
-                            that.ruleForm3.phone = that.ruleForm1.phone
-                            document.getElementsByClassName('geetest_holder')[0].style.display = "none"
-                            that.step = 2
+                            // document.getElementById('yes').style.display = 'block';
+                            let count = 0;
+                            that.isFlag = 0; //显示倒计时
+                            if(that.isFlag) {
+                                clearInterval(that.$store.state.loginStore.timer);
+                            } else {
+                            that.$store.state.loginStore.timer = setInterval(function () {
+                            count = parseInt(document.getElementById('countDown').innerHTML) - 1;
+                            if(count > 0) {
+                                document.getElementById('countDown').innerHTML = count;
+                            }else{
+                                clearInterval(that.$store.state.loginStore.timer);
+                                that.isFlag = 1;
+                                var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                                removeObj.parentNode.removeChild(removeObj);
+                                that.getgaptchas()
+                            }
+                            },1000);
+                            }
                         }else { //返回错误
                             let errorMessage = '';
                             errorMessage = res.data.message;
@@ -297,92 +191,45 @@ import {loginService} from '../../service/loginService'
                                 title: errorMessage,
                                 type: 'warning'
                             })
+                            var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                            removeObj.parentNode.removeChild(removeObj);
+                            that.getgaptchas()
                         }
                     });
                 }
             },
-            nextStepb(){
-                let that = this;
-                if(that.ruleForm2.smsCode.trim('').length == 0){
-                    that.$notify({
-                        title: '短信验证码不能为空',
-                        type: 'warning'
-                    });
-                }
-                loginService.findsus(that.ruleForm2).then(function (res) {
-                    if(res.data.success){
-                        that.ruleForm3.uuid = res.data.datas
-                        that.step = 3
-                    }else{
-                    
-                    }
-                })
-            },
-            nextStepc(){
-                let that = this;
-                if(that.ruleForm3.password.trim('').length == 0){
-                    that.$notify({
-                        title: '密码不能为空',
-                        type: 'warning'
-                    });
-                }
-                if(that.ruleForm3.newPassword.trim('').length == 0){
-                    that.$notify({
-                        title: '密码不能为空',
-                        type: 'warning'
-                    });
-                }
-                loginService.findphone(that.ruleForm3).then(function (res) {
-                    if(res.data.success){
-                        that.step = 4
-                        setTimeout(function() { 
-                            that.$router.push({name:'login'})
-                        },3000)
-                    }else{
-                    
-                    }
-                })
-            },
-            nextStep() {
+            submitForm(formName) {
                 const that = this;
-                that.$store.state.loginStore.phone = that.ruleForm2.phone; //手机号
-                that.$store.state.loginStore.password = that.ruleForm2.password; // 密码
-                loginService.registerNext(that.ruleForm2).then(function (res) {
-                    if(res.data.success){
-                        that.$notify({
-                            title: '下一步',
-                            type: 'success'
-                        })
-                        that.$store.state.loginStore.redisKey = res.data.datas
-                        that.ruleForm1.redisKey = that.$store.state.loginStore.redisKey
-                        clearInterval(that.$store.state.loginStore.timer)
-                        that.count = 0
-                        
-                        that.$store.state.loginStore.registerStep = that.step
-                    }else{
-                    
+                that.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        loginService.findphone({newPassword:that.ruleForm2.newPassword,phone:that.ruleForm2.phone,smsCode:that.ruleForm2.smsCode,type:3,platform:that.ruleForm2.platform}).then(function (res) {
+                            if(res.data.success){
+                                that.$notify({
+                                    title: '登录成功',
+                                    type: 'success'
+                                })
+                                localStorage.token = res.data.datas;
+                                if(localStorage.redirectUrl == "undefined"){
+                                    that.$router.replace({name: 'home'});
+                                }else if (localStorage.redirectUrl && localStorage.redirectUrl!="undefined" && localStorage.redirectUrl.indexOf('login')==-1 && localStorage.redirectUrl.indexOf('set')==-1){
+                                    let url = localStorage.redirectUrl
+                                    localStorage.removeItem('redirectUrl')
+                                    window.location.href = url;
+                                }else{
+                                    that.$router.replace({name: 'home'});
+                                }
+                            }else{
+                                that.$notify({
+                                    title: res.data.message,
+                                    type: 'warning'
+                                })
+                            }
+                        });
+                    } else {
+                        return false;
                     }
-                })
-            },
-            submitForm() {
-                const that = this;
-                if(that.ruleForm1.checked == false){
-
-                }
-                that.$store.state.loginStore.name = that.ruleForm1.name; //手机号
-                that.$store.state.loginStore.job = that.ruleForm1.job; // 密码
-                loginService.register(that.ruleForm1).then(function (res) {
-                    if(res.data.success){
-                        that.$notify({
-                            title: '成功找回密码',
-                            type: 'success'
-                        })
-                        that.step = 1
-                        that.$store.state.loginStore.registerStep = that.step
-                    }else{
-                    
-                    }
-                })
+                });
+                
             }
         }
         
@@ -391,272 +238,129 @@ import {loginService} from '../../service/loginService'
 
 <style lang="less">
 @import "../../assets/css/login.less";
-    .redback{
-        background: #B9002D !important;
-    }
-    .redfont{
-        color: #B9002D !important;
-    }
-    #findPass{
-        width: 100%;
+    #find{
+         width: 100%;
         height:750px;
-        /*background-image: url(../../assets/image/common/login2.jpg);*/
+        background-image: url(../../assets/image/loginback.png);
         background-repeat: no-repeat;
         background-size:cover;
+        background-position: center;
         position: relative;
-        #countDown{
-            color: #666;
-        }
-        .left{
-            width: 300px;
-            height: 400px;
+        .center{
+            width: 400px;
+            height: 550px;
             position: absolute;
-            top:40%;
+            top:50%;
             left: 50%;
             transform: translate(-50%,-50%);
-            padding: 0px 150px;
-            text-align: center;
-            background: #FFFFFF;
-            border: 1px solid #EEEEEE;
-            .title{
-                width: 100%;
+             border: 1px solid #EEEEEE;
+            // background: #FFFFFF;
+            // box-shadow: 0 2px 40px 0 rgba(105,102,102,0.40);
+            box-shadow: 0 2px 20px 0 rgba(203,203,203,0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            .left{
+                width: 288px;
+                height: 100%;
+                padding: 0px 56px;
+                float: left;
                 text-align: center;
-                font-size: 18px;
-                color: #333333;
-                margin-top: 45px;
-                margin-bottom: 35px;
-            }
-            .phonenum{
-                height: 20px;
-                width: 100%;
-                margin-bottom: 15px;
-                font-size: 14px;
-                color: #999999;
-                text-align: left;
-                span{
-                    font-size: 14px;
-                    color: #151515;
-                    line-height: 20px
+                .logo{
+                    height: 41px;
+                    width: auto;
+                    margin-top: 60px;
+                    margin-bottom: 50px;
+                    // margin: 80px 140px 35px 140px;
                 }
-            }
-            .tishi{
-                font-size: 12px;
-                color: #999999;
-                text-align: left;
-                margin-top: -10px;
-            }
-            .progress{
-                width: 100%;
-                height: 66px;
-                
-                .leftline{
-                    width: 20px;
-                    height: 2px;
-                    background: #DDDDDD;
-                    float: left;
+                .geetest_holder.geetest_wind{
+                    height: 42px;
                 }
-                .prodiv{
-                    width: 65px;
-                    height: 2px;
-                    background: #DDDDDD;
-                    float: left;
-                    position: relative;
-                    .num{
-                        padding: 2px 7px;
-                        border-radius: 100%;
-                        background: #DDDDDD;
-                        text-align: center;
-                        line-height: 16px;
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        color: #fff;
-                        font-size: 10px;
-                        transform: translate(-50%,-50%);
+                #captcha-box{
+                    margin-bottom: 20px;
+                }
+                .geetest_holder.geetest_wind .geetest_radar_btn, .geetest_holder.geetest_wind .geetest_success_btn{
+                    border: 1px solid #eee;
+                }
+                .geetest_radar_tip_content{
+                    color: #999;
+                }
+                .item{
+                    width: 100%;
+                    height: 42px;
+                    background: #F9F9F9;
+                    border: 1px solid #EEEEEE;
+                    margin-bottom: 20px;
+                    .el-form-item{
+                        width: 150px;
+                        height: 100%;
+                        display: inline;
+                        float: left;
                     }
-                    .text{
-                        width: 60px;
-                        position: absolute;
-                        left: 50%;
-                        margin-top: 20px;
-                        color: #BBBBBB;
-                        font-size: 10px;
-                        transform: translate(-50%, 0%);
+                    .el-form-item__content{
+                        width: 150px;
+                        display: inline-block;
                     }
-                }
-            }
-            .item{
-                .el-form-item__content{
-                    height: 40px;
-                    .validatePhone{
-                        font-size: 14px;
-                        width: 60%;
-                        color: #999999;
-                        background: transparent;
-                        height: 30px;
-                        border: none;
-                        outline: none;
-                        margin-top: 0px;
+                    .validatePhone {
+                        height:100% !important;
+                        margin-top:0px !important;
+                        margin-left:0px !important;
                     }
                     .el-input__inner{
-                        background: #F9F9F9;
-                        border: none;
-                        border-radius: 0px;
-                        color: #999999;
-                        height: 42px;
+                        border:none !important;
+                    }
+                    .validateFromPhone{
+                        font-size: 14px;
+                        color: #20A0FF;
+                        display: inline-block;
+                        height: 100%;
+                        line-height: 40px;
                     }
                 }
-            }
-            .icon-icon_right{
-                display: block;
-                margin-top: 30px;
-                font-size: 50px;
-                color: #B9002D;
-            }
-            .cona{
-                font-size: 14px;
-                color: #475669;
-                letter-spacing: 0;
-                line-height: 21px;
-                margin-top: 7px;
-            }
-            .geetest_holder.geetest_wind{
-                height: 42px;
-            }
-            #captcha-box{
-                margin-bottom: 20px;
-            }
-            .geetest_holder.geetest_wind .geetest_radar_btn, .geetest_holder.geetest_wind .geetest_success_btn{
-                border: 1px solid #eee;
-            }
-            .geetest_radar_tip_content{
-                color: #999;
-            }
-            .item{
-                width: 100%;
-                height: 42px;
-                background: #F9F9F9;
-                border: 1px solid #EEEEEE;
-                margin-bottom: 20px;
-            }
-            .form-ipt.validatePhone{
-                font-size: 14px;
-                color: #999999;
-                background: transparent;
-                height: 30px;
-                border: none;
-                margin-top: 5px;
-                outline: none;
-                margin-left: -20px;
-            }
-            .validateFromPhone.font1{
-                font-size: 14px;
-                color: #B9002D;
-                margin-left: 20px;
-            }
-            .el-select{
-                width: 100%;
-                margin-bottom: 20px;
-            }
-            .nameinput{
-                margin-bottom: 20px;
-            }
-            input::-webkit-input-placeholder{
-                color: #999999 !important;
-            }
-            .el-form-item__content{
-                margin-left: 0px !important;
-            }
-            .el-input__inner{
-                background: #F9F9F9;
-                border: 1px solid #EEEEEE;
-                border-radius: 0px;
-                color: #999999;
-                height: 42px;
-            }
-            .el-button{
-                width: 100%;
-                border-radius: 0px;
-                background: #B9002D;
-                font-size: 14px;
-                color: #FFFFFF;
-                border: none
-            }
-            // .el-checkbox__input.is-checked+.el-checkbox__label
-            .zidong{
-                font-size: 12px;
-                color: #666666;
-                width: 100%;
-                height: 20px;
-                line-height: 20px;
-                margin-top: -15px;
-                .argumentItem{
-                    font-size: 12px;
-                    color: #519DEB;
-                    line-height: 17px;
-                    margin-left: -85px;
+                .form-ipt.validatePhone{
+                    font-size: 14px;
+                    color: #999999;
+                    background: transparent;
+                    height: 30px;
+                    border: none;
+                    margin-top: 5px;
+                    outline: none;
+                    margin-left: -20px;
                 }
-                .el-checkbox{
-                    float: left;
-                    font-size: 12px;
-                    color: #666666;
+                .validateFromPhone.font1{
+                    font-size: 14px;
+                    color: #20A0FF;
                 }
-                .el-checkbox__label{
-                    font-size: 12px;
-                    color: #666666;
+                input::-webkit-input-placeholder{
+                    color: #999999 !important;
                 }
-                .el-checkbox__input.is-checked{
-                    float: left;
-                    margin-top: 2px;
+                .logoa{
+                    height: 48.5px;
+                    width: auto;
+                    margin-top: 40px;
+                    margin-bottom: 35px;
                 }
-                .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-                    background-color: #B9002D;
-                    border-color: #B9002D;
+                .el-form-item__content{
+                    margin-left: 0px !important;
                 }
-                .el-checkbox__input.is-focus .el-checkbox__inner{
-                    border-color: #B9002D;
+                .el-input__inner{
+                    background: #F9F9F9;
+                    border: 1px solid #EEEEEE;
+                    border-radius: 0px;
+                    color: #999999;
+                    height: 42px;
                 }
-                .el-checkbox__inner:hover{
-                    border-color: #B9002D;
+                .el-button{
+                    width: 100%;
+                    border-radius: 0px;
+                    background: #20A0FF;
+                    font-size: 14px;
+                    color: #FFFFFF;
+                    border: none
                 }
-                .forline{
-                    float: right;
-                    font-size: 12px;
-                    color: #666666;
-                    a{
-                        font-size: 12px;
-                        color: #666666;
-                    }
-                }
-            }
-            .moreSolve{
-                width: 100%;
-                height: fit-content;
-                margin-top: 50px;
-                .solves{
-                    width: 40px;
-                    height: 40px;
-                    background-repeat: no-repeat;
-                    background-size:cover;
-                    display: inline-block;
-                    cursor: pointer;
-                }
-                .solves1{
-                    margin-right: 50px;
-                    /*background-image: url(../../assets/image/common/weixin.png);*/
-                }
-                .solves1:hover{
-                    margin-right: 50px;
-                    /*background-image: url(../../assets/image/common/weixin1.png);*/
-                }
-                .solves2{
-                    /*background-image: url(../../assets/image/common/pass.png);*/
-                }
-                .solves2:hover{
-                    /*background-image: url(../../assets/image/common/pass1.png);*/
+                #countDown{
+                    color: #6699FF;
                 }
             }
         }
-        
     }
 </style>
