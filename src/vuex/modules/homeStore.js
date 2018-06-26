@@ -16,7 +16,7 @@ const homeStore = {
         authorList: [], // 活动
         singleOrders: [], // 活动
         publish: '', // 页码
-        article: '', // 页码
+        article: {}, 
         activity: '', // 页码
         page: '', // 页码
         pageNo: '', // 页码

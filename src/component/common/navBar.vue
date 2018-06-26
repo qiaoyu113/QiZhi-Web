@@ -5,7 +5,7 @@
         <!-- <img src="../../assets/image/common/logo.png" alt=""> -->
         <div class="nav_ul">
             <router-link :to="{name:'home'}" v-bind:class="{'li_red':current1}">首页<span v-if="current1" class="select_line"></span></router-link>
-            <router-link :to="{name:'news'}" v-bind:class="{'li_red':current2}">资讯<span v-if="current2" class="select_line"></span></router-link>
+            <router-link :to="{name:'news',params:{id:1}}" v-bind:class="{'li_red':current2}">资讯<span v-if="current2" class="select_line"></span></router-link>
             <router-link :to="{name:'activity'}" v-bind:class="{'li_red':current3}">活动<span v-if="current3" class="select_line"></span></router-link>
             <router-link :to="{name:'concern'}" v-bind:class="{'li_red':current4}">关注<span v-if="current4" class="select_line"></span></router-link>
             <router-link :to="{name:'subject'}" v-bind:class="{'li_red':current5}">专题<span v-if="current5" class="select_line"></span></router-link>

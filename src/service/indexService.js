@@ -43,10 +43,7 @@ export const indexService = {
     postFollow: function(params){
         return axios.post('/myFollow/'+params.adminId,qs.stringify(params))
     },
-    // 模板阅读数+1
-    templateRead: function(params){
-        return axios.put('/templates/incwatchnum' + this.getParam(params))
-    },
+    
     // 点击订阅产品包价格查询
     subscribeOrder: function(params){
         return axios.put('/productpkgs/subscribe' + this.getParam(params))
@@ -67,6 +64,22 @@ export const indexService = {
     // 支付宝支付
     myOrder:function (params) {
         return axios.put('/orders' + this.getParam(params))
+    },
+    /*  是否收藏接口 */
+    isCollect:function(params){
+        return axios.get('/users/collect/exist' + this.getParam(params));
+    },
+    /*  是否收藏 */
+    hasCollect:function(params){
+        return axios.post('/articles/'+params.articleId+'/collect' + this.getParam(params))
+    },
+    /*  是否点赞 */
+    hasLike:function(params){
+        return axios.post('/articles/'+params.articleId+'/like' + this.getParam(params))
+    },
+    // 文章阅读数+1
+    articleRead: function(params){
+        return axios.post('/articles/'+params.articleId+'/readnum' + this.getParam(params))
     },
     getParam: function(param){
         let url = '';
