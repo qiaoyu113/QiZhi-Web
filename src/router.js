@@ -89,8 +89,8 @@ const routers = [
     {name: 'search',path:'/search',component: search},
     {name: 'err',path:'/s/404',component: error}, //错误跳到404页面
     // 资讯
-    {name: 'news',path:'/news',component: news},
-    {name: 'passage',path:'/news/:id',component: passage},
+    {name: 'news',path:'/news/:id',component: news},
+    {name: 'passage',path:'/article/:id',component: passage},
     {name: 'keywords',path:'/keywords/:id',component: keywords},
     // 关注
     {name: 'concern',path:'/concern',component: concern},

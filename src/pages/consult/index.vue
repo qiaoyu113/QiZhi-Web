@@ -4,12 +4,13 @@
         <div class="left">
           <!--标签-->
             <div id="theme" class="label">
-                <a @click="clicktab('', $event)"><li id="alltheme" class="label-show">全部</li></a>
-                <a @click="clicktab(item.id, $event)" v-for="(item,index) in articleTypes" :key="index"><li>{{item.tagName}}</li></a>
+                <!-- <a @click="clicktab('', $event)"><li id="alltheme" class="label-show">全部</li></a> -->
+                 <el-radio v-for="(item,index) in articleTypes" :key="index" v-model="classId" :label="item.id" border @change="clicktab(item.id)">{{item.tagName}}</el-radio>
+                <!-- <a class="biaoqian" @click="clicktab(item.id, $event)" v-for="(item,index) in articleTypes" :key="index"><li>{{item.tagName}}</li></a> -->
             </div>
             <!-- 文章列表 -->
             <div class="big-list-content" style="margin-top:20px;">
-                <home-list v-for="(item,key) in articleList" :item="item" :key="key"></home-list>
+                <home-list v-for="(item,index) in articleList" :item="item" :key="index"></home-list>
             </div>
             <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="$store.state.homeStore.loadStatus" @loadMore="loadmore"></load-more>
         </div>
@@ -62,7 +63,9 @@
     asyncData({store,route}){
         function getType(){
             return indexService.articlesType({}).then(function (res) {
-                store.state.homeStore.articleTypes = res.data.datas;
+                store.state.homeStore.articleTypes = res.data.datas
+                store.state.homeStore.articleTypes[0].tagName = '全部'
+                store.state.homeStore.articleTypes[0].id = '1'
             });
         }
         function getHotNews(){
@@ -124,6 +127,7 @@
         adminUsers:[],
         loadStatus:0,
         moren:'1',
+        classId:'1',
         page: { // 分页
             num: 2,
             size:10,
@@ -135,30 +139,23 @@
     components: {homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth},
     mounted () {
         document.body.scrollTop = 0;
-        // this.getType()
-        // this.getHotNews()
-        // this.getNews()
-        // this.getAdminUsers()
+        this.classId = this.$route.params.id
+        this.clicktab(this.$route.params.id)
+        console.log(this.articleTypes)
     },
     methods: {
         clicktab :function(id, event){
             let that = this;
             that.page.num = 1;
-            let more = document.getElementById('alltheme')
-            more.classList.remove("label-show")
-            let childs = document.getElementById('theme').childNodes;
-            for(let i=0;i<childs.length;i++){
-                childs[i].className = '';
-            }
-            let curObj = event.currentTarget;
-            curObj.className = 'label-show';
-            if(id == ''){
-                that.aClassId = '';
+            if(id == '1'){
+                that.aClassId = ''
+                that.classId = '1'
             }else{
-                that.aClassId = id;
+                that.aClassId = id
             }
-            that.$store.state.homeStore.articleList = [];
-            that.getNews(that.aClassId);
+            that.$store.state.homeStore.articleList = []
+            that.getNews(that.aClassId)
+            
         },
         getType(){
             const that = this
@@ -235,6 +232,19 @@
             .label a{float:left;}
             .label a li{width:92px;height:30px;line-height:20px;color:#666;box-sizing: border-box;padding:5px;text-align: center;margin:5px;cursor:pointer;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
             .label-show{color:#3c4350;cursor:pointer;background:url("../../assets/image/border.png")no-repeat;background-position:center center;}
+            .el-radio__input{
+                display: none;
+            }
+            .el-radio.is-bordered{
+                padding: 5px 30px 5px 23px;
+                border-radius: 2px;
+                box-sizing: border-box;
+                height: initial;
+                font-size: 14px;
+                width: initial;
+                margin: 0 7px;
+                line-height: initial;
+            }
         }
         .right{
             width: 360px;
