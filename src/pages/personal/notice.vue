@@ -25,22 +25,41 @@
   </div>
 </template>
 <script>
+import {modularService} from '../../service/modularService'
   export default {
     props: [],
     data () {
       return {
         title:'消息通知',
         titlep:1,
+        page:{
+           num:1,
+           size:10,
+        },
       }
     },
     components: {},
     mounted () {
-
+        this.getInnerletter()
     },
     methods: {
     	titleindex:function(index){
               this.titlep=index
     	},
+    	 //获取我的消息
+      getInnerletter (){
+        let that = this;
+        modularService.getInnerletter({pageNo: that.page.num, pageSize:that.page.size,type:1}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                      //  that.data=res.data.datas.datas
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+              
+                 
+                  }
+        });
+      },
       
     }
   }

@@ -64,3 +64,27 @@ Vue.filter('picTurn',function(value) {
     let result = store.state.picHead + value
     return result
 })
+Vue.filter('stampFormate',function(id) {
+    var date = new Date(id*1);
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() < 10 ? '0'+date.getDate() + ' ': date.getDate() + ' ';
+    var h = date.getHours() < 10 ? '0'+date.getHours() + ':': date.getHours() + ':';
+    var m = date.getMinutes() < 10 ? '0'+date.getMinutes() + ':': date.getMinutes() + ':';
+    var s = date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds();
+    return Y+M+D;
+})
+Vue.filter('stampFormate2',function(id) {
+    var date = new Date(id*1);
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() < 10 ? '0'+date.getDate() + ' ': date.getDate() + ' ';
+    var h = date.getHours() < 10 ? '0'+date.getHours() + ':': date.getHours() + ':';
+    var m = date.getMinutes() < 10 ? '0'+date.getMinutes(): date.getMinutes();
+    var s = date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds();
+
+    return Y+M+D+h+m;
+})
+Vue.filter('money',function(id) {
+    return ((id / 100).toFixed(2) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+})

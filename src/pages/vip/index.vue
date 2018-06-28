@@ -1,9 +1,77 @@
 <template>
   <div class="" id="vip" v-set-title="title">
-   
+      <div class="body">
+          <div class="top">
+             <div class="con">
+                 <div class="tabbtn clearfix">
+                     <div class="tabbtnl">会员中心</div>
+                     <div class="tabbtnl">我的积分</div>
+                 </div>
+                 <div class="personal clearfix">
+                    <div class="img"><img src="../../assets/image/hot.png" /></div>
+                    <div class="personalr">
+                        <div class="name clearfix">
+                           <p>哎呦喂矮油喂</p><img src="../../assets/image/hot.png" />
+                        </div>
+                        <p class="branch">我的积分<span>208</span>分</p>
+                        <p class="time">积分有效期<span>2018-12-31</span>积分规则》</p>
+                    </div>
+                 </div>
+             </div>
+          </div>
+          <div class="boxcon">
+               <div class="openup">
+                  <p class="title">会员套餐</p>
+                  <div class="block clearfix">
+                     <div class="blockli">
+                        <div class="money">30天/<span>10元</span></div>
+                        <div class="btn">立即开通</div>
+                     </div>
+                     <div class="blockli">
+                        <div class="money">180天/<span>58元</span></div>
+                        <div class="btn">立即开通</div>
+                     </div>
+                     <div class="blockli">
+                        <div class="money">365天/<span>116元</span></div>
+                        <div class="btn">立即开通</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="zx">
+                  <p class="title">会员专享</p>
+                  <div class="zxbox clearfix">
+                      <div class="zxboxli">
+                         <div class="zximg"><img src="../../assets/image/vipzx1.png" /></div>
+                                 <p class="zxboxtit">会员专享</p>
+                                 <p class="zxboxtxt">参与会员用户专属内容</p>
+                      </div>
+                      <div class="zxboxli">
+                          <div class="zximg"><img class="img2" src="../../assets/image/vipzx2.png" /></div>
+                                 <p class="zxboxtit">尊贵身份标识</p>
+                                 <p class="zxboxtxt">点亮会员专属标识</p>
+                      </div>
+                      <div class="zxboxli">
+                          <div class="zximg"><img class="img3" src="../../assets/image/vipzx3.png" /></div>
+                                 <p class="zxboxtit">会员折扣</p>
+                                 <p class="zxboxtxt">会员购买付费内容享会员价</p>
+                      </div>
+                      <div class="zxboxli">
+                          <div class="zximg"><img class="img3" src="../../assets/image/vipzx4.png" /></div>
+                                 <p class="zxboxtit">线下活动优先权</p>
+                                 <p class="zxboxtxt">线下活动无需审核即可参与</p>
+                      </div>
+                  </div>
+               </div>
+               <div class="notes">
+                 
+               </div>
+          </div>
+
+      </div>
+
   </div>
 </template>
-<script type="text/ecmascript-6">
+<script>
   export default {
     props: [],
     data () {
@@ -21,6 +89,202 @@
 </script>
 <style lang="less">
   #vip{
-      
-  }
+    .body{
+        background: #f3f3f3;
+        .top{
+           width: 100%;
+           height: 400px;
+           // background: red;
+           background-image: url("../../assets/image/vipback.png");
+           background-size: 100% 100%;
+           .con{
+               width: 940px;
+               margin: 0 auto;
+               .tabbtn{
+                  padding-top: 40px;
+                  .tabbtnl{
+                     float: left;
+                     width: 114px;
+                     height: 38px;
+                     border: 1px solid;
+                     border-color: -webkit-linear-gradient(90deg,#474747, #A58455) 1 30;
+                     border-color: -moz-linear-gradient(90deg,#474747, #A58455) 1 30;
+                     border-image: linear-gradient(90deg,#474747, #A58455) 1 30;
+                     margin-right: 20px;
+                     font-size: 18px;
+                     font-weight: bold;
+                     line-height: 38px;
+                     color: #333333;
+                     text-align: center;
+                     cursor: pointer;
+                  }
+               }
+               .personal{
+                   margin-top: 64px;
+                   .img{
+                      width: 100px;
+                      height: 100px;
+                      border:4px solid #FFE0B4;
+                      border-radius: 50%;
+                      overflow: hidden;
+                      float: left;
+                      img{
+                         width: 100%;
+                         height: 100%;
+                      }
+                   }
+                   .personalr{
+                       float: left;
+                       margin-left: 30px;
+                       .name{
+                          p{
+                            float: left;
+                            font-size: 18px;
+                            color: #fff;
+                            line-height: 25px;
+                          }
+                          img{
+                             float: left;
+                             margin-left: 20px;
+                             width: 105px;
+                             height: 24px;
+                          }
+                       }
+                       .branch{
+                          margin-top: 18px;
+                          font-size: 14px;
+                          color: #fff;
+                          span{
+                             font-size: 20px;
+                             line-height: 20px;
+                             margin-left: 20px;
+                          }
+                       }
+                       .time{
+                         margin-top: 15px;
+                         color: #fff;
+                         line-height: 17px;
+                         span{
+                            margin: 0 20px;
+                         }
+                       }
+                   }
+               }
+           }
+        }
+        .boxcon{
+           margin-top: 40px;
+           .openup{
+             width: 1100px;
+             height: 370px;
+             margin: 0 auto;
+             background: #FFFFFF;
+             border: 1px solid #DDDDDD;
+             .title{
+                   margin-top: 30px;
+                   text-align: center;
+                   font-size: 24px;
+                   line-height: 31px;
+                   color: #333;
+             }
+             .block{
+               margin-top: 50px;
+               margin-left: 100px;
+               .blockli{
+                 float: left;
+                  width: 300px;
+                  height: 220px;
+                  background-image: url('../../assets/image/viphei.png');
+                  background-size: 100% 100%;
+                  .money{
+                     margin-top: 40px;
+                     color: #fff;
+                     text-align: center;
+                     font-size: 25px;
+                     span{
+                       font-size: 32px;
+                       color: #a58455;
+                     }
+
+                  }
+                  .btn{
+                      width: 120px;
+                      height: 42px;
+                      margin: 20px auto 0;
+                      color: #FDE4A4;
+                      font-size: 20px;
+                      line-height: 42px;
+                      border:2px solid;
+                      border-color: -webkit-linear-gradient(90deg,#D1BA8E, #A58455) 1 30;
+                      border-color: -moz-linear-gradient(90deg,#D1BA8E, #A58455) 1 30;
+                      border-image: linear-gradient(90deg,#D1BA8E, #A58455) 1 30;
+                      text-align: center;
+                      cursor: pointer;
+                  }
+                 
+               }
+             }
+           }
+           .zx{
+             width: 1100px;
+             height: 310px;
+             margin: 30px auto 0;
+             background: #FFFFFF;
+             border: 1px solid #DDDDDD;
+             .title{
+                   margin-top: 30px;
+                   text-align: center;
+                   font-size: 24px;
+                   line-height: 31px;
+                   color: #333;
+             }
+             .zxbox{
+                 margin-top: 50px;
+                 margin-left: 142px;
+                 .zxboxli{
+                    float: left;
+                    margin-right: 40px;
+                    width: 170px;
+                    .zximg{
+                       width: 80px;
+                       // display: block;
+                       height: 64px;
+                       margin: 0 auto;
+                       img{
+
+                         display: block;
+                         margin: 0 auto;
+                         line-height: 64px;
+                       }
+                       .img2{
+                          padding-top: 20px;
+                       }
+                       .img3{
+                           padding-top: 4px;
+                       }
+                    }
+                    .zxboxtit{
+                       margin-top: 16px;
+                       font-size: 18px;
+                       line-height: 24px;
+                       color: #333;
+                       text-align: center;
+                    }
+                    .zxboxtxt{
+                       width: 169px;
+                       margin-top: 10px;
+                       font-size: 14px;
+                       line-height: 20px;
+                       color: #666;
+                       text-align: center;
+                    }
+
+                 }
+
+             }
+
+           }
+        }
+      }
+    }
 </style>

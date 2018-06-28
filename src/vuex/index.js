@@ -13,8 +13,8 @@ import payStore from './modules/payStore'
 const store = new Vuex.Store({
     // 定义状态
     state: {
-        // picHead:'http://test.resource.vjuzhen.com/',// 测试版
-        picHead:'http://resource.wetuc.com/', // 正式版
+        picHead:'http://test.resource.vjuzhen.com/',// 测试版
+        // picHead:'http://resource.wetuc.com/', // 正式版
         description:'运联description',
         keyWords:'运联keyWords',
         apiUrl:'https://mini.dtfind.com', //测试版
