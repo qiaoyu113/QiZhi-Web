@@ -15,11 +15,20 @@
         <!-- <router-link v-if="!loginFlag" :to="{name:''}" id="vip">会员中心</router-link> -->
         <router-link v-if="!loginFlag" :to="{name:'register'}" id="nav_register">注册</router-link>
         <router-link v-if="!loginFlag" :to="{name:'login'}" id="nav_login">登录</router-link>
+       <div class="tokenr clearfix">
         <router-link v-if="loginFlag" class="personname" :to="{name:'myContract'}">{{name}}</router-link>
+        <div class="layer">
+           <i></i>
+           <ul>
+             <li @click="gopersonal">个人中心</li>
+             <li class="no-border" @click="signout">退出</li>
+           </ul>
+        </div>
+       </div>
         <i v-bind:class="{'enterMycenter':loginFlag}" class="iconfont icon-pep" @click="clickIcon()"></i>
         <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
         <a href="http://admin.wetuc.com/admin/login" class="fabu">发布</a>
-
+        
         
         <!-- <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link> -->
     </div>
@@ -28,6 +37,8 @@
 
 <script>
     import {indexService} from '../../service/indexService'
+    import {modularService} from '../../service/modularService'
+    
     export default {
         data() {
             return{
@@ -79,6 +90,21 @@
                   that.name = User.user.nickName
               })
             }
+          },
+          //跳个人中心
+          gopersonal:function(){
+             this.$router.replace({name:'personal'})
+          },
+          // 退出
+          signout(){
+             let that =this
+            modularService.daleteTokens({}).then(function (res) {
+                  localStorage.token = undefined
+                  sessionStorage.removeItem('token');
+                  that.$router.go(0)
+                  console.log(res)
+              })
+            
           },
           currentPage(){
             let currentUrl = this.$route.path
@@ -177,6 +203,54 @@
       min-width:1200px;
       max-width:1400px;
       height: 100%;
+      position: relative;
+      .layer{
+         display: none;
+        position: absolute;
+        right: 0;
+        top: 44px;
+        background: #fff;
+        width: 80px;
+       
+        border:1px solid #e0e0e0;
+        i{
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    top: -5px;
+    margin-left: -5px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    display: inline-block;
+        }
+        ul{
+           padding: 4px 10px;
+           background-color: #fff;
+           overflow: hidden;
+           display: block;
+           li{
+             width: 100%;
+             height: 45px;
+             line-height: 45px;
+             text-align: center;
+             font-size: 15px;
+             color: #7f7f7f;
+             border-bottom: 1px solid #e0e0e0;
+             cursor: pointer;
+           }
+           .no-border{
+              border-bottom: none;
+           }
+        }
+      }
+     
       .enterMycenter{
         cursor: pointer;
       }
@@ -279,14 +353,21 @@
         color: #7F7F7F;
         border-left: 1px solid #d8d8d8;
       }
+      .tokenr{
+         float: right;
+      }
+      .tokenr:hover .layer{
+         display: block;
+      }
       .personname{
         float: right;
         line-height: 60px;
         height: 60px;
         font-size: 14px;
         color: #7F7F7F;
-        margin-left: 3px;
+        padding-left: 3px;
       }
+
       .personimg{
           float: right;
           width: 30px;

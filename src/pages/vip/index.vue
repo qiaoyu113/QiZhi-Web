@@ -5,18 +5,25 @@
              <div class="con">
                  <div class="tabbtn clearfix">
                      <div class="tabbtnl">会员中心</div>
-                     <div class="tabbtnl">我的积分</div>
+                     <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div>
                  </div>
-                 <div class="personal clearfix">
-                    <div class="img"><img src="../../assets/image/hot.png" /></div>
+                 <div class="personal clearfix" v-if="personal==1">
+                    <div class="img"><img :src="picHead + data.headImg" /></div>
                     <div class="personalr">
                         <div class="name clearfix">
                            <p>哎呦喂矮油喂</p><img src="../../assets/image/hot.png" />
                         </div>
-                        <p class="branch">我的积分<span>208</span>分</p>
-                        <p class="time">积分有效期<span>2018-12-31</span>积分规则》</p>
+                        <!-- <p class="branch">我的积分<span>208</span>分</p> -->
+                        <!-- <p class="time" v-if="data.myVip.vip==true">积分有效期<span>{{data.myVip.endTime | stampFormate}}</span>积分规则》</p> -->
+
                     </div>
                  </div>
+                 <div class="gologin" v-if="personal==2">
+                     <img class="gologinimg" src="../../assets/image/vipname.png" />
+                     <div class="gologinbtn" @click="gologin">立即登录</div>
+                     <div class="gologinprompt">登录后可查看您的会员等级和积分哦</div>
+                 </div>
+
              </div>
           </div>
           <div class="boxcon">
@@ -63,6 +70,13 @@
                   </div>
                </div>
                <div class="notes">
+                 <p class="title">会员须知</p>
+                <div class="notescon">
+                   <p class="notesp">1.会员属平台会员，适用于运联全平台;</p>
+                   <p class="notesp">2.会员的购买及续期均按小时计算，从开通成功之时算起，多次购买按累加计算会员有效期;</p>
+                   <p class="notesp">3.会员一经购买不可退费;</p>
+                   <p class="notesp">4.最终解释权归运联网平台所有。</p>
+                </div>
                  
                </div>
           </div>
@@ -72,17 +86,60 @@
   </div>
 </template>
 <script>
+import {modularService} from '../../service/modularService'
   export default {
     props: [],
     data () {
       return {
-        title:'会员中心'
+        title:'会员中心',
+        personal:1,
+        data:'',
       }
     },
-    components: {},
+    computed: {
+       
+            picHead() {
+                return this.$store.state.picHead
+            },
+        },
     mounted () {
+       this.obtain()
     },
     methods: {
+      govipPoints:function(){
+         this.$router.replace({name:'vipPoints'})
+      },
+      gologin:function(){
+         this.$router.replace({name:'login'})
+      },
+       obtain:function(){
+           let that =this
+           // let token = sessionStorage.getItem('token');
+           let token =localStorage.token
+           console.log(token)
+           if(token == '' || token == null || token == 'undefined'){
+               that.personal=2
+           }else{
+              that.getUserCenter()
+              that.personal=1
+           }
+       },
+      
+       //获取我的信息
+      getUserCenter (){
+        let that = this;
+        modularService.getUserCenter().then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                    console.log(res.data.datas.user)
+                       that.data=res.data.datas.user
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+              
+                 
+                  }
+        });
+      },
       
     }
   }
@@ -117,6 +174,9 @@
                      color: #333333;
                      text-align: center;
                      cursor: pointer;
+                  }
+                  .bordernone{
+                     border:none;
                   }
                }
                .personal{
@@ -170,10 +230,41 @@
                        }
                    }
                }
+               .gologin{
+                    width: 240px;
+                    margin: 36px auto 0;
+                    .gologinimg{
+                       display: block;
+                       margin: 0 auto;
+                    }
+                    .gologinbtn{
+                        margin-top: 40px;
+                        width: 240px;
+                        height: 46px;
+                        border-radius: 23px;
+                        background: #fff;
+                        box-shadow: 0 6px 5px 0 rgba(98,98,98,0.05), 0 3px 6px 0 rgba(98,98,98,0.10);
+                        color: #A58455;
+                        font-size: 18px;
+                        line-height: 46px;
+                        text-align: center;
+                        cursor: pointer;
+                    }
+                    .gologinprompt{
+                        margin-top: 10px;
+                        color: #fff;
+                        font-size: 14px;
+                        line-height: 24px;
+                        width: 240px;
+                        text-align: center;
+                    }
+
+               }
            }
         }
         .boxcon{
            margin-top: 40px;
+           padding-bottom: 100px;
            .openup{
              width: 1100px;
              height: 370px;
@@ -281,6 +372,30 @@
 
                  }
 
+             }
+
+           }
+           .notes{
+             width: 1100px;
+             height: 270px;
+             margin: 30px auto;
+             background: #FFFFFF;
+             border: 1px solid #DDDDDD;
+             .title{
+                   margin-top: 30px;
+                   text-align: center;
+                   font-size: 24px;
+                   line-height: 31px;
+                   color: #333;
+             }
+             .notescon{
+                   margin-top: 20px;
+                   margin-left: 30px;
+                  .notesp{
+                     font-size: 14px;
+                     line-height: 36px;
+                     color: #333;
+                  }
              }
 
            }

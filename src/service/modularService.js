@@ -7,14 +7,17 @@ import store from'../vuex/'
 import cs from'./commonService'
 export const modularService = {
     api: {},
-    // 所有社群号（1作者，2主办方）
-   // allAdminUser: function(params){
-   //      return axios.get('/allAdminUser'+ this.getParam(params))
-   //  },
+
    //  // 关注社群号
-   //  postFollow: function(params){
-   //      return axios.post('/myFollow/'+params.adminId,qs.stringify(params))
-   //  },
+    postFollow: function(params){
+        return axios.post('/myFollow',qs.stringify(params))
+    },
+    // 获取我的收藏
+   daleteTokens: function(params){
+        return axios.delete('/tokens'+ this.getParam(params))
+    },
+    
+
    // 获取我的收藏
    getUsersCollect: function(params){
         return axios.get('/users/collect'+ this.getParam(params))
@@ -66,6 +69,10 @@ export const modularService = {
     // 订单申请退款  
     putOrdersIdRefundApply: function (id,params) {
         return axios.put('/orders/'+ id +'/refundApply'+this.getParam(params))
+    },
+     // 所有社群号
+   getAllAdminUser: function(params){
+        return axios.get('/allAdminUser'+ this.getParam(params))
     },
 
 

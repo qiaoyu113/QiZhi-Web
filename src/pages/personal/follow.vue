@@ -7,7 +7,8 @@
     </div>
     <div class="box clearfix">
        <div class="row" v-for="list in data">
-       	   <div class="rowimg"><img src="../../assets/image/hot.png" /></div>
+          <div class="rowbackimg">
+       	   <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
        	   <div class="rowtitle">{{list.hostCompany}}</div>
        	   <div class="rowcon">{{list.hostDesc}}</div>
        	   <div class="rowlabel clearfix">
@@ -15,6 +16,7 @@
        	   	 <div class="rowlabelr"><p> 文章 110 </p></div>
        	   </div>
        	   <div class="rowbtn" @click="open2(list.id)">取消关注</div>
+           </div>
        </div>
       
 
@@ -49,7 +51,12 @@
         data:'',
       }
     },
-    components: {},
+    computed: {
+       
+            picHead() {
+                return this.$store.state.picHead
+            },
+        },
     mounted () {
            this.getMyFollow()
     },
@@ -142,19 +149,20 @@
   		padding: 5px 0 40px;
   		.row{
   			 float: left;
-  			 width: 251px;
-  			 height: 282px;
-  			 padding:26px 16px 0;
+  			 width: 277px;
+  			 height: 314px;
+  			 // padding:26px 16px 0;
   			 margin-top: 20px;
   			 margin-right: 20px;
-  			 background: #FFFFFF;
-             border: 1px solid rgba(224,224,224,0.50);
-             box-shadow: 0 5px 4px 0 rgba(202,202,202,0.10);
-             border-radius: 2px;
+  			 background-image: url("../../assets/image/hot.png");
+         background-size: 100% 100%;
+         border-radius: 2px;
              .rowimg{
+              // padding-top: 26px;
+              // padding-top:26px;
              	width: 60px;
              	height: 60px;
-             	margin: 0 auto;
+             	margin: 26px auto 0;
              	border-radius: 50%;
              	overflow: hidden;
                 img{
@@ -163,7 +171,7 @@
                 }
              }
              .rowtitle{
-             	 
+             	   
                  font-size: 16px;
                  color: #333333;
                  line-height: 18px;
@@ -171,7 +179,8 @@
                  text-align: center;
              }
              .rowcon{
-             	 font-size: 14px;
+               padding: 0 16px;
+             	   font-size: 14px;
                  color: #999999;
                  margin-top: 11px;
                  line-height: 21px;
@@ -223,7 +232,19 @@
                    text-align: center;
                    cursor: pointer;
              }
+            .rowbackimg{
+               background: #fff;
+               width: 100%;
+               height: 100%;
+               border: 1px solid rgba(224,224,224,0.50);
+               box-shadow: 0 5px 4px 0 rgba(202,202,202,0.10);
+                border-radius: 2px;
+            }
   		}
+      .row:hover .rowbackimg{
+
+           background: rgba(221,243,255,0.10);
+      }
   		.row:nth-child(3n+3){
   			 margin-right: 0;
   		}
