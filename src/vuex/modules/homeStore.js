@@ -5,22 +5,28 @@ const homeStore = {
     state: {
         typeList: [], //分类
         bannerData: [], // 轮播
+        
+        hotAuthors:[],//作者推荐
+        columnList: [], // 专题
+        searchList: [], // 搜索
+        authorList: [], // 作者
+        page: '', // 页码
+        pageNo: '', // 页码
+        totalCount:'', //总页数
+        loadStatus:2,   //加载状态
+
         articleList: [], // 文章
         hotArticleList:[], // 热门文章
         articleTypes:[],//文章类型
-        hotAuthors:[],//作者推荐
+        article: {},
+
+        totalAct:{},//活动列表的所有参数
+        actClass:[], //活动主题分类
         activityList: [], // 活动
-        columnList: [], // 活动
-        searchList: [], // 活动
         activityOrders: [], // 活动
-        authorList: [], // 活动
-        singleOrders: [], // 活动
-        publish: '', // 页码
-        article: {}, 
-        activity: '', // 页码
-        page: '', // 页码
-        pageNo: '', // 页码
-        loadStatus:2,
+        activity: '', //
+        actDetail:{},//详情页 
+
     },
     mutations: {
 

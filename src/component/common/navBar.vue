@@ -8,7 +8,7 @@
             <router-link :to="{name:'news',params:{id:1}}" v-bind:class="{'li_red':current2}">资讯<span v-if="current2" class="select_line"></span></router-link>
             <router-link :to="{name:'activity'}" v-bind:class="{'li_red':current3}">活动<span v-if="current3" class="select_line"></span></router-link>
             <router-link :to="{name:'concern'}" v-bind:class="{'li_red':current4}">关注<span v-if="current4" class="select_line"></span></router-link>
-            <router-link :to="{name:'subject'}" v-bind:class="{'li_red':current5}">专题<span v-if="current5" class="select_line"></span></router-link>
+            <!-- <router-link :to="{name:'subject'}" v-bind:class="{'li_red':current5}">专题<span v-if="current5" class="select_line"></span></router-link> -->
             <router-link :to="{name:'database'}" v-bind:class="{'li_red':current6}">资料库<span v-if="current6" class="select_line"></span></router-link>
             <router-link :to="{name:'vip'}" v-bind:class="{'li_red':current7}">会员中心<span v-if="current7" class="select_line"></span></router-link>
         </div>
@@ -169,7 +169,7 @@
     z-index: 100;
     height: 60px;
     width: 100%;
-    background: #FAFAFA;
+    background: #fff;
     box-shadow: inset 0 -1px 0 0 rgba(224,224,224,0.50);
     .nav_center{
       margin:0 auto;

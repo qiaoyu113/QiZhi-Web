@@ -19,7 +19,8 @@
         mounted (){
           var obj = new WxLogin({
             id: "login_container",
-            appid: "wx4007f9be659079b9",
+            appid: "wxd5dd1b24ea1e7c02", //测试
+            // appid: "wx7160f239f04c65da", //正式
             scope: "snsapi_login",
             redirect_uri: encodeURIComponent('http://'+ location.host + "/wxlogin"),
             // redirect_uri: encodeURIComponent('http://front.docqbot.com/wxlogin'),
@@ -43,18 +44,19 @@
         #login_container{
             margin: 0 auto;
         }
+        .title{
+            width:100%;
+            text-align: center;
+            font-size: 20px;
+            color: #FFFFFF !important;
+        }
+        .des{
+            margin: 0 auto;
+            width: 168px;
+            font-size: 14px;
+            color: #FFFFFF;
+        }
     }
-    .title{
-        width:100%;
-        text-align: center;
-        font-size: 20px;
-        color: #FFFFFF !important;
-    }
-    .des{
-        margin: 0 auto;
-        width: 168px;
-        font-size: 14px;
-        color: #FFFFFF;
-    }
+    
 
 </style>

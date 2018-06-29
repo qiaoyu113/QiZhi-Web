@@ -86,5 +86,6 @@
         margin-top: 60px;
         min-height:700px;
         overflow: hidden;
+        margin-bottom: 100px;
     }
 </style>

@@ -104,20 +104,6 @@
                     store.state.homeStore.hotAuthors = res.data.datas.datas;
                 });
             }
-            // function gettypeList(){
-            //     return homeService.typeList().then(function(res){
-            //         store.state.homeStore.typeList = []
-            //         let list = res.data.datas
-            //         for(let i in list){
-            //             if(list[i].id){
-            //                 list[i].tolink = {name:'articles',params:{typeId:list[i].id}}
-            //             }else{
-            //                 list[i].tolink = {name:'home'}
-            //             }
-            //             store.state.homeStore.typeList.push(list[i])
-            //         }
-            //     })
-            // }
             function getbanners(){
                 return indexService.listImgs({type:0}).then(function(res){
                     store.state.homeStore.bannerData = res.data.datas
@@ -128,7 +114,6 @@
                     getarticleList(),getbanners(),getHotNews(),getAdminUsers()
                 ])
             }else{
-                // store.state.homeStore.page.articleType=route.params.typeId
                 return Promise.all([
                     getarticleList()
                 ])
@@ -137,12 +122,6 @@
         },
         computed: {
             //将存在store中的数据取出
-            // typeList:{
-            //     // getter
-            //     get: function () { return this.$store.state.homeStore.typeList || []},
-            //     // setter
-            //     set: function (newValue) {return newValue}
-            // },
             bannerData:{
                 // getter
                 get: function () { return this.$store.state.homeStore.bannerData || []},
@@ -161,18 +140,10 @@
                 get: function () { return this.$store.state.homeStore.hotAuthors || []},
                 set: function (newValue) {return newValue}
             }
-            // page: {
-            //     get: function () { return this.$store.state.homeStore.page || []},
-            //     set: function (newValue) {return newValue}
-            // },
-            // 
             
         },
         mounted: function () {
-            // this.getBanner()
-            // this.getHotNews()
-            // this.getNews()
-            // this.getAdminUsers()
+            window.scrollTo(0,0);
         },
         methods: {
             getAdminUsers(){

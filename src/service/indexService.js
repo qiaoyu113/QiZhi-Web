@@ -81,6 +81,22 @@ export const indexService = {
     articleRead: function(params){
         return axios.post('/articles/'+params.articleId+'/readnum' + this.getParam(params))
     },
+    // 活动
+    getActList: function(params){
+        return axios.get('/activities'+ this.getParam(params))
+    },
+    // 活动详情
+    getActDetail:function(params){
+        return axios.get('/activities/'+params.activityId)
+    },
+    //分页字典
+    getDictionaries:function(params){
+        return axios.get('/dictionarys/list'+ this.getParam(params))
+    },
+    // 字典
+    getDictionary:function(params){
+        return axios.get('/dictionarys/'+params.classId)
+    },
     getParam: function(param){
         let url = '';
         for(let key in param){
