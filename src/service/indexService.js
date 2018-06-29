@@ -81,6 +81,16 @@ export const indexService = {
     articleRead: function(params){
         return axios.post('/articles/'+params.articleId+'/readnum' + this.getParam(params))
     },
+
+
+     /*  活动是否收藏 */
+     hasCollectAct:function(params){
+        return axios.post('/activities/'+params.activityId+'/collect' , qs.stringify(params))
+    },
+    /*  活动是否点赞 */
+    hasLikeAct:function(params){
+        return axios.post('/activities/'+params.activityId+'/like' , qs.stringify(params))
+    },
     // 活动
     getActList: function(params){
         return axios.get('/activities'+ this.getParam(params))
@@ -88,6 +98,10 @@ export const indexService = {
     // 活动详情
     getActDetail:function(params){
         return axios.get('/activities/'+params.activityId)
+    },
+    // 票务信息
+    getTicketDetail:function(params){
+        return axios.get('/activities/'+params.actId+'/tickets')
     },
     //分页字典
     getDictionaries:function(params){
@@ -97,6 +111,34 @@ export const indexService = {
     getDictionary:function(params){
         return axios.get('/dictionarys/'+params.classId)
     },
+
+    //支付页面
+    //选择票种后初步检查是否可购
+    checkTicket: function(params){
+        return axios.post('/activities/'+params.actId+'/check',qs.stringify(params))
+    },
+    //购买票下单去支付
+    putOrder: function(params){
+        return axios.post('/activities/'+params.actId+'/order' ,qs.stringify(params))
+    },
+    // 点击订阅产品包价格查询
+    subscribeOrder: function(params){
+        return axios.put('/productpkgs/subscribe' + this.getParam(params))
+    },
+    // 获取orderNo
+    orderSubmit: function(params){
+        return axios.put('/productpkgs/ordersubmit', qs.stringify(params))
+        // return axios.put('/productpkgs/ordersubmit' + this.getParam(params))
+    },
+    // 支付页面生成支付二维码
+    getErweima: function(params){
+        return axios.put('/orders' + this.getParam(params))
+    },
+    // 用户是否购买过产品包
+    mySinglePro:function(params){
+        return axios.get('/users/getBought'+ this.getParam(params))
+    },
+
     getParam: function(param){
         let url = '';
         for(let key in param){

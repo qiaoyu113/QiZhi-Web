@@ -171,6 +171,17 @@ export const commonService = {
         }
     },
     /* 验证类弹框n秒后自动关闭 */
+    showLoginModal: function (obj) {
+        let that = obj
+        that.$store.state.msg = {
+            text: '请登录后使用',
+            type: 1
+        };
+        setTimeout(function () {
+            that.$store.state.msg.type = 0;
+        },1000)
+    },
+    /* 验证类弹框n秒后自动关闭 */
     autoCloseModal: function (obj, mess, typeNo) {
         let that = obj
         that.msg = {

@@ -16,7 +16,7 @@
         <router-link v-if="!loginFlag" :to="{name:'register'}" id="nav_register">注册</router-link>
         <router-link v-if="!loginFlag" :to="{name:'login'}" id="nav_login">登录</router-link>
        <div class="tokenr clearfix">
-        <router-link v-if="loginFlag" class="personname" :to="{name:'myContract'}">{{name}}</router-link>
+        <router-link v-if="loginFlag" class="personname" to="">{{name}}</router-link>
         <div class="layer">
            <i></i>
            <ul>

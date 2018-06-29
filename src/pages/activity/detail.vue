@@ -13,17 +13,17 @@
         <p class="tuiguang"><i class="iconfont icon-iconfontdaohanggonggao"></i> 推广本活动，赚取积分！</p>
         <div class="activity-message-top">
           <p class="title">{{detail.activityTitle}}</p>
-          <p class="browse">浏览：<span>234</span></p>
+          <!-- <p class="browse">浏览：<span>234</span></p> -->
         </div>
         <div class="activity-message-bottom">
             <div class="activity-message-bottom-left">
               <div class="imgHead"><img v-if="detail.activityPoster != null" :src="detail.activityPoster | picTurn"></div>
-                <p class="p1">分享到:
-                    <a></a>
-                    <a></a>
-                    <a></a>
+                <p class="p1">分享到：<share :option="myShareOption" ref="myShare"></share></p>
+                <p class="p2"><i class="iconfont icon-shouji1"></i> 手机访问二维码<i class="erweima" id="qrcode"></i>
+                    <div class="erweima">
+                        <canvas class="canvas" id="canvas1"></canvas>
+                    </div>
                 </p>
-                <p class="p2"><span></span>手机访问二维码<i class="erweima" id="qrcode"></i></p>
             </div>
             <div class="activity-message-bottom-right">
                 <div class="activity-message-bottom-right-1">
@@ -64,16 +64,16 @@
                 </div>
                 <div class="activity-message-bottom-right-4">
                     <div class="activity-message-bottom-right-3-left"><i class="iconfont icon-wode1"></i></div>
-                    <div class="activity-message-bottom-right-4-right">
+                    <div class="activity-message-bottom-right-4-right" v-if="detail.actApplyNum || detail.peoUpperLimit">
                         <p class="right-4-p1" v-if="detail.actApplyNum!= 0"><span>{{detail.actApplyNum}}</span>人已报名</p>
-                        <p class="right-4-p2" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit }}人</p>
+                        <p class="right-4-p2" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
                     </div>
                     <div class="activity-message-bottom-right-4-right2">
                         <div class="right-4-img2"></div>
                         <div class="right-4-img">
+                          <!-- <img src="">
                           <img src="">
-                          <img src="">
-                          <img src="">
+                          <img src=""> -->
                         </div>
                     </div>
                 </div>
@@ -81,27 +81,30 @@
                     <i class="iconfont icon-duihuanma posicon"></i>
                     <div class="activity-message-bottom-right-5-right">
                         <div>
-                            <button>免费<span>停售</span></button>
-                            <button disabled="disabled"><p>前排票</p><p>￥2999</p><span>停售</span></button>
-                            <button><p>后排票</p><p>￥1999</p><span>停售</span></button>
-                            <button disabled><p>VIP票</p><p>￥1999</p><span>售罄</span></button>
+                            <el-radio-group v-model="radio1" @change="chooseTicket(radio1)">
+                                <el-radio :label="item.id" border v-bind:class="{'nofree':item.price == '0'}" class="wxz" v-for="(item,index) in tickets" :key="index">
+                                    <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
+                                 </el-radio>
+                                 <el-radio disabled :label="item.id" border class="wxz nofree disable" v-for="(item,index) in notickets" :key="index">
+                                    <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
+                                 </el-radio>
+                            </el-radio-group>
                         </div>
                     </div>
                 </div>
                 <div class="activity-message-bottom-right-6">
-                    购买票送眼睛，请按秩序入场。购买票送眼睛，请按秩序入场。购买票送眼睛，请按秩序入场。购买票送眼睛，请按秩序入场。
+                    <span v-if="showNum">{{singleTicket.detail}}</span>
                 </div>
                 <div class="activity-message-bottom-right-7">
-                    <el-input-number  size="mini" v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
-                    <!-- <input type="text" value="1" class="right-7-input">
-                    <button class="right-7-btn1"></button>
-                    <button class="right-7-btn2"></button> -->
-                    <p><span>剩余200张</span>/<span>限购200张</span></p>
+                    <el-input-number size="mini" v-model="num1" @change="handleChange" :min="1" :max="singleTicket.limitNum*1" label="描述文字"></el-input-number>
+                    <p v-if="showNum"><span>剩余{{singleTicket.leftNum}}张</span>/<span>限购{{singleTicket.limitNum}}张</span></p>
                 </div>
                 <div class="activity-message-bottom-right-8">
-                    <div class="right-8-btn1">立即报名</div>
-                    <div class="right-8-btn2"><i class="iconfont icon-xianxingxing"></i> 收藏</div>
-                    <div class="right-8-btn3"><i class="iconfont icon-xianxingzan"></i>赞</div>
+                    <div class="right-8-btn1" @click="apply()">立即报名</div>
+                    <div class="right-8-btn2" v-if="!isSave" @click="saveClick"><i class="iconfont icon-xianxingxing"></i> 收藏</div>
+                    <div class="right-8-btn2" v-if="isSave" @click="saveClick"><i class="iconfont icon-xing" style="color:#389bff;font-size:19px;margin-right: 5px;"></i> 收藏</div>
+                    <div class="right-8-btn3" v-if="!isLike" @click="likeClick"><i class="iconfont icon-xianxingzan"></i>赞</div>
+                    <div class="right-8-btn3" v-if="isLike" @click="likeClick"><i class="iconfont icon-zan" style="color:#389bff;font-size:19px;margin-right: 5px;"></i>赞</div>
                 </div>
             </div>
         </div>
@@ -258,6 +261,9 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+import QRCode from 'qrcode'
+import share from '../../component/common/share.vue'
+import {commonService} from '../../service/commonService'
 import {indexService} from '../../service/indexService'
   export default {
     // 添加以下代码
@@ -291,29 +297,204 @@ import {indexService} from '../../service/indexService'
       return {
         title:'',
         num1: 1,
-        state:['未开始','进行中','已结束']
+        state:['未开始','进行中','已结束'],
+        tickets:[],
+        notickets:[],
+        radio1:'',
+        showNum:false,
+        newIndex:'',
+        singleTicket:{},
+        key:'',
+        isSave:false,
+        isLike:false,
+        myShareOption: {
+            title: '',
+            desc: '',
+            summary: '',
+            pics: ''
+        },
       }
     },
-    components: {},
+    components: {share},
     mounted () {
-        // indexService.getActDetail({activityId:this.$route.params.id}).then(function (res) {
-        //         // store.state.homeStore.actDetail = res.data.datas;
-        //         console.log(res.data.datas)
-        //     });
+        //获取分享信息
+        this.$refs.myShare.title = this.detail.activityTitle;
+        this.$refs.myShare.desc = this.detail.activityAddress;
+        this.$refs.myShare.pics = this.$store.state.picHead + this.detail.activityPoster;
+        this.getTickets() //订单信息
+        this.codelDetail() //手机二维码
+        if(localStorage.token && localStorage.token!='undefined'){
+            this.saveIs()
+            this.likeIs()
+        }
         console.log(this.detail)
         window.scrollTo(0,0);
     },
     methods: {
+        codelDetail:function(){
+            const that = this
+            let canvas1 = document.getElementById('canvas1');
+            let url = window.location.href
+            QRCode.toCanvas(canvas1, url, (error) => {
+                if (error) {
+                } else {
+                }
+            })
+        },
+         //是否收藏
+        saveIs:function(){
+            const that = this;
+            indexService.isCollect({
+                type:3,
+                typeId: that.$route.params.id,
+            }).then(function (res) {
+                that.isSave = res.data.datas
+            })
+        },
+        //是否点赞
+        likeIs:function(){
+            const that = this;
+            indexService.isCollect({
+                type:2,
+                typeId: that.$route.params.id,
+            }).then(function (res) {
+                that.isLike = res.data.datas
+            })
+        },
+        //点赞
+        likeClick:function(){
+            const that = this;
+            let type1
+            if(that.isLike == true){type1 = 0} else {type1 = 1}
+            indexService.hasLikeAct({
+                type:type1,
+                activityId: that.$route.params.id,
+            }).then(function (res) {
+                that.isLike = !that.isLike
+                if(localStorage.token && localStorage.token!='undefined'){
+                    that.getsaveNum();
+                }
+            })
+        },
+        //收藏
+        saveClick:function(){
+            const that = this;
+            if(localStorage.token && localStorage.token!='undefined'){
+                let type2
+                if(that.isSave == true){type2 = 1} else {type2 = 0}
+                indexService.hasCollectAct({
+                    type:type2,
+                    activityId: that.$route.params.id,
+                }).then(function (res) {
+                    that.isSave = !that.isSave
+                })
+            } else {
+                that.$router.push({name:'login'})
+            }
+        },
+        apply(){
+            const that = this
+            if(localStorage.token && localStorage.token!='undefined'){
+                that.checkTickets()
+            } else {
+                that.$router.push({name:'login'})
+            }
+        },
+        //选择票种后初步检查是否可购
+        checkTickets(){
+            const that = this
+            //接口未弄好
+            indexService.checkTicket({actId:that.$route.params.id,ticketId:that.radio1,num:that.num1}).then(function (res) {
+                //如果可购买
+                // if(){
+                //     //下单
+                //     that.key = '' //获取key
+                //     that.putTicket()
+                // } else {
+                //     //提示后刷新页面
+                //     that.getDetails()
+                //     that.getTickets()
+                // }
+                // console.log('检查片',res.data.datas)
+            });
+        },
+        putTicket(){
+            const that = this
+            indexService.checkTicket({actId:that.$route.params.id,key:that.key}).then(function (res) {
+                // if(){
+
+                // }
+            });
+        },
       // getActDetail
+      chooseTicket(item){
+          const that = this
+          that.showNum = true
+          for(var i=0;i<that.tickets.length;i++){
+                if(that.tickets[i].id == item){
+                    that.newIndex = i
+                }
+            }
+            that.singleTicket = that.tickets[that.newIndex]
+            console.log('徐哈',that.newIndex)
+      },
+      getTickets(){
+        const that = this
+        indexService.getTicketDetail({actId:that.$route.params.id,}).then(function (res) {
+            console.log('票务',res.data.datas);
+            let oldTicket
+            oldTicket = res.data.datas
+            for(var i=0;i<oldTicket.length;i++){
+                if(oldTicket[i].leftNum == '0'){
+                    that.notickets.push(oldTicket[i])
+                }else{
+                    that.tickets.push(oldTicket[i])
+                }
+            }
+        });
+      },
+       getDetails(){
+           const that = this
+            indexService.getActDetail({activityId:that.$route.params.id,}).then(function (res) {
+                that.$store.state.homeStore.actDetail = res.data.datas;
+            });
+        },
       handleChange(value) {
         console.log(value);
-      }
+      },
+      // 判断code值
+        coded: function(item) {
+            const that = this;
+            if(item.code === 200){
+
+            } else if (item.code === 517107){ //您有一个待支付订单,请先处理(datas会有待支付订单号) ===携带订单编号，跳转到订单页
+                that.$store.state.msg = {
+                    text: '您有一个待支付订单,请先处理',
+                    cb:'goOrder',
+                    type: 5
+                };
+            } else if (item.code === 517109){ //您有一个待审核订单,请先处理(datas会有待审核订单号)  ===携带审核订单号，跳转到审核页面
+                that.$store.state.msg = {
+                    text: '您有一个待审核订单',
+                    cb:'goOrder',
+                    type: 5
+                };
+            } else if (item.code === 517117){ ////当前票太抢手了,请刷新重试
+                commonService.autoCloseModal(that,item.message,1)
+                setTimeout(function(){
+                    that.$router.go(0)
+                },500)
+            } else{ //当前票种已售罄,请选择其它票种 === 刷新活动详情页
+                commonService.autoCloseModal(that,item.message,1)
+            }
+        },
     }
   }
 </script>
 <style lang="less">
   #activity_detail{
     //   position: relative;
+    .erweima{position: absolute;top:271px;right:0px;visibility: hidden;}
     .tuiguang{
         position: absolute;
         bottom: 0px;
@@ -347,10 +528,11 @@ import {indexService} from '../../service/indexService'
       }
       .browse{float:right;margin-right:10px;font-size:13px; color:#999999;text-align:left;margin-top: 7px;}
     }
+    .icon-shouji1{line-height: initial !important;color:#D8D8D8;}
     .el-input-number--mini{width: 110px;}
     .posicon{position: absolute;left: 0px;line-height: initial;}
     .activity-message-bottom{min-height:580px;display:table;}
-    .activity-message-bottom-left{width:452px;float:left;display: table-cell;vertical-align: middle;margin-top:25px;}
+    .activity-message-bottom-left{position: relative;;width:452px;float:left;display: table-cell;vertical-align: middle;margin-top:25px;}
     .activity-message-bottom-left .imgHead{width: 100%;height: 226px;overflow: hidden;position: relative;}
     .activity-message-bottom-left img{width:100%;position: absolute;top: 50%;transform: translateY(-50%);}
     .activity-message-bottom-left .p1{font-size:14px;color:#999999;text-align:left;margin-top:17px;position:relative;float:left;}
@@ -359,7 +541,10 @@ import {indexService} from '../../service/indexService'
     .activity-message-bottom-left .p1 a:nth-child(3){display:block;width:26px;height:26px;position: absolute;left:128px;top: -2px;}
     .activity-message-bottom-left .p1 a:hover{cursor: pointer;}
     .activity-message-bottom-left .p2{float:right;margin-top:17px;font-size:12px;color:#7c818b;text-align:left;position:relative;}
-    .activity-message-bottom-left .p2:hover{cursor: pointer;}
+    .activity-message-bottom-left .p2:hover{cursor: pointer;
+        .erweima{visibility: visible;
+        }
+    }
     .activity-message-bottom-left .p2 span{display: block;width:16px;height:20px;float:left;}
     .activity-message-bottom-left .p2 .erweima{width:150px;height:150px;position:absolute;top:25px;background:#fff;border:1px solid #b2b2b2;left:-25px;box-sizing: border-box;padding:14px;display: none;}
     .activity-message-bottom-right{margin-left:30px;width:650px;right:0;overflow: hidden;min-height:400px;float:left;}
@@ -401,7 +586,7 @@ import {indexService} from '../../service/indexService'
     .activity-message-bottom-right-4-right2 .right-4-img img:nth-of-type(2){left:28px;z-index:2;}
     .activity-message-bottom-right-4-right2 .right-4-img img:nth-of-type(3){left:0;z-index:1;}
     // .activity-message-bottom-right-4-right2 .right-4-img2{float:right;background:url("../../images/activity-pc/message-right.png")no-repeat;width:8px;height:14px;margin-top:20px;margin-left:15px;}
-    .activity-message-bottom-right-5{padding:15px 20px 15px 20px;background: #F5F5F5;box-shadow: inset 0 -1px 0 0 #EEEEEE;position:relative;}
+    .activity-message-bottom-right-5{padding:15px 20px 10px 20px;background: #F5F5F5;box-shadow: inset 0 -1px 0 0 #EEEEEE;position:relative;}
     // .activity-message-bottom-right-5-left{float:left;width:16px;height:16px;background:url("../../images/activity-pc/right-5-left.png")no-repeat;position:absolute;left:0;top:0;bottom:0;margin:auto;}
     .activity-message-bottom-right-5-right{margin-left:10px;overflow: hidden;}
     .activity-message-bottom-right-5-right button{background:#ffffff;border:1px solid #dddddd;width:188px;height:46px;float:left;margin:0 6px 10px 6px;position:relative;}
@@ -411,7 +596,7 @@ import {indexService} from '../../service/indexService'
     .activity-message-bottom-right-5-right .btn-span{display: block;}
     .activity-message-bottom-right-5-right .check{background:#ffffff;border:1px solid #20A0FF;box-shadow:0px 2px 4px 0px rgba(211,234,218,0.50);width:188px;height:46px;color:#5fb878;}
     .activity-message-bottom-right-5-right .disable{background:#ededed;border:1px solid #dddddd;width:188px;height:46px;}
-    .activity-message-bottom-right-6{background:#fff;margin-left:36px;width:600px;color:#999999;font-size:13px;margin-top:10px;margin-bottom:10px;}
+    .activity-message-bottom-right-6{min-height: 5px;background:#fff;margin-left:36px;width:600px;color:#999999;font-size:13px;margin-top:10px;margin-bottom:10px;}
     .activity-message-bottom-right-7{margin-left:36px;position:relative;background:#fff;}
     .activity-message-bottom-right-7{
         .el-input__inner{
@@ -440,6 +625,55 @@ import {indexService} from '../../service/indexService'
         .el-icon-plus{
 
         }
+    }
+    .activity-message-bottom-right-5-right{
+        .el-radio__input{
+            display: none;
+        }
+        .el-radio.is-bordered{
+            width: 190px;
+            height: 48px;
+            margin-left: 0px !important;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 0px;
+            text-align: center;
+            line-height: 48px;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+        .nofree{
+            .pricename{
+                position: absolute;
+                top: 0px;
+                transform: translateX(-50%);
+                left: 50%;
+            }
+        }
+        .disable{
+            .pricename{color:#999 !important;}
+        }
+        .pricename{
+            position: absolute;
+            top: -6px;
+            transform: translateX(-50%);
+            left: 50%;
+        }
+        .el-radio__label{
+            position: relative;
+            font-size: 15px;
+            color: #303030;
+            padding: 0 !important;
+        }
+        .price{position: absolute;font-size: 12px;
+    color: #FC6651;
+    top: 11px;
+    transform: translateX(-50%);
+    left: 50%;}
+        .el-radio__input.is-checked+.el-radio__label{color:#409eff;}
+        .is-bordered.is-checked{background: url('../../assets/image/ticket2.png') !important;}
+        .wxz{background: url('../../assets/image/ticket1.png')}
     }
     .activity-message-bottom-right-7 .right-7-btn1{background:#ffffff;border:1px solid #dddddd;width:28px;height:28px;background-position: 5px 5px;position:absolute;top:0px;left:57px;}
     .activity-message-bottom-right-7 .right-7-btn2{background:#ffffff;border:1px solid #dddddd;width:28px;height:28px;background-position: 5px 12px;position:absolute;top:0px;left:84px;}
