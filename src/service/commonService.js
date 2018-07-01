@@ -184,13 +184,10 @@ export const commonService = {
     /* 验证类弹框n秒后自动关闭 */
     autoCloseModal: function (obj, mess, typeNo) {
         let that = obj
-        that.msg = {
-            text: mess,
-            type: typeNo
-        };
-        setTimeout(function () {
-            that.msg.type = 0;
-        },2000)
+        that.$message({
+            type: 'info',
+            message: mess
+        });
     },
     /* 根据code获取授权地址 */
     getInfoByCode: function(that, url, code,path) {

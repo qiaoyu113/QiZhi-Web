@@ -64,7 +64,7 @@ export const modularService = {
     },
     // 取消订单  
     putOrdersIdCancel: function (id) {
-        return axios.put('/orders'+ id +'/cancel')
+        return axios.put('/orders/'+ id +'/cancel')
     },
     // 订单申请退款  
     putOrdersIdRefundApply: function (id,params) {
