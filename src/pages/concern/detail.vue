@@ -9,21 +9,23 @@
                    <div class="authortitl"><p>粉丝 {{author.subNum}} </p></div>
                    <div class="authortitr"><p>文章 110 </p></div>
                 </div>
-                <div class="authorbtn">+ 关注</div>
+                <div class="authorbtn" @click="postFollow(author.id)" v-if="isFollow==false">+ 关注</div>
+                <div class="authorbtn" @click="open2(author.id)" v-if="isFollow==true">已关注</div>
             </div>
             <div class="division clearfix">
-              <div class="divisionl">最新发表的活动</div>
+              <div class="divisionl" v-if="author.adminType!=2">最新发表的活动</div>
+              <div class="divisionl" v-if="author.adminType==2">最新发表的文章</div>
               <div class="divisionr"></div>
             </div>
             <div class="surface">
-                <div class="row clearfix">
+                <div class="row clearfix" v-for="list in data">
                      <div class="rowl">
-                        <img src="../../assets/image/vipname.png" />
+                        <img :src="picHead + list.activityPoster" />
                      </div>
                      <div class="rowr">
-                         <p class="top">How To Build A Pc</p>
-                         <p class="con">A Discount Toner Cartridge Is Better Than Ever And You Will Save 50 Or More</p>
-                         <p class="tim">2016-2-32</p>
+                         <p class="top">{{list.activityTitle}}</p>
+                         <p class="con">{{list.activityDetails}}</p>
+                         <p class="tim">{{list.actStartTime | stampFormate}}</p>
                      </div>
                 </div>
 
@@ -52,6 +54,7 @@
         total:1,
         author:'',
           id:this.$route.query.id,//id
+          isFollow:this.$route.query.isFollow, //是否关注
 
       }
     },
@@ -66,19 +69,100 @@
     },
     methods: {
       
-      //获取所有社群号
+      //获取社群号信息
       getMyFollowMain (){
         let that = this;
         modularService.getMyFollowMain({type:2,adminId:that.id}).then(function (res) {
              console.log(res)
                   if(res.data.code==200){
-                       // that.data=res.data.datas.datas
-                      // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
+                     
                       that.author=res.data.datas
+                      that.getActivities(that.author.id)
               
                  
                   }
+        });
+      },
+      
+       //获取社群号活动
+      getActivities (id){
+        let that = this;
+        modularService.getActivities({pageNo:that.page.num,pageSize:that.page.size,sortKey:'sortNumber',adminId:id,queryType:1}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                       // that.data=res.data.datas.datas
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+                      // that.author=res.data.datas
+                        let newArr=res.data.datas.datas
+                    that.page.totalPage = res.data.datas.totalPage
+                    that.total=res.data.datas.total
+                    that.page.totalCount = res.data.datas.totalCount == null ? 0 : parseInt(res.data.datas.totalCount);
+                     if(newArr != null){
+                       for(let i=0;i<newArr.length;i++){
+                        that.data.push(newArr[i]);
+                    }
+                     }
+                     
+             
+                    if(res.data.datas.pageNo>=res.data.datas.totalPage){
+                        that.loadStatus = 2
+                    }else {
+                        that.loadStatus = 0
+                    }
+              
+                 
+                  }
+        });
+      },
+       //关注社群号
+      postFollow (id){
+        let that = this;
+
+        modularService.postFollow({adminId:id}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                       // that.getAllAdminUser()
+                        that.$message.success('关注成功');
+                        that.isFollow=true
+                      //  that.data=res.data.datas.datas
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+              
+                 
+                  }
+        });
+      },
+      //取消关注
+       putCancleFollow(id){
+          let that=this
+         modularService.putCancleFollow({adminId:id}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                     that.$message.success('取消关注成功');
+                     that.isFollow=false
+                 
+                  }
+        });
+
+      },
+      // 取消关注弹出层
+      open2(id) {
+        this.$confirm('是否取消关注?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '取消关注成功!'
+          });
+          this.putCancleFollow(id)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
         });
       },
 
@@ -88,7 +172,7 @@
                 let that = this
                 that.$store.state.homeStore.loadStatus = 1
                 that.page.num = i
-                that.getInnerletter()
+                that.getActivities(that.author.id)
             }
       
     }
@@ -163,6 +247,7 @@
           }
           .authorbtn{
                 // margin-top: 14px;
+                cursor: pointer;
                 margin: 14px auto 0;
                 width: 100px;
                 height: 32px;

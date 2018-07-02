@@ -62,6 +62,7 @@ const follow = (resolve) => {require(['./pages/personal/follow.vue'],resolve)}
 const code = (resolve) => {require(['./pages/personal/code.vue'],resolve)}
 const notice = (resolve) => {require(['./pages/personal/notice.vue'],resolve)}
 const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
+const ticket = (resolve) => {require(['./pages/personal/ticket.vue'],resolve)}
 
 
 
@@ -108,6 +109,9 @@ const routers = [
     // 会员
     {name: 'vip',path:'/vip',component: vip},
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
+     //电子票
+    {name: 'ticket',path:'/ticket',component: ticket},
+     
     //个人中心
     // {name: 'personal',path:'/personal',component: personal},
     {name: 'personal',path:'/personal',component: personal,redirect:'/personal/purchase',

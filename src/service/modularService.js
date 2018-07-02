@@ -86,6 +86,21 @@ export const modularService = {
    getMyFollowMain: function(params){
         return axios.get('/myFollowMain'+ this.getParam(params))
     },
+     // 社群号下的活动
+   getActivities: function(params){
+        return axios.get('/activities'+ this.getParam(params))
+    },
+
+      // 根据订单号查询票
+   getMyticketsOrderNoid: function(id){
+        return axios.get('/mytickets/orderNo/'+ id)
+    },
+      // 获取我的活动信息
+   getActivitiesId: function(id){
+        return axios.get('/activities/'+ id)
+    },
+
+
 
 
     getParam: function(param){
