@@ -3,7 +3,7 @@
         <div class="wrap">
         <p class="page-title">
             报名信息
-            <i class="iconfont icon-guanbi" style="float:right;" @click="close()"></i>
+            <i class="iconfont icon-guanbi close" style="float:right;" @click="close()"></i>
         </p>
         <div class="postInfo" style="height:calc(100% - 140px)">
             <form class="from" v-if="postInfo.length>=2">
