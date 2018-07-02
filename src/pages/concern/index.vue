@@ -8,13 +8,14 @@
     <div class="author">推荐作者</div>
     <div class="authorapply">申请成为作者</div>
     <div class="box clearfix">
-       <div class="row" v-for="list in data">
+       <div class="row" v-for="list in data" @click="goconcernDetail(list.id)">
           <div class="rowbackimg">
            <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
            <div class="rowtitle">{{list.hostCompany}}</div>
            <div class="rowcon">{{list.hostDesc}}</div>
            <div class="rowlabel clearfix">
-             <div class="rowlabell"><p>粉丝 {{list.subNum}} </p></div>
+             <div class="rowlabell"><p v-if="list.subNum!=null">粉丝 {{list.subNum}} </p>
+                                    <p v-if="list.subNum==null">粉丝 0 </p></div>
              <div class="rowlabelr"><p> 文章 110 </p></div>
            </div>
            <div class="rowbtn" @click="open2(list.id)" v-if="list.isFollow==true">已关注</div>
@@ -60,6 +61,13 @@
            this.getAllAdminUser()
     },
     methods: {
+      // 
+      goconcernDetail:function(id){
+        // console.log(id)
+        // return false
+          this.$router.push({path:"/concern/detail",query:{id:id}}) 
+          // this.$router.replace({name:'concernDetail'})
+      },
       titleindex:function(index){
               this.titlep=index
               this.page.num=1
@@ -140,7 +148,7 @@
              console.log(res)
                   if(res.data.code==200){
                      that.$message.success('取消关注成功');
-                     that.getMyFollow()
+                     that.getAllAdminUser()
                  
                   }
         });

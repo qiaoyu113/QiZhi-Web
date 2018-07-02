@@ -44,8 +44,6 @@ const author = (resolve) => {require(['./pages/concern/author.vue'],resolve)}
 // 活动
 const activity = (resolve) => {require(['./pages/activity/index.vue'],resolve)}
 const activityDetail = (resolve) => {require(['./pages/activity/detail.vue'],resolve)}
-const createOrder = (resolve) => {require(['./pages/activity/create-order.vue'],resolve)}
-const payment = (resolve) => {require(['./pages/activity/payment.vue'],resolve)} //支付页面
 // 付费读
 const subject = (resolve) => {require(['./pages/subject/index.vue'],resolve)}
 const subjectDetail = (resolve) => {require(['./pages/subject/detail.vue'],resolve)}
@@ -96,14 +94,12 @@ const routers = [
     {name: 'keywords',path:'/keywords/:id',component: keywords},
     // 关注
     {name: 'concern',path:'/concern',component: concern},
-    {name: 'concernDetail',path:'/concern/:id',component: concernDetail},
+    {name: 'concernDetail',path:'/concern/detail',component: concernDetail},
     {name: 'author',path:'/author/:id',component: author},
     
     // 活动
     {name: 'activity',path:'/activity',component: activity},
     {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
-    {name: 'createOrder', path:'/order/:type/:comNo',component:createOrder},
-    {name: 'payment',path:'/:lang/productions/payment/:id',component: payment},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},

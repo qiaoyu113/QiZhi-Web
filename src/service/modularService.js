@@ -62,9 +62,17 @@ export const modularService = {
    getInnerletter: function(params){
         return axios.get('/innerletter'+ this.getParam(params))
     },
+     // 消息已读
+   postInnerletter: function(params){
+        return axios.post('/innerletter'+ this.getParam(params))
+    },
+     // 我的未读消息
+   getInnerletterIsunread: function(params){
+        return axios.get('/innerletter/isunread'+ this.getParam(params))
+    },
     // 取消订单  
     putOrdersIdCancel: function (id) {
-        return axios.put('/orders/'+ id +'/cancel')
+        return axios.put('/orders'+ id +'/cancel')
     },
     // 订单申请退款  
     putOrdersIdRefundApply: function (id,params) {
@@ -73,6 +81,10 @@ export const modularService = {
      // 所有社群号
    getAllAdminUser: function(params){
         return axios.get('/allAdminUser'+ this.getParam(params))
+    },
+     // 社群号详情
+   getMyFollowMain: function(params){
+        return axios.get('/myFollowMain'+ this.getParam(params))
     },
 
 

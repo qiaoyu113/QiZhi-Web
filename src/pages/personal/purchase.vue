@@ -36,8 +36,8 @@
               <p class="payment" v-if="list.status ==18">已发货</p>
               <p class="payment" v-if="list.status ==19">交易完成</p>
           
-             <div class="ticket touming" v-if="list.status !=1 && list.status !=2 && list.status !=4 && list.status !=5">查看电子票</div>
-             <div class="ticket" v-if="list.status ==1 || list.status ==2 || list.status ==4 || list.status ==5">查看电子票</div>
+             <div class="ticket touming" v-if="list.status !=1 && list.status !=2 && list.status !=4 && list.status !=5 && list.status !=19">查看电子票</div>
+             <div class="ticket" v-if="list.status ==1 || list.status ==2 || list.status ==4 || list.status ==5 || list.status ==19" @click="goactivity(list.id)">查看电子票</div>
 
         	 </div>
            <div class="floftdiv">
@@ -106,6 +106,9 @@ import {modularService} from '../../service/modularService'
     	titleindex:function(index){
               this.titlep=index
     	},
+      goactivity:function(id){
+         this.$router.push({path:"/activity/"+id}) 
+      },
       //获取我的已购
       getOrdersUser (){
         let that = this;

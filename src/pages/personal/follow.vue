@@ -52,7 +52,6 @@
       }
     },
     computed: {
-       
             picHead() {
                 return this.$store.state.picHead
             },
