@@ -95,6 +95,14 @@ export const indexService = {
     getActList: function(params){
         return axios.get('/activities'+ this.getParam(params))
     },
+    // 活动
+    getColumns: function(params){
+        return axios.get('/columns'+ this.getParam(params))
+    },
+    // 作者/主办方
+    getAuthor: function(params){
+        return axios.get('/allAdminUser'+ this.getParam(params))
+    },
     // 活动详情
     getActDetail:function(params){
         return axios.get('/activities/'+params.activityId)
