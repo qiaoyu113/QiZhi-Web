@@ -2,10 +2,10 @@
     <div class="post-info-pannel">
         <div class="wrap">
         <p class="page-title">
-            <i class="iconfont icon-fanhui" style="float:left;padding-left:15px;" @click="close()"></i>
             报名信息
+            <i class="iconfont icon-guanbi" style="float:right;" @click="close()"></i>
         </p>
-        <div class="postInfo">
+        <div class="postInfo" style="height:calc(100% - 140px)">
             <form class="from" v-if="postInfo.length>=2">
                 <div v-for="(item,index) in postInfo" :key="index">
                     <div class="phone-box  div" v-if="item.type == 'danh'">
@@ -45,8 +45,10 @@
                         </ul>
                     </div>
                 </div>
-                <div class="submit btn1" @click="verification()">下一步</div>
             </form>
+            <div class="submit">
+                <div class="button" @click="verification()">立即报名</div>
+            </div>
         </div>
         </div>
     </div>
@@ -126,7 +128,7 @@
                 }
             },
             close: function() {
-                this.$parent.showSign = false
+                this.$parent.showAddInfo = false
             },
             verification:function() {
                 const that = this;
@@ -177,8 +179,8 @@
             applyobj: function(){
                 const that  = this;
                 const applyInfo = new Object();
-                applyInfo['name'] = that.postInfo[0].value
-                applyInfo['phone'] = that.postInfo[1].value
+                applyInfo['姓名'] = that.postInfo[0].value
+                applyInfo['手机'] = that.postInfo[1].value
                 for(let i = 2;i< that.postInfo.length;i++){
                     if(that.postInfo[i].type === 'danh' || that.postInfo[i].type === 'duoh'){
                         applyInfo[that.postInfo[i].key] = that.postInfo[i].value
@@ -341,15 +343,15 @@
         z-index:999;
         overflow-y: hidden;
         .wrap{
-            position:fixed;
-            top:10%;
-            left:30%;
-            background:#fff;
-            height:80%;
-            width:40%;
-            z-index:999;
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            background: #fff;
+            height: 80%;
+            width: 600px;
+            z-index: 999;
             overflow-y: scroll;
-
+            transform: translateX(-50%);
         }
         .page-title {
             z-index: 20;
@@ -359,19 +361,23 @@
             font-size: 16px;
             color: #333;
             letter-spacing: 0.3px;
-            text-align: center;
+            text-align: left;
             background: #FFF;
             box-shadow: inset 0 -1px 0 0 rgba(221, 221, 221, 0.50);
-            max-width:450px;margin:0 auto;
+            padding:0 20px;
+            margin:0 auto;
+            box-sizing:border-box;
         }
-        .page-title .back {
-            position: absolute;
-            left: 20px;
+        .page-title .close {
+            padding-top: 8px;
+            font-size: 12px;
+            color: #b2b2b2!important;
         }
 
         .postInfo {
-            padding: 0 20px 0;
+            padding: 0 20px 30px 25px;
             margin-bottom: 20px;
+            overflow:scroll;
         }
         .from .div {
             margin: 20px 0 20px 0;
@@ -435,15 +441,25 @@
             overflow: hidden;
         }
         .submit {
-            border: none;
-            margin: 50px 0;
-            text-align: center;
-            background: #6699FF;
-            border-radius: 100px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 16px;
-            color: #FFFFFF;
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            box-shadow: inset 0 1px 0 0 #CCCCCC;
+            padding: 10px 20px ;
+            left: 0;
+            box-sizing: border-box;
+            .button {
+                text-align: center;
+                border-radius: 1px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 16px;
+                color: #FFFFFF;
+                padding: 0 20px;
+                background: #20A0FF;
+                display: inline-block;
+                float: right;
+            }
         }
         .checkInput{
             display: inline-block;

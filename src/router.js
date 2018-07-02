@@ -103,7 +103,7 @@ const routers = [
     {name: 'activity',path:'/activity',component: activity},
     {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
     {name: 'createOrder', path:'/order/:type/:comNo',component:createOrder},
-    {name: 'payment',path:'/:lang/productions/payment/:id',component: payment},
+    {name: 'payment',path:'/payment/:id/:type',component: payment},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
