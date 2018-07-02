@@ -6,11 +6,11 @@
     </div>
     <div class="box1" v-if="titlep==1">
         <div class="row clearfix" v-for="list in data">
-        	 <div class="rowl"><img src="../../assets/image/hot.png"/></div>
+        	 <div class="rowl"><img :src="picHead + list.orderDetails[0].activityPoster"/></div>
         	 <div class="rowr">
         	 	 <p class="h3">{{list.orderDetails[0].actName}}</p>
         	
-        	 	 <p class="time">开始时间 : {{list.createTime | stampFormate2}}</p>
+        	 	 <p class="time">开始时间 : {{list.orderDetails[0].actStartTime | stampFormate2}}</p>
         	 	 <p class="place">活动地点 : {{list.orderDetails[0].address}}<span>票价 : <i>￥{{list.orderDetails[0].ticketPrice | money}}</i></span></p>
 
         	 </div>
@@ -37,7 +37,7 @@
               <p class="payment" v-if="list.status ==19">交易完成</p>
           
              <div class="ticket touming" v-if="list.status !=1 && list.status !=2 && list.status !=4 && list.status !=5 && list.status !=19">查看电子票</div>
-             <div class="ticket" v-if="list.status ==1 || list.status ==2 || list.status ==4 || list.status ==5 || list.status ==19" @click="goactivity(list.id)">查看电子票</div>
+             <div class="ticket" v-if="list.status ==1 || list.status ==2 || list.status ==4 || list.status ==5 || list.status ==19" @click="goactivity(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
 
         	 </div>
            <div class="floftdiv">
@@ -99,6 +99,11 @@ import {modularService} from '../../service/modularService'
       }
     },
     components: {},
+    computed: {
+            picHead() {
+                return this.$store.state.picHead
+            },
+        },
     mounted () {
          this.getOrdersUser()
     },
@@ -106,8 +111,9 @@ import {modularService} from '../../service/modularService'
     	titleindex:function(index){
               this.titlep=index
     	},
-      goactivity:function(id){
-         this.$router.push({path:"/activity/"+id}) 
+      goactivity:function(id,actId){
+
+         this.$router.push({path:"/ticket",query:{id:id,actId:actId}}) 
       },
       //获取我的已购
       getOrdersUser (){

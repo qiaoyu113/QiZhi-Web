@@ -110,7 +110,7 @@
     mounted: function() {
 
         let that = this;
-        that.orderNo = this.$route.params.orderNo;
+        that.orderNo = this.$route.params.id;
         that.orderType = this.$route.params.type;
         if(!that.orderNo){
             that.orderNo = window.localStorage.getItem("payOrderNo");
@@ -377,7 +377,7 @@
                     });
                     //电子票获取
                     let order1 = that.$route.params.orderNo;
-                    indexService.getTicket(order1).then(function(res){
+                    /*indexService.getTicket(order1).then(function(res){
                         if(res.data.datas.length !== 0){
                             let ticket = res.data.datas[0]
                             that.ticet = true;
@@ -386,7 +386,7 @@
                         }else{
                             that.ticet = false;
                         }
-                    })
+                    })*/
                 }else{
 //                        alert(res.data.message)
                 }

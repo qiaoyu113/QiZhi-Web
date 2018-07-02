@@ -379,7 +379,7 @@
                         that.$router.go(-1);
                     }else{
                         window.localStorage.removeItem('checked');
-                        that.$router.push({name:'pay',params:{orderNo:orderNum,type:that.subType,money:that.liveData1.price}})
+                        that.$router.push({name:'payment',params:{orderNo:orderNum,type:that.subType,money:that.liveData1.price}})
                     }
                 })
             },
@@ -393,7 +393,7 @@
 //                            console.log('这里是免费的')
                     that.$router.push({name:'purchase'})
                 }else{
-                    that.$router.push({name:'payment',params:{orderNo:orderId,type:that.subType}})
+                    that.$router.push({name:'payment',params:{id:orderId,type:that.subType}})
                 }
             },
             //vip支付

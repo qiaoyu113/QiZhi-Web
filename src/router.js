@@ -44,6 +44,8 @@ const author = (resolve) => {require(['./pages/concern/author.vue'],resolve)}
 // 活动
 const activity = (resolve) => {require(['./pages/activity/index.vue'],resolve)}
 const activityDetail = (resolve) => {require(['./pages/activity/detail.vue'],resolve)}
+const createOrder = (resolve) => {require(['./pages/activity/create-order.vue'],resolve)}
+const payment = (resolve) => {require(['./pages/activity/payment.vue'],resolve)} //支付页面
 // 付费读
 const subject = (resolve) => {require(['./pages/subject/index.vue'],resolve)}
 const subjectDetail = (resolve) => {require(['./pages/subject/detail.vue'],resolve)}
@@ -62,6 +64,7 @@ const follow = (resolve) => {require(['./pages/personal/follow.vue'],resolve)}
 const code = (resolve) => {require(['./pages/personal/code.vue'],resolve)}
 const notice = (resolve) => {require(['./pages/personal/notice.vue'],resolve)}
 const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
+const ticket = (resolve) => {require(['./pages/personal/ticket.vue'],resolve)}
 
 
 
@@ -100,6 +103,8 @@ const routers = [
     // 活动
     {name: 'activity',path:'/activity',component: activity},
     {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
+    {name: 'createOrder', path:'/order/:type/:comNo',component:createOrder},
+    {name: 'payment',path:'/payment/:id/:type',component: payment},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
@@ -108,6 +113,9 @@ const routers = [
     // 会员
     {name: 'vip',path:'/vip',component: vip},
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
+     //电子票
+    {name: 'ticket',path:'/ticket',component: ticket},
+
     //个人中心
     // {name: 'personal',path:'/personal',component: personal},
     {name: 'personal',path:'/personal',component: personal,redirect:'/personal/purchase',
