@@ -62,9 +62,17 @@ export const modularService = {
    getInnerletter: function(params){
         return axios.get('/innerletter'+ this.getParam(params))
     },
+     // 消息已读
+   postInnerletter: function(params){
+        return axios.post('/innerletter'+ this.getParam(params))
+    },
+     // 我的未读消息
+   getInnerletterIsunread: function(params){
+        return axios.get('/innerletter/isunread'+ this.getParam(params))
+    },
     // 取消订单  
     putOrdersIdCancel: function (id) {
-        return axios.put('/orders/'+ id +'/cancel')
+        return axios.put('/orders'+ id +'/cancel')
     },
     // 订单申请退款  
     putOrdersIdRefundApply: function (id,params) {
@@ -74,6 +82,25 @@ export const modularService = {
    getAllAdminUser: function(params){
         return axios.get('/allAdminUser'+ this.getParam(params))
     },
+     // 社群号详情
+   getMyFollowMain: function(params){
+        return axios.get('/myFollowMain'+ this.getParam(params))
+    },
+     // 社群号下的活动
+   getActivities: function(params){
+        return axios.get('/activities'+ this.getParam(params))
+    },
+
+      // 根据订单号查询票
+   getMyticketsOrderNoid: function(id){
+        return axios.get('/mytickets/orderNo/'+ id)
+    },
+      // 获取我的活动信息
+   getActivitiesId: function(id){
+        return axios.get('/activities/'+ id)
+    },
+
+
 
 
     getParam: function(param){
