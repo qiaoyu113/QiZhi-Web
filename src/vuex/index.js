@@ -18,6 +18,7 @@ const store = new Vuex.Store({
         description:'运联description',
         keyWords:'运联keyWords',
         apiUrl:'https://mini.dtfind.com', //测试版
+        // apiUrl:'http://wj.tunnel.qydev.com', //测试版
         logoUrl:'/src/assets/image/logo.png', //王俊测试
         fromPath:['home'],
 

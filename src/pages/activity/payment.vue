@@ -110,7 +110,7 @@
     mounted: function() {
 
         let that = this;
-        that.orderNo = this.$route.params.id;
+        that.orderNo = String(that.$route.params.id);
         that.orderType = this.$route.params.type;
         if(!that.orderNo){
             that.orderNo = window.localStorage.getItem("payOrderNo");
@@ -336,7 +336,7 @@
                         that.statePay = '11';
                     }
                     //订单编号
-                    that.orderNo = parseInt(state.orderNo);
+                    that.orderNo = state.orderNo;
                     that.openTime = state.createTime
                     that.orderName = state.orderDetails[0].actName;
                     that.orderTime = state.orderDetails[0].actStartTime
@@ -364,6 +364,7 @@
                     that.detailName = state.orderDetails[0].applyInfo.name
                     that.detailPhone = state.orderDetails[0].applyInfo.phone
                     // console.log(111,state.orderDetails[0].applyInfo);
+                    that.selectPay(1)
                     indexService.myCenter().then(function(res){
                         let user = res.data.datas.user;
                         if(user.addresses){
@@ -424,7 +425,7 @@
                         that.statePay = '3';
                     }
                     //订单编号
-                    that.orderNo = parseInt(state.orderNo);
+                    that.orderNo = state.orderNo;
                     that.openTime = state.createTime
                     that.orderName = state.orderTitle;
                     that.orderTime = state.orderDetails[0].actStartTime
@@ -456,7 +457,7 @@
                     that.detailName = state.orderDetails[0].applyInfo.name
                     that.detailPhone = state.orderDetails[0].applyInfo.phone
                     //电子票获取
-                    let order1 = that.$route.params.orderNo;
+                    let order1 = String(that.$route.params.id);
                     indexService.getTicket(order1).then(function(res){
                         if(res.data.datas.length !== 0){
                             let ticket = res.data.datas[0]
@@ -490,46 +491,12 @@
                 this.getQrcodeUrl('WX_NATIVE')
             }
         },
-        // subscribeOrder  orderSubmit getErweima
-        getorderDetail:function(){
-            const that = this
-            indexService.subscribeOrder({
-                productPkgId: that.$route.params.id,
-            }).then(function (res) {
-                that.orderDetail = res.data.datas
-                that.key = res.data.datas.key
-                that.getorderNo()
-            })
-        },
-        getorderNo:function () {
-            const that = this
-            if(localStorage.utm_source == 'undefined'){
-                indexService.orderSubmit({
-                    key: that.key,
-                }).then(function (res) {
-                    that.orderNo = res.data.datas
-                    that.getQrcodeUrl('ALIPAY_WAP')
-                })
-            } else {
-                indexService.orderSubmit({
-                    key: that.key,
-                    utm_source:localStorage.utm_source,
-                    utm_content:localStorage.utm_content,
-                    utm_exp:localStorage.utm_exp,
-                    utm_sign:localStorage.utm_sign,
-                    utm_medium:localStorage.utm_medium,
-                    utm_content_type:localStorage.utm_content_type,
-                }).then(function (res) {
-                    that.orderNo = res.data.datas
-                    that.getQrcodeUrl('ALIPAY_WAP')
-                })
-            }
-            
-        },
         getQrcodeUrl:function (item) {
             const that = this
+            console.log(that.orderNo);
+            // console.log(String(that.$route.params.id));
             indexService.getErweima({
-                orderNo: that.orderNo,
+                orderNo: String(that.orderNo),
                 channelId: item, // 微信h5支付 ALIPAY_PC WX_NATIVE
             }).then(function (res) {
                 that.alipayUrl = res.data.datas.codeUrl
@@ -541,9 +508,9 @@
             const that = this;
             if(way == 'ALIPAY_WAP'){
                 let canvas1 = document.getElementById('canvas1');
-                let aliUrl = 'https://docqbot.com/'+ that.lan+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId
                 // let aliUrl = 'http://www.test.front.docqbot.com/'+ that.lan+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId
-                // let aliUrl = 'http://'+location.host+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId
+                let aliUrl = 'http://'+location.host+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId;
+                console.log(aliUrl);
                 QRCode.toCanvas(canvas1, aliUrl, (error) => {
                     if (error) {
                     } else {

@@ -428,7 +428,7 @@
                             that.$router.push({name:'pay',params:{orderNo:orderNum,type:that.subType}})
                         }
                     }else{
-                        that.$router.push({name:'payment',params:{orderNo:orderNum,type:that.subType}})
+                        that.$router.push({name:'payment',params:{orderNo:orderNum,type:that.subType,key:that.$route.params.key}})
                     }
                 })
             },

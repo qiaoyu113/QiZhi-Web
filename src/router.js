@@ -67,6 +67,8 @@ const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
 const ticket = (resolve) => {require(['./pages/personal/ticket.vue'],resolve)}
 
 
+const alipay = (resolve) => {require(['./pages/activity/alipay.vue'],resolve)} //支付宝支付
+const paySuccess = (resolve) => {require(['./pages/activity/payOk.vue'],resolve)} //支付成功
 
 
 // 登录注册
@@ -105,6 +107,8 @@ const routers = [
     {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
     {name: 'createOrder', path:'/order/:type/:comNo',component:createOrder},
     {name: 'payment',path:'/payment/:id/:type',component: payment},
+    {name: 'alipay',path:'/alipay',component: alipay},
+    {name: 'paySuccess',path:'/paySuccess',component: paySuccess},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
