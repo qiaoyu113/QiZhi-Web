@@ -16,32 +16,32 @@
         	 </div>
         	 <div class="roworder">
         	 	  <div class="top clearfix"><p class="topl">{{list.orderDetails[0].ticketNum}}张</p><p class="topr">共<span>￥{{list.amount | money}}</span></p></div>
-        	 	  <p class="payment" v-if="list.status ==1">待付款</p>
-              <p class="payment" v-if="list.status ==2">待审核</p>
-              <p class="payment" v-if="list.status ==3">已付款</p>
-              <p class="payment" v-if="list.status ==4">已取消</p>
-              <p class="payment" v-if="list.status ==5">交易关闭</p>
-              <p class="payment" v-if="list.status ==6">退款待审核</p>
-              <p class="payment" v-if="list.status ==7">退款中</p>
-              <p class="payment" v-if="list.status ==8">退款失败</p>
-              <p class="payment" v-if="list.status ==9">审核通过</p>
-              <p class="payment" v-if="list.status ==10">审核不通过</p>
-              <p class="payment" v-if="list.status ==11">退款申请中</p>
-              <p class="payment" v-if="list.status ==12">退款拒绝</p>
-              <p class="payment" v-if="list.status ==13">撤销申请</p>
-              <p class="payment" v-if="list.status ==14">支付超时</p>
-              <p class="payment" v-if="list.status ==15">退款成功</p>
-              <p class="payment" v-if="list.status ==16">待领取</p>
-              <p class="payment" v-if="list.status ==17">待发货</p>
-              <p class="payment" v-if="list.status ==18">已发货</p>
-              <p class="payment" v-if="list.status ==19">交易完成</p>
+        	 	  <p class="paymentp" v-if="list.status ==1">待付款</p>
+              <p class="paymentp" v-if="list.status ==2">待审核</p>
+              <p class="paymentp" v-if="list.status ==3">已付款</p>
+              <p class="paymentp" v-if="list.status ==4">已取消</p>
+              <p class="paymentp" v-if="list.status ==5">交易关闭</p>
+              <p class="paymentp" v-if="list.status ==6">退款待审核</p>
+              <p class="paymentp" v-if="list.status ==7">退款中</p>
+              <p class="paymentp" v-if="list.status ==8">退款失败</p>
+              <p class="paymentp" v-if="list.status ==9">审核通过</p>
+              <p class="paymentp" v-if="list.status ==10">审核不通过</p>
+              <p class="paymentp" v-if="list.status ==11">退款申请中</p>
+              <p class="paymentp" v-if="list.status ==12">退款拒绝</p>
+              <p class="paymentp" v-if="list.status ==13">撤销申请</p>
+              <p class="paymentp" v-if="list.status ==14">支付超时</p>
+              <p class="paymentp" v-if="list.status ==15">退款成功</p>
+              <p class="paymentp" v-if="list.status ==16">待领取</p>
+              <p class="paymentp" v-if="list.status ==17">待发货</p>
+              <p class="paymentp" v-if="list.status ==18">已发货</p>
+              <p class="paymentp" v-if="list.status ==19">交易完成</p>
           
-             <div class="ticket touming" v-if="list.status !=1 && list.status !=2 && list.status !=4 && list.status !=5 && list.status !=19">查看电子票</div>
-             <div class="ticket" v-if="list.status ==1 || list.status ==2 || list.status ==4 || list.status ==5 || list.status ==19" @click="goactivity(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
+             <div class="ticket touming" v-if="list.status !=3 && list.status !=9 && list.status !=5 && list.status !=19">查看电子票</div>
+             <div class="ticket" v-if="list.status ==3 || list.status ==5 || list.status ==9 || list.status ==19" @click="goactivity(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
 
         	 </div>
            <div class="floftdiv">
-           <div class="cancelorder cancelorderbak" v-if="list.status==1">去付款</div>
+           <div class="cancelorder cancelorderbak" v-if="list.status==1" @click="gopayment(list.orderNo,list.orderDetails[0].ticketPrice)">去付款</div>
            <div class="cancelorder" v-if="list.status==1" @click="putOrdersIdCancel(list.orderNo)">取消订单</div>
            <div class="cancelorder" v-if="list.status==3" @click="open3(list.orderNo)">申请退款</div>
            <!-- <div class="cancelorder fei" v-if="list.status==5">交易关闭</div> -->
@@ -114,6 +114,16 @@ import {modularService} from '../../service/modularService'
       goactivity:function(id,actId){
 
          this.$router.push({path:"/ticket",query:{id:id,actId:actId}}) 
+      },
+      gopayment:function(orderNo,money){
+          // console.log(orderNo)
+          // return false
+
+          // this.$router.push({name:'payment',params:{orderNo:orderNo,type:2,money:money}})
+          if(money !=0){
+            this.$router.push({name:'payment',params:{id:orderNo,type:2}})
+          }
+          
       },
       //获取我的已购
       getOrdersUser (){
@@ -346,7 +356,7 @@ import {modularService} from '../../service/modularService'
 
                  	 }
                  }
-                 .payment{
+                 .paymentp{
                    font-size: 12px;
                    color: #505050;
                    line-height: 16px;

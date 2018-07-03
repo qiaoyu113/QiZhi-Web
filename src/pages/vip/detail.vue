@@ -7,26 +7,26 @@
                      <div class="tabbtnl bordernone" @click="govip">会员中心</div>
                      <div class="tabbtnl">我的积分</div>
                  </div>
-                 <div class="personal clearfix" v-if="personal==2">
-                    <div class="img"><img src="../../assets/image/hot.png" /></div>
+                 <div class="personal clearfix" v-if="personal==1">
+                    <div class="img"><img :src="picHead + data.headImg" /></div>
                     <div class="personalr">
                         <div class="name clearfix">
-                           <p>哎呦喂矮油喂</p><img src="../../assets/image/hot.png" />
+                           <p>{{data.nickName}}</p><img src="../../assets/image/hot.png" />
                         </div>
-                        <p class="branch">我的积分<span>208</span>分</p>
-                        <p class="time">积分有效期<span>2018-12-31</span>积分规则》</p>
+                        <!-- <p class="branch">我的积分<span>208</span>分</p> -->
+                        <!-- <p class="time">积分有效期<span>2018-12-31</span>积分规则》</p> -->
                     </div>
                  </div>
-                 <div class="gologin">
+                 <div class="gologin" v-if="personal==2">
                      <img class="gologinimg" src="../../assets/image/vipname.png" />
-                     <div class="gologinbtn">立即登录</div>
+                     <div class="gologinbtn" @click="gologin">立即登录</div>
                      <div class="gologinprompt">登录后可查看您的会员等级和积分哦</div>
                  </div>
 
              </div>
           </div>
           <div class="boxcon">
-             <div class="boxteble">
+         <div class="boxteble">
                  <div class="boxthead clearfix">
                       <div class="boxth boxth1">来源/用途说明</div>
                       <div class="boxth boxth2">积分变化</div>
@@ -158,6 +158,7 @@
   </div>
 </template>
 <script>
+import {modularService} from '../../service/modularService'
   export default {
     props: [],
     data () {
@@ -165,10 +166,19 @@
         title:'我的积分',
         personal:1,
         inde:10,
+        data:'',
       }
     },
+   
     components: {},
+    computed: {
+       
+            picHead() {
+                return this.$store.state.picHead
+            },
+        },
     mounted () {
+      this.obtain()
     },
     methods: {
        //分页
@@ -178,6 +188,37 @@
       },
       govip:function(){
          this.$router.replace({name:'vip'})
+      },
+       gologin:function(){
+         this.$router.replace({name:'login'})
+      },
+        obtain:function(){
+           let that =this
+           // let token = sessionStorage.getItem('token');
+           let token =localStorage.token
+           console.log(token)
+           if(token == '' || token == null || token == 'undefined'){
+               that.personal=2
+           }else{
+              that.getUserCenter()
+              that.personal=1
+           }
+       },
+      
+       //获取我的信息
+      getUserCenter (){
+        let that = this;
+        modularService.getUserCenter().then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                    console.log(res.data.datas.user)
+                       that.data=res.data.datas.user
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+              
+                 
+                  }
+        });
       },
     }
   }
@@ -306,6 +347,7 @@
            margin: 40px auto 0;
            padding-bottom: 100px;
            .boxteble{
+                display: none;
                 .boxthead{
                     background: #F9FAFC;
                     box-shadow: inset 0 0 0 0 rgba(224,230,237,0.50), inset -1px 1px 0 0 rgba(224,230,237,0.50), inset 1px -1px 0 0 rgba(224,230,237,0.50), inset 0 0 0 0 rgba(224,230,237,0.50);

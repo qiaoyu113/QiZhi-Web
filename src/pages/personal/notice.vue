@@ -2,8 +2,8 @@
   <div class="" id="notice" v-set-title="title">
     
     <div class="title clearfix">
-    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">通知<i v-if="tz!=true"></i></p></div>
-    	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">私信<i v-if="sx!=true"></i></p></div>
+    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">通知<i v-if="tz==true"></i></p></div>
+    	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">私信<i v-if="sx==true"></i></p></div>
     	<!-- <div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">日程消息</p></div> -->
     	<!-- <div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">更新消息</p></div> -->
     </div>

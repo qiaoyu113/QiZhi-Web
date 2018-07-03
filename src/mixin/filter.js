@@ -130,7 +130,7 @@ Vue.filter('stampFormate4',function(id) {
     return Y+M+D+h+m;
 })
 Vue.filter('money',function(id) {
-    return ((id / 100).toFixed(0) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');;
+    return ((id / 100).toFixed(2) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');;
 })
 Vue.filter('moneyFormate',function(v) {
     let l = 2

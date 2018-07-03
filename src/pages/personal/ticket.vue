@@ -9,8 +9,10 @@
            <div class="txt">3.本活动由「ID时候说的返回」提供票券服务，其拥有最终解释权。</div>
         </div>
         <div class="boxr" >
-          <div class="piao" v-for="(list,index) in data" @click="yy(index)">
-            <!-- <div class="boxr1">第一张</div> -->
+            <div class="lbtn" @click="btnleft()"><i class="el-icon-arrow-left"></i></div>
+            <div class="rbtn" @click="btnright()"><i class="el-icon-arrow-right"></i></div>
+          <div class="piao" v-for="(list,index) in data" @click="yy(index)" v-if="index==ticindex">
+            <div class="boxr1">第{{index+1}}张</div>
             <div class="boxr2"> <canvas id="canvas" class="canvas"></canvas></div>
             <div class="boxr3">票号: {{list.ticketNo}}</div>
             <div class="boxr4">名称：<span>{{orderDetails.activityTitle}}</span></div>
@@ -25,11 +27,11 @@
                                     </div>
             <div class="boxr8">票价：<span>¥{{list.ticket.price}}</span></div>
            </div>
-        <!--     <div class="index clearfix">
-               <div class="indexli"></div>
-               <div class="indexli"></div>
-               <div class="indexli"></div> 
-            </div> -->
+            <div class="index clearfix" :style="{marginLeft:(335-data.length*36) / 2 +'px'}">
+               <div class="indexli" v-for="(ti,index) in data" :class="index==ticindex?'lu':''"></div>
+               <!-- <div class="indexli"></div> -->
+               <!-- <div class="indexli"></div>  -->
+            </div>
         </div> 
 
      </div>
@@ -52,6 +54,7 @@ var QRCode = require('qrcode')
         data:'',
         ticketUrl:[],
         orderDetails:'',
+        ticindex:0,
       
       }
     },
@@ -67,7 +70,36 @@ var QRCode = require('qrcode')
        this.getActivitiesId()
     },
     methods: {
-    
+         //左
+         btnleft:function(){
+          let that=this
+            if(this.ticindex > 0){
+                  this.ticindex--
+                   setTimeout( () => {
+                       that.getQRCode(that.ticketUrl[that.ticindex])
+                        },0)
+            }else{
+                this.ticindex=this.data.length-1
+                 setTimeout( () => {
+                       that.getQRCode(that.ticketUrl[that.ticindex])
+                        },0)
+            }
+         },
+         //右
+         btnright:function(){
+           let that=this
+              if(this.ticindex < this.data.length-1){
+               this.ticindex++
+                setTimeout( () => {
+                       that.getQRCode(that.ticketUrl[that.ticindex])
+                        },0)
+              }else{
+                 this.ticindex=0
+                  setTimeout( () => {
+                       that.getQRCode(that.ticketUrl[that.ticindex])
+                        },0)
+              }
+         },
         getQRCode (url) {
         let that = this;
         let ele = document.getElementById('canvas');
@@ -82,7 +114,7 @@ var QRCode = require('qrcode')
         let that = this;
         let actId = that.$route.query.actId
         modularService.getActivitiesId(actId).then(function (res) {
-             console.log(res)
+             // console.log(res)
                   if(res.data.code==200){
                       that.orderDetails=res.data.datas
                       // that.ticketUrl="http://wetuc.dtfind.com/d/" + that.data[0].ticketUrl
@@ -97,7 +129,7 @@ var QRCode = require('qrcode')
         let that = this;
         let id = that.$route.query.id
         modularService.getMyticketsOrderNoid(id).then(function (res) {
-             // console.log(res)
+             console.log(res)
                   if(res.data.code==200){
                       that.data=res.data.datas
                        
@@ -154,21 +186,62 @@ var QRCode = require('qrcode')
         .boxr{
            float: left;
            margin-left: 70px;
-
+           position: relative;
+           .lbtn{
+              position: absolute;
+              left: 0px;
+              top: 254px;
+              width: 30px;
+              height: 45px;
+              background: rgba(0,0,0,.4);
+              text-align: center;
+              cursor: pointer;
+              i{
+                 line-height: 45px;
+                 font-size: 20px;
+                 text-align: center;
+                 color: #fff;
+              }
+           }
+           .rbtn{
+              position: absolute;
+              right: 0px;
+              top: 254px;
+              width: 30px;
+              height: 45px;
+              background: rgba(0,0,0,.4);
+              text-align: center;
+              cursor: pointer;
+              i{
+                 line-height: 45px;
+                 font-size: 20px;
+                 text-align: center;
+                 color: #fff;
+              }
+              
+           }
            .piao{
             width: 335px;
             height: 578px;
             background-image: url("../../assets/image/tic.png");
             background-size: 100% 100%;
             border-top: 1px solid #eee;
+            .boxr1{
+               font-size: 14px;
+               line-height: 20px;
+               color:#333;
+               margin-top: 12px;
+               text-align: center;
+            }
             .boxr2{
-               width: 164px;
+               width: 168px;
                height: 168px;
                // background:red;
-               margin:47px auto 0; 
+               margin:13px auto 0; 
                .canvas{
                  width: 100%;
                  height: 100%;
+                 margin: 10px 10px;
                }
             }
             .boxr3{
@@ -258,18 +331,30 @@ var QRCode = require('qrcode')
             }
           }
             .index{
+              float: left;
                 margin-top: 20px;
+                // margin: 20px auto 0;
+                // display:table;
+                // display:table;margin-left:auto;margin-right:auto;
+                // overflow: hidden;
+                // display:table;
                 .indexli{
                    float: left;
                    width: 36px;
                    height: 2px;
+                   // display:table-cell;vertical-align:middle;
+                   // *float:none;*display:inline;*zoom:1;
                    background: #ddd;
+                   // display: inline;
+                   // padding: 0;
                 }
                 .lu{
                    background: #20A0FF;
                 }
             }
 
+// ul {display:table;margin-left:auto;margin-right:auto;}
+// ul li{float:left;*float:none;*display:inline;*zoom:1;}
         }
 
 

@@ -297,6 +297,7 @@
                border: 1px solid rgba(224,224,224,0.50);
                box-shadow: 0 5px 4px 0 rgba(202,202,202,0.10);
                 border-radius: 2px;
+                cursor: pointer;
 
             }
       }
