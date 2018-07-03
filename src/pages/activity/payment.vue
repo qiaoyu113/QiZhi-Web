@@ -102,6 +102,7 @@
         orderTypeId:'',//活动号
         delAct:false,//删除提示
         refund:false,//判断是否能退款
+        actId:'',//判断是否能退款
       }
     },
     components: { },
@@ -338,6 +339,7 @@
                     //订单编号
                     that.orderNo = state.orderNo;
                     that.openTime = state.createTime
+                    that.actId = state.orderDetails[0].actId;
                     that.orderName = state.orderDetails[0].actName;
                     that.orderTime = state.orderDetails[0].actStartTime
                     that.detailMoney = state.orderDetails[0].price * state.orderDetails[0].timeNum;
@@ -529,12 +531,12 @@
         buyAlready:function() {
             const that = this
             indexService.mySinglePro({
-                type: 12,
-                id: that.$route.params.id, // 微信h5支付 ALIPAY_PC WX_NATIVE
+                type: that.orderType,
+                id: that.actId, // 微信h5支付 ALIPAY_PC WX_NATIVE
             }).then(function (res) {
                 if(res.data.datas.result == true){
                     that.showzhezhao = true
-                    // that.$router.push({name:'singlePro',params:{id:that.$route.params.id}})
+                    that.$router.push({name:'purchase'})
                 } else {
                     that.showzhezhao = false
                 }
