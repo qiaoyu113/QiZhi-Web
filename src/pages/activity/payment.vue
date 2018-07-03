@@ -109,10 +109,10 @@
     computed: {
     },
     mounted: function() {
-
         let that = this;
         that.orderNo = String(that.$route.params.id);
         that.orderType = this.$route.params.type;
+        console.log(that.orderType);
         if(!that.orderNo){
             that.orderNo = window.localStorage.getItem("payOrderNo");
         }
@@ -120,7 +120,7 @@
             that.orderType = window.localStorage.getItem("orderType");
         }
         //VIP会员
-        if(that.orderType === '3'){
+        if(that.orderType == '3'){
             indexService.orderItem(that.orderNo).then(function (res) {
                 if(res.data.success){
                     let state = res.data.datas;
@@ -186,7 +186,7 @@
                 }
             })
             //知识订单
-        }else if(that.orderType === '1'){
+        }else if(that.orderType == '1'){
             indexService.orderItem(that.orderNo).then(function(res){
                 if(res.data.success){
                     let state = res.data.datas;
@@ -249,7 +249,7 @@
 //                        alert(res.data.message)
                 }
             })
-        }else if(that.orderType === '5'){
+        }else if(that.orderType == '5'){
             //直播
             indexService.orderItem(that.orderNo).then(function (res) {
                 if(res.data.success){
@@ -296,7 +296,8 @@
 //                        alert(res.data.message)
                 }
             })
-        }else if(that.orderType === '2'){//活动
+        }else if(that.orderType == '2'){//活动
+            console.log(1);
             indexService.orderItem(that.orderNo).then(function (res) {
                 that.refund = res.data.datas.refund;
                 if(res.data.success){
@@ -394,7 +395,7 @@
 //                        alert(res.data.message)
                 }
             })
-        }else if(that.orderType === '10'){//退款状态
+        }else if(that.orderType == '10'){//退款状态
             indexService.orderItem(that.orderNo).then(function (res) {
                 if(res.data.success){
                     let state = res.data.datas;
