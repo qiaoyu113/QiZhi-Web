@@ -43,6 +43,10 @@ export const indexService = {
     postFollow: function(params){
         return axios.post('/myFollow/'+params.adminId,qs.stringify(params))
     },
+    //isFollowMain是否关注社群号
+    isFollowMain: function(params){
+        return axios.get('/isFollow'+ this.getParam(params))
+    },
     
     // 点击订阅产品包价格查询
     subscribeOrder: function(params){

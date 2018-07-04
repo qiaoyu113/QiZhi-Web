@@ -2,6 +2,7 @@
   <div id="navBar" v-bind:class="{'dingwei':this.$route.name=='home','backcolor1 bordbu1':this.$route.name=='home' && ticking==false}">
     <div class="nav_center">
         <div id="img" v-bind:class="{'backlogo':this.$route.name=='home'&& ticking==false}" @click="goHome()"></div>
+        <div class="shu"></div>
         <!-- <img src="../../assets/image/common/logo.png" alt=""> -->
         <div class="nav_ul">
             <router-link :to="{name:'home'}" v-bind:class="{'li_red':current1}">首页<span v-if="current1" class="select_line"></span></router-link>
@@ -195,13 +196,14 @@
     z-index: 100;
     height: 60px;
     width: 100%;
-    background: #fff;
-    box-shadow: inset 0 -1px 0 0 rgba(224,224,224,0.50);
+    background: #FFFFFF;
+    box-shadow: 0 5px 4px 0 rgba(201,201,201,0.10), inset 0 -1px 0 0 rgba(224,224,224,0.50);
     .nav_center{
       margin:0 auto;
       width: 90%;
-      min-width:1200px;
-      max-width:1400px;
+      width: 1200px;
+      // min-width:1200px;
+      // max-width:1400px;
       height: 100%;
       position: relative;
       .layer{
@@ -214,21 +216,21 @@
        
         border:1px solid #e0e0e0;
         i{
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    left: 50%;
-    top: -5px;
-    margin-left: -5px;
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    background-color: #fff;
-    border-top: 1px solid #e0e0e0;
-    border-right: 1px solid #e0e0e0;
-    display: inline-block;
+          width: 10px;
+          height: 10px;
+          position: absolute;
+          left: 50%;
+          top: -5px;
+          margin-left: -5px;
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+          background-color: #fff;
+          border-top: 1px solid #e0e0e0;
+          border-right: 1px solid #e0e0e0;
+          display: inline-block;
         }
         ul{
            padding: 4px 10px;
@@ -256,7 +258,7 @@
       }
       .fabu{
         float: right;
-        font-size: 14px;
+        font-size: 15px;
         display: inline-block;
         padding: 4px 15px;
         margin-top: 15px;
@@ -264,23 +266,36 @@
         border: 1px solid #389BFF;
         border-radius: 20px;
       }
+      .fabu:hover{
+        background: -webkit-linear-gradient(-5deg, #22a7f0 0%, #3a75c2 100%);
+        color: #ffffff;
+        border: 1px solid #389BFF;
+      }
       .icon-pep{
         display: inline-block;
         float: right;
         color: #B2B2B2;
         margin-top: 17px;
         font-size: 20px;
-        margin-left: 30px;
+        margin-left: 25px;
       }
       #img{
         margin-top: 13px;
         width:136px;
         height:34px;
         float: left;
+        margin-right: 22px;
         background-image: url('../../assets/image/logo.png');
         background-repeat: no-repeat;
         background-size:cover;
         cursor:pointer;
+      }
+      .shu{
+        width: 1px;
+        height: 60px;
+        opacity: 0.5;
+        background: #D8D8D8;
+        float: left;
       }
       #vip{
         float: right;
@@ -304,29 +319,29 @@
           margin-left: 45px;
           height: 100%;
           line-height: 60px;
-          font-size: 14px;
+          font-size: 15px;
           color: #4E4E4E;
           letter-spacing: 1.17px;
           .select_line{
             position: absolute;
-            left:-10px;
-            top: 50%;
-            transform: translateY(-50%);
+            left:50%;
+            bottom: 0;
+            transform: translateX(-50%);
             display: inline-block;
-            width: 4px;
-            height: 4px;
+            width: 32px;
+            height: 3px;
             background: #389BFF;
           }
         }
       }
       #nav_search{
         cursor: pointer;
-        padding: 6px 15px;
+        padding: 6px 0px;
         margin-top: 13px;
-        margin-left: 20px;
+        margin-left: 25px;
         float: right;
         display: inline-block;
-        font-size: 14px;
+        font-size: 15px;
         color: #7F7F7F;
         letter-spacing: 1.33px;
         .icon-sousuo{
@@ -363,7 +378,7 @@
         float: right;
         line-height: 60px;
         height: 60px;
-        font-size: 14px;
+        font-size: 15px;
         color: #7F7F7F;
         padding-left: 3px;
       }

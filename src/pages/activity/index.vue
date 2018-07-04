@@ -360,6 +360,7 @@ import {indexService} from '../../service/indexService'
         width: 37px;
         border-radius: 0px;
       }
+      .el-radio__label{font-size:14px;}
       
   }
 </style>

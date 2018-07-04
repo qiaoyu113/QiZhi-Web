@@ -54,6 +54,6 @@
 .recommendauth_list_right .cared{background:#fafafa;border-radius:27px;width:73px;height:32px;font-size:12px;color:#389bff;line-height: 32px;text-align: center}
 .recommendauth_list_right .cared i{display:inline-block;background: url("../../assets/image/checked.png");width: 12px;height: 10px}
 .recommendauth_list_more{text-align: center;width: 100%;background:#ffffff;height: 80px;line-height: 80px}
-.recommendauth_list_more .see-more{display:inline-block;background:url("../../assets/image/see-more.png");border-radius:46px;width:280px;height:34px;line-height: 34px;font-size:14px;color:#999999;text-align:center;margin: 0 auto;cursor: pointer;margin-top:20px;}
+.recommendauth_list_more .see-more{color:#22a7f0;display:inline-block;background:url("../../assets/image/seemore.png");border-radius:46px;width:280px;height:34px;line-height: 34px;font-size:14px;text-align:center;margin: 0 auto;cursor: pointer;margin-top:20px;}
 .recommendauth_list_more .see-more:hover{box-shadow:0px 5px 5px 0px rgba(0,0,0,0.10);/*box-shadow:0px 20px 30px 0px rgba(0,0,0,0.10);*/}
 </style>

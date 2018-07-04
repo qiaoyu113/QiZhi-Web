@@ -489,7 +489,7 @@
     body{background:@bodyBgColor;}
     .live-trade-detail{
         width: 1200px;
-        margin: 25px auto;
+        margin: 60px auto;
         .activity-dh {
             width: 1200px;
             margin: 25px auto;
@@ -513,6 +513,7 @@
             }
             .el-table__row{
                 font-size:14px;
+                cursor: pointer;
             }
             .el-table thead th {
                 font-size: 14px;
@@ -542,6 +543,7 @@
                     padding: 8px 0;
                     width: 90px;
                     float: right;
+                    cursor: pointer;
                 }
                 .total{
                     width:100px;display:inline-block;

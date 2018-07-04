@@ -1,12 +1,12 @@
 <template>
   <div class="" id="activity_detail">
     <!--导航-->
-    <div class="activity-dh">
+    <!-- <div class="activity-dh">
         <span class="layui-breadcrumb">
           <router-link :to="{name:'home'}">首页</router-link>&nbsp;>&nbsp;
           <router-link :to="{name:'activity'}">活动</router-link>&nbsp;>&nbsp;{{detail.activityTitle}}
         </span>
-    </div>
+    </div> -->
 
     <!--活动信息板块-->
     <div class="activity-message">
@@ -29,12 +29,12 @@
                 <div class="activity-message-bottom-right-1">
                     <span class="title">主办方：</span>
                     <p class="gs-name">
-                        <img src="">
-                        <span class="gs-con">{{detail.activityTitle}}</span><i class="i1"></i></p>
+                        <img :key="detail.pubUserHeadimg">
+                        <span class="gs-con">{{detail.publishUser}}</span><i class="i1"></i></p>
                     <!-- <a><p class="telephone">13521692060</p></a> -->
                     
                     <!--主办方信息-->
-                    <div class="sponsor">
+                    <!-- <div class="sponsor">
                         <div class="sponsor-top">
                             <div class="sponsor-left">
                               <div class="activity-message-bottom-right-3-left"><i class="iconfont icon-clock"></i></div>
@@ -48,22 +48,22 @@
                         <div class="sponsor-bottom">
                             <p class="sponsor-bottom-p">进入主页</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="activity-message-bottom-right-2">
-                    <div class="activity-message-bottom-right-3-left"><i class="iconfont icon-clock"></i></div>
+                    <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/shijian.png" alt=""> </div>
                     <div class="activity-message-bottom-right-2-right">
                         <p>{{detail.signupStartTime | stampFormate4}}至&nbsp;{{detail.signupEndTime | stampFormate4}}<span>{{state[detail.actApplyStauts]}}</span></p>
                         <!-- <p>2016-06-06 10:00 至 2016-08-31 14:00 报名截止</p> -->
                     </div>
                 </div>
                 <div class="activity-message-bottom-right-3">
-                    <div class="activity-message-bottom-right-3-left"><i class="iconfont icon-chanpin-didian"></i></div>
+                    <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/didian.png" alt=""></div>
                     <div class="activity-message-bottom-right-3-right" v-if="detail.newcity!=detail.newprov"><a>{{detail.prov}}{{detail.city}}{{detail.dist}}{{detail.activityAddress}}</a><span></span></div>
                     <div class="activity-message-bottom-right-3-right" v-if="detail.newcity==detail.newprov"><a>{{detail.city}}{{detail.dist}}{{detail.activityAddress}}</a><span></span></div>
                 </div>
                 <div class="activity-message-bottom-right-4">
-                    <div class="activity-message-bottom-right-3-left"><i class="iconfont icon-wode1"></i></div>
+                    <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/renwu.png" alt=""></div>
                     <div class="activity-message-bottom-right-4-right" v-if="detail.actApplyNum || detail.peoUpperLimit">
                         <p class="right-4-p1" v-if="detail.actApplyNum!= 0"><span>{{detail.actApplyNum}}</span>人已报名</p>
                         <p class="right-4-p2" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
@@ -78,12 +78,14 @@
                     </div>
                 </div>
                 <div class="activity-message-bottom-right-5">
-                    <i class="iconfont icon-duihuanma posicon"></i>
+                    <img src="../../assets/image/piao.png" alt="" style="position:absolute;left:4px;">
                     <div class="activity-message-bottom-right-5-right">
                         <div>
                             <el-radio-group v-model="radio1" @change="chooseTicket(radio1)">
-                                <el-radio :label="item.id" border v-bind:class="{'nofree':item.price == '0'}" class="wxz" v-for="(item,index) in tickets" :key="index">
-                                    <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
+                                <el-radio :label="item.id" border  class="wxz" v-for="(item,index) in tickets" :key="index">
+                                    <span class="pricename">{{item.name}}</span> 
+                                    <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
+                                    <span v-if="item.price==0" class="price">免费票</span>
                                  </el-radio>
                                  <el-radio disabled :label="item.id" border class="wxz nofree disable" v-for="(item,index) in notickets" :key="index">
                                     <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
@@ -544,7 +546,7 @@ import addInfo from './addInfo.vue'
       .icon-xianxingxing{font-size: 19px;margin-right: 5px;color: #B2B2B2;}
       .icon-xianxingzan{font-size: 19px;margin-right: 5px;color: #B2B2B2;}
     .activity-dh{width:1200px;margin:25px auto;}
-    .activity-message{position: relative;background:#ffffff;border:1px solid #dddddd;width:1136px;margin:auto;padding:26px 31px;}
+    .activity-message{position: relative;background:#ffffff;border:1px solid #dddddd;width:1136px;margin:auto;padding:26px 31px;margin-top: 40px;}
     .activity-message-top{box-shadow: inset 0 -2px 0 0 #EEEEEE;
     padding-bottom: 15px;
     overflow: hidden;
@@ -590,7 +592,7 @@ import addInfo from './addInfo.vue'
     .activity-message-bottom-right-1 .telephone{display:none;width:101px;height:28px;position:absolute;left:25px;top:-5px;font-size:12px;color:#ffffff;letter-spacing:0px;line-height:12px;text-align:center;line-height:28px;}
     .activity-message-bottom-right-2{background:#ffffff;box-shadow:inset 0px -1px 0px 0px #f5f5f5;width:656px;height:50px;margin-top:10px;}
     .activity-message-bottom-right-2-left{width:16px;height:16px;float:left;margin-top:20px;}
-    .activity-message-bottom-right-2-right{float:left;padding-top:18px;padding-left:20px;}
+    .activity-message-bottom-right-2-right{float:left;padding-top:13px;padding-left:20px;}
     .activity-message-bottom-right-2-right p:nth-child(1){font-size:15px;color:#555555;text-align:left;}
     .activity-message-bottom-right-2-right p:nth-child(1) span{background:#ffffff;border:1px solid #20A0FF;font-size:12px;color:#20A0FF;text-align:center;line-height:20px;padding:2px 6px;margin-left:10px;}
     .activity-message-bottom-right-2-right p:nth-child(2){font-size:13px;color:#999999;text-align:left;margin-top:10px;}
@@ -683,7 +685,7 @@ import addInfo from './addInfo.vue'
         }
         .pricename{
             position: absolute;
-            top: -6px;
+            top: -7px;
             transform: translateX(-50%);
             left: 50%;
         }
@@ -695,7 +697,7 @@ import addInfo from './addInfo.vue'
         }
         .price{position: absolute;font-size: 12px;
     color: #FC6651;
-    top: 11px;
+    top: 12px;
     transform: translateX(-50%);
     left: 50%;}
         .el-radio__input.is-checked+.el-radio__label{color:#409eff;}

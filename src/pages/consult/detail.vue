@@ -8,11 +8,11 @@
                 <div class="article-label">
                     <span class="user-role" style="cursor: pointer">{{$store.state.homeStore.article.originAuthor}}</span>
                     <span class="article-time">发表于{{$store.state.homeStore.article.createDate | dateFormate}}</span>
-                    <span class="shuxian">|</span>
-                    <router-link :to="{name:'news',params:{id:$store.state.homeStore.article.classId}}" v-if="canClick" class="category" style="cursor: pointer">{{$store.state.homeStore.article.classification}}</router-link>
+                    <!-- <span class="shuxian">.</span> -->
+                    <router-link :to="{name:'news',params:{id:$store.state.homeStore.article.classId}}" v-if="canClick" class="category" style="cursor: pointer">·&nbsp;&nbsp;{{$store.state.homeStore.article.classification}}</router-link>
                     <span v-if="!canClick" class="category">{{$store.state.homeStore.article.classification}}</span>
                 </div>
-                <blockquote v-html="$store.state.homeStore.article.summary"></blockquote>
+                <blockquote class="blockquote" v-html="$store.state.homeStore.article.summary"></blockquote>
                 <div class="html-content" v-html="$store.state.homeStore.article.content"></div>
                 <!--关联文章-->
                 <div class="article-associated"></div>
@@ -35,14 +35,14 @@
                         </div>
                         <canvas class="canvas" id="canvas1"></canvas>
                     </div>
-                    <div class="p1" style="height:60px;float:right;"><span style="margin-top:10px;float:left;">分享到:</span>
-                        <div class="bdsharebuttonbox" style="float:left;display:inline-block;transform: scale(.8);margin-left: -14px;">
+                    <div class="p1" style="height:60px;float:right;"><span style="margin-top:10px;float:left;">分享到 :</span>
+                        <div class="bdsharebuttonbox" style="float:left;display:inline-block;transform: scale(.8);margin-left:0px;">
                             <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                             <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
                             <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"></a>
                             <!-- <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a> -->
-                            <a href="#" class="bds_more" data-cmd="more"></a>
-                            <a class="bds_count" data-cmd="count"></a>
+                            <!-- <a href="#" class="bds_more" data-cmd="more"></a>
+                            <a class="bds_count" data-cmd="count"></a> -->
                         </div>
                     </div>
                     <div class="code-img hide"><img src="" width="280" height="280"></div>
@@ -52,19 +52,31 @@
         <div class="right">
           <!-- 热门文章 -->
           <div>
-              <div class="sm_list_head">
-                  <img src="../../assets/image/hot.png">
-                  <span>热门文章</span>
+              <div class="author">
+               <img class="authorimg" :src="picHead + author.hostLogo">
+                <div class="authorname">{{author.hostCompany}}</div>
+                <div class="authorcon">{{author.hostDesc}}</div>
+                <div class="authorbtn" @click="postFollow(author.id)" v-if="isFollow==false && id!='1'"><i class="iconfont icon-jiahao"></i> 关注</div>
+                <div class="hoverdiv" v-if="id!='1'">
+                    <div class="authorbtn1" v-if="isFollow==true"><i class="iconfont icon-yes"></i>已关注</div>
+                    <div class="authorbtn2" @click="open2(author.id)" v-if="isFollow==true">取消关注</div>
+                </div>
+                
+            </div>
+            <div class="fenge"></div>
+              <div class="sm_list_head" v-if="hotArticleLists.length!=0">
+                  <!-- <div class="blueline"></div> -->
+                  <span>最新文章</span>
               </div>
               <div class="sm_list_content">
-                  <hotPost v-for="(item,key) in hotArticleList" :item="item" :key="key"></hotPost>
+                  <hotPost v-for="(item,key) in hotArticleLists" :item="item" :key="key"></hotPost>
               </div>
           </div>
           <!-- 作者推荐 -->
-          <div v-if="hotAuthors.length!=0">
+          <!-- <div v-if="hotAuthors.length!=0">
               <div class="sm_list" style="margin-top: 40px">
                 <div class="sm_list_head">
-                  <img src="../../assets/image/feather.png">
+                  <div class="blueline"></div>
                   <span>作者推荐</span>
                 </div>
                 <recommendAuth v-for="(item,key) in hotAuthors" :item="item" :key="key"></recommendAuth>
@@ -74,13 +86,14 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
         </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+    import {modularService} from '../../service/modularService'
     import QRCode from 'qrcode'
     import {indexService} from '../../service/indexService'
     import homeList from '../../component/list/home-list.vue'
@@ -100,17 +113,17 @@
         function getNewDetai(){
             return indexService.getArticleDetail({id:route.params.id,}).then(function (res) {
                 store.state.homeStore.article = res.data;
-                console.log(res.data)
-            });
-        }
-        function getHotNews(){
-            return indexService.hotArticles({pageNo:1,pageSize:5,}).then(function (res) {
-                store.state.homeStore.hotArticleList = res.data.datas.datas;
+                store.state.homeStore.adminId = res.data.createUserId;
             });
         }
         function getAdminUsers(){
             return indexService.allAdminUser({pageNo:1,pageSize:5,adminType:1,}).then(function (res) {
                 store.state.homeStore.hotAuthors = res.data.datas.datas;
+            });
+        }
+        function getHotNews(){
+            return indexService.hotArticles({pageNo:1,pageSize:5,adminId:'5b03cb415a70005fde728993'}).then(function (res) {
+                store.state.homeStore.hotArticleList = res.data.datas.datas;
             });
         }
         return Promise.all([
@@ -132,7 +145,10 @@
         hotAuthors:{
             get: function () { return this.$store.state.homeStore.hotAuthors || []},
             set: function (newValue) {return newValue}
-        }
+        },
+        picHead() {
+            return this.$store.state.picHead
+        },
     },
     data () {
       return {
@@ -154,16 +170,32 @@
         canClick:false,
         isSave:false,
         isLike:false,
-        phoneRead:false
+        phoneRead:false,
+        data:[],
+        author:'',
+        id:'',//id
+        isFollow:false, //是否关注
+        hotArticleLists:{}
       }
     },
     components: {homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth},
     beforeCreate(){
         window._bd_share_main = "";
     },
+    watch: {
+        '$route' (to,from) {
+            this.$router.go(0)
+        },
+        title (cur, old) {
+            return cur;
+        }
+    },
     mounted () {
-        document.body.scrollTop = 0;
+        this.getHotNewsa()
+        document.body.scrollTop = 0
         let _this=this
+         _this.title = _this.newDetail.title
+         console.log('社群号',_this.hotArticleList)
         //引入百度分享
         _this.$nextTick(function () {
             window._bd_share_config ={
@@ -189,20 +221,131 @@
             s.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5);
             document.body.appendChild(s);
         })
+        _this.getMyFollowMain()
         _this.getType()
         _this.articleRead()
         _this.codelDetail()
         if(localStorage.token && localStorage.token!='undefined'){
             _this.saveIs()
             _this.likeIs()
+            if(_this.newDetail.createUserId != '1'){
+                _this.isFollowMain()
+            }
         }
         
         console.log(this.$store.state.homeStore.article)
     },
-
-
-
     methods: {
+        getHotNewsa(){
+            let that = this;
+            indexService.getArticles({pageNo:1,pageSize:5,adminId:that.newDetail.createUserId,queryType:1}).then(function (res) {
+                console.log(res.data.datas)
+                that.hotArticleLists = res.data.datas.datas
+            })
+        },
+        //是否关注某个主办方
+        isFollowMain (){
+            let that = this;
+            console.log('9999',that.id)
+            indexService.isFollowMain({adminId:that.newDetail.createUserId}).then(function (res) {
+                if(res.data.code==200){
+                    that.isFollow = res.data.datas
+                    console.log('是否关注',res.data.datas)
+                }
+            });
+        },
+        //获取社群号信息
+        getMyFollowMain (){
+            let that = this;
+            modularService.getMyFollowMain({type:2,adminId:that.id}).then(function (res) {
+                console.log(res)
+                    if(res.data.code==200){
+                        that.author=res.data.datas
+                        that.getActivities(that.author.id)
+                    }
+            });
+        },
+        
+        //获取社群号活动
+        getActivities (id){
+            let that = this;
+            modularService.getActivities({pageNo:that.page.num,pageSize:that.page.size,sortKey:'sortNumber',adminId:id,queryType:1}).then(function (res) {
+                console.log(res)
+                    if(res.data.code==200){
+                        // that.data=res.data.datas.datas
+                        // that.inde=res.data.datas.totalPage * 10
+                        // console.log(that.inde)
+                        // that.author=res.data.datas
+                            let newArr=res.data.datas.datas
+                        that.page.totalPage = res.data.datas.totalPage
+                        that.total=res.data.datas.total
+                        that.page.totalCount = res.data.datas.totalCount == null ? 0 : parseInt(res.data.datas.totalCount);
+                        if(newArr != null){
+                        for(let i=0;i<newArr.length;i++){
+                            that.data.push(newArr[i]);
+                        }
+                        }
+                        
+                
+                        if(res.data.datas.pageNo>=res.data.datas.totalPage){
+                            that.loadStatus = 2
+                        }else {
+                            that.loadStatus = 0
+                        }
+                
+                    
+                    }
+            });
+        },
+        //关注社群号
+        postFollow (id){
+            let that = this;
+            modularService.postFollow({adminId:id}).then(function (res) {
+                console.log(res)
+                    if(res.data.code==200){
+                        // that.getAllAdminUser()
+                            that.$message.success('关注成功');
+                            that.isFollow=true
+                        //  that.data=res.data.datas.datas
+                        // that.inde=res.data.datas.totalPage * 10
+                        // console.log(that.inde)
+                
+                    
+                    }
+            });
+        },
+        //取消关注
+        putCancleFollow(id){
+            let that=this
+            modularService.putCancleFollow({adminId:id}).then(function (res) {
+                console.log(res)
+                    if(res.data.code==200){
+                        that.$message.success('取消关注成功');
+                        that.isFollow=false
+                    
+                    }
+            });
+
+        },
+        // 取消关注弹出层
+        open2(id) {
+            this.$confirm('是否取消关注?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+            this.$message({
+                type: 'success',
+                message: '取消关注成功!'
+            });
+            this.putCancleFollow(id)
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消'
+            });          
+            });
+        },
         clickPhone:function(){
             this.phoneRead = !this.phoneRead
         },
@@ -359,7 +502,7 @@
         margin-top: 40px;
         overflow: hidden;
         .left{
-            width: 800px;
+            width: 760px;
             float: left;
             /*标签样式*/
             .praise1{
@@ -418,9 +561,9 @@
             .label-show{color:#3c4350;cursor:pointer;background:url("../../assets/image/border.png")no-repeat;background-position:center center;}
             .article-title{font-size:24px;color:#3c4350;line-height:34px;text-align:left;width: 800px;}
             .article-label{margin-top: 25px}
-            .article-label span{margin-right: 10px}
+            .article-label span{margin-right: 5px;font-size: 14px;color: #999999;}
             .article-label .category{font-size:14px;color:#389bff;text-align:left;}
-            .article-label .shuxian,.article-label .article-time{font-size:14px;color:#d0d0d0;text-align:left;}
+            .article-label .shuxian,.article-label .article-time{font-size:14px;text-align:left;}
             .article-label .user-role{font-size:14px;color:#999999;text-align:left;}
             .article-label .user-role:hover{text-decoration: underline}
             .article-keywords{margin-top: 35px}
@@ -444,32 +587,22 @@
             .bdshare-button-style1-32 a{margin-right: 10px;font-size: 20px;}
             // .img{background:url(../../images/cms/icon/img.png) no-repeat;}
             .detail-container{
-                blockquote{
+                .blockquote{
                     border: 0;
                     font-size: 100%;
                     font: inherit;
                     vertical-align: top;
                     position: relative;
                     margin: 0px;
-                    background-color: rgba(0,0,0,0.05);
-                    padding: 25px;
-                    padding-left: 56px;
-                    margin-bottom: 30px;
-                    margin-top: 20px;
-                    font-size: 16px;
-                    color: #333;
-                    line-height: 26px;
+                    padding: 15px;
+                    background: #fafafa;
+                    padding-left: 20px;
+                    margin-bottom: 20px;
+                    margin-top: 30px;
+                    font-size: 14px;
+                    color: #666;
+                    line-height: 20px;
                 }
-                blockquote:before{
-                    content: '“';
-                    position: absolute;
-                    top: 30px;
-                    left: 16px;
-                    font-family: "Arial";
-                    font-size: 70px;
-                    color: rgba(0,0,0,0.15);
-                }
-
             } 
         
         
@@ -477,6 +610,129 @@
         .right{
             width: 360px;
             float: right;
+            .fenge{
+                width: 320px;
+                height: 1px;
+                background: #ddd;
+                margin: 0 auto;
+            }
+            .author{
+                // margin-top: 40px;
+                width: 100%;
+                // height: 290px;
+                overflow: hidden;
+                padding-top: 25px;
+                background: #FAFAFA;
+                border-radius: 2px;
+                padding-bottom: 39px;
+                .authorimg{
+                    display: block;
+                    width: 100px;
+                    height: 100px;
+                    margin: 0 auto;
+                    border-radius: 50px;
+                    border: 2px solid #ddd;
+                }
+                .authorname{
+                    font-size: 16px;
+                    line-height: 18px;
+                    color: #505050;
+                    margin-top: 18px;
+                    text-align: center;
+                }
+                .authorcon{
+                    width: 285px;
+                    margin: 12px auto 0;
+                    // margin-top: 12px;
+                    font-size: 14px;
+                    line-height: 21px;
+                    // height: 42px;
+                    overflow: hidden;
+                    color: #999;
+                    text-align: center;
+                }
+                .authorbtn1{
+                    cursor: pointer;
+                    margin: 15px auto 0px;
+                    width: 144px;
+                    height: 32px;
+                    border: 1px solid;
+                    border-radius: 27px;
+                    color: #389BFF;
+                    text-align: center;
+                    font-size: 12px;
+                    line-height: 32px;
+                    background: #fff;
+                    // border-image: linear-gradient(-90deg, #508DFF 0%, #389BFF 34%, #26C5FE 89%, #3BB8FE 100%);
+                    .iconfont{
+                        font-size: 14px;
+                    }
+                }
+                .authorbtn2{
+                    cursor: pointer;
+                    margin: 15px auto 0px;
+                    width: 144px;
+                    height: 32px;
+                    background: #FFFFFF;
+                    border: 1px solid #E5E9F2;
+                    box-shadow: 0 2px 2px 0 rgba(132,146,166,0.05), 0 5px 4px 0 rgba(132,146,166,0.05);
+                    color: #5E6D82;
+                    text-align: center;
+                    font-size: 12px;
+                    line-height: 32px;
+                    display: none;
+                }
+                .hoverdiv:hover{
+                    .authorbtn1{display: none;}
+                    .authorbtn2{display: block;}
+                }
+                .authortit{
+                    margin-top: 4px;
+                    width: 100%;
+                    // height: 19px;
+                    .authortitl{
+                        width: 50%;
+                        float: left;
+                        border-right: 1px solid #7F7F7F;
+                        box-sizing: border-box;
+                        height: 14px;
+                        p{
+                        text-align: right;
+                        padding: 0 8px;
+                        font-size: 14px;
+                        line-height: 14px;
+                        color: #7F7F7F;
+                        } 
+                    }
+                    .authortitr{
+                        width: 50%;
+                        float: left;
+                        p{
+                        text-align: left;
+                        padding: 0 8px;
+                        font-size: 14px;
+                        line-height: 14px;
+                        color: #7F7F7F;
+                        }
+                    }
+                }
+                .authorbtn{
+                    cursor: pointer;
+                    margin: 15px auto 0px;
+                    width: 144px;
+                    height: 32px;
+                    background-image: linear-gradient(-90deg, #508DFF 0%, #389BFF 34%, #26C5FE 89%, #3BB8FE 100%);
+                    border: 1px solid #389BFF;
+                    border-radius: 27px;
+                    color: #fff;
+                    text-align: center;
+                    font-size: 12px;
+                    line-height: 32px;
+                    .iconfont{
+                        font-size: 14px;
+                    }
+                }
+            }
         }
     }
   }

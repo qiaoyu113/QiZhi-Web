@@ -34,9 +34,10 @@
 <style lang="less">
     /*文章小列表*/
     .sm_list{width: 360px;}
-    .sm_list_head{background:#ffffff;width:360px;height:45px;line-height: 45px;}
+    .blueline{position: absolute;left: 0;width: 3px;height: 45px;top:0px;background: #389BFF;}
+    .sm_list_head{background:#fafafa;width:360px;height:45px;line-height: 45px;position: relative;}
     .sm_list_head img{/*width:16px;height:20px;*/margin-left: 3px;margin-top: 10px;}
-    .sm_list_head span{font-size:16px;color:#3c4350;text-align:left;margin-left: 10px}
+    .sm_list_head span{font-size:16px;color:#3c4350;text-align:left;margin-left: 20px}
     .hotpost_list{display:block;background:#fafafa;width:360px;height:130px;cursor: pointer;
         .hotpost_list_left{margin: 25px 0 21px 22px;float: left;}
         .hotpost_list_left img{box-shadow:0px 5px 4px 0px rgba(0,0,0,0.10), inset 0px -1px 0px 0px rgba(196,196,196,0.50);width:120px;height:80px;}

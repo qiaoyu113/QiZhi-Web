@@ -12,13 +12,13 @@
             <div class="big-list-content" style="margin-top:20px;">
                 <home-list v-for="(item,index) in articleList" :item="item" :key="index"></home-list>
             </div>
-            <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="$store.state.homeStore.loadStatus" @loadMore="loadmore"></load-more>
+            <load-more v-if="articleList.length!=0" :page="page.num" :total="$store.state.homeStore.page.total" :status="$store.state.homeStore.loadStatus" @loadMore="loadmore"></load-more>
         </div>
         <div class="right">
           <!-- 热门文章 -->
           <div>
               <div class="sm_list_head">
-                  <img src="../../assets/image/hot.png">
+                  <div class="blueline"></div>
                   <span>热门文章</span>
               </div>
               <div class="sm_list_content">
@@ -29,7 +29,7 @@
           <div v-if="hotAuthors.length!=0">
               <div class="sm_list" style="margin-top: 40px">
                 <div class="sm_list_head">
-                  <img src="../../assets/image/feather.png">
+                  <div class="blueline"></div>
                   <span>作者推荐</span>
                 </div>
                 <recommendAuth v-for="(item,key) in hotAuthors" :item="item" :key="key"></recommendAuth>
@@ -228,7 +228,7 @@
             width: 800px;
             float: left;
             /*标签样式*/
-            .label{background:#ffffff;border:1px solid rgba(224,224,224,0.50);box-shadow:0px 5px 4px 0px rgba(224,224,224,0.10);width:768px;padding:21px 10px 20px 20px;/*margin-top:30px;*/overflow:hidden;}
+            .label{border:none;background:#fafafa;width:768px;padding:21px 10px 20px 20px;/*margin-top:30px;*/overflow:hidden;}
             .label a{float:left;}
             .label a li{width:92px;height:30px;line-height:20px;color:#666;box-sizing: border-box;padding:5px;text-align: center;margin:5px;cursor:pointer;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
             .label-show{color:#3c4350;cursor:pointer;background:url("../../assets/image/border.png")no-repeat;background-position:center center;}
@@ -236,19 +236,43 @@
                 display: none;
             }
             .el-radio.is-bordered{
-                padding: 5px 30px 5px 23px;
+                padding: 0;
                 border-radius: 2px;
                 box-sizing: border-box;
                 height: initial;
                 font-size: 14px;
                 width: initial;
-                margin: 0 7px;
+                margin: 0 20px;
                 line-height: initial;
+            }
+            .el-radio.is-bordered:nth-child(1){
+                margin-left: 0px;
+            }
+            .el-radio__input.is-checked+.el-radio__label{
+                color: #333333;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+            .el-radio__label{
+                font-size: 16px;
+                color: #666666;
+                letter-spacing: 1.5px;
+                position: relative;
+            }
+            .el-radio__input.is-checked+.el-radio__label::before{
+                content:'·';
+                color:#333333;
+                position: absolute;
+                left: -3px;
+            }
+            .el-radio.is-bordered{
+                border: none !important;
             }
         }
         .right{
             width: 360px;
             float: right;
+            
         }
     }
   }

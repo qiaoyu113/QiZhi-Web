@@ -449,6 +449,7 @@
             left: 0;
             box-sizing: border-box;
             .button {
+                cursor: pointer;
                 text-align: center;
                 border-radius: 1px;
                 height: 40px;

@@ -14,7 +14,8 @@
                 <!-- 热门文章 -->
                 <div>
                     <div class="sm_list_head">
-                        <img src="../../assets/image/hot.png">
+                        <div class="blueline"></div>
+                        <!-- <img src="../../assets/image/hot.png"> -->
                         <span>热门文章</span>
                     </div>
                     <div class="sm_list_content">
@@ -25,7 +26,8 @@
                 <div v-if="hotAuthors.length!=0">
                     <div class="sm_list" style="margin-top: 40px">
 						<div class="sm_list_head">
-							<img src="../../assets/image/feather.png">
+                            <div class="blueline"></div>
+							<!-- <img src="../../assets/image/feather.png"> -->
 							<span>作者推荐</span>
 						</div>
                         <recommendAuth v-for="(item,key) in hotAuthors" :item="item" :key="key"></recommendAuth>
@@ -219,6 +221,7 @@
         .right{
             width: 360px;
             float: right;
+            // background: #fafafa;
         }
     }
     

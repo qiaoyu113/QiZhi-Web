@@ -26,6 +26,7 @@ const homeStore = {
         activityOrders: [], // 活动
         activity: '', //
         actDetail:{},//详情页 
+        adminId:'',
 
     },
     mutations: {

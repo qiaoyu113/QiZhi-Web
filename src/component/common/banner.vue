@@ -112,22 +112,17 @@
             }
         }
         .describe{
-            -webkit-animation-name: fadeIn; /*动画名称*/
-            -webkit-animation-duration: 3s; /*动画持续时间*/
-            -webkit-animation-iteration-count: 1; /*动画次数*/
-            -webkit-animation-delay: 0s; /*延迟时间*/
-        }
-        .describe{
-            width: 650px;
+            width: 100%;
+            height: 70px;
+            background: rgba(0,0,0,0.50);
             position: absolute;
             bottom:0px;
-            left:50%;
-            transform:translate(-50%,-50%);
+            left:0px;
             p:nth-child(1){
                 width: 100%;
                 font-size: 20px;
                 color: #FFFFFF;
-                line-height: 40px;
+                line-height: 70px;
                 text-shadow: 0 2px 2px rgba(0,0,0,0.50);
                 margin-bottom: 10px;
                 text-align:center;
@@ -153,10 +148,10 @@
 
     }
     .el-icon-arrow-left{
-        font-size: 18px;
+        font-size: 26px;
     }
     .el-icon-arrow-right{
-        font-size: 18px;
+        font-size: 26px;
     }
     .el-carousel__arrow--left{
         left:0;
@@ -166,26 +161,33 @@
     }
     .el-carousel__arrow{
         border-radius: 0px !important;
-        background: rgba(0,0,0,0.40);
-        width: 30px;
-        height: 45px;
+        background: rgba(0,0,0,0.60);
+        width: 40px;
+        height: 60px;
     }
     .el-carousel__indicators{
         bottom: 15px;
+        display: flex;
+        width: 100%;
+        bottom: 0;
+        margin: 0;
+        background: transparent;
     }
     .el-carousel__indicator{
-        margin: 3px;
+        flex: 1;
+        // margin: 3px;
     }
     .el-carousel__indicator,.el-carousel__button{
-        width: 10px;
-        height: 10px;
+        width: 100%;
+        height: 5px;
         padding: 0;
-        border-radius: 10px;
-        border: 1px solid #FFFFFF;
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.30);
+        background: transparent;
+        // border-radius: 10px;
+        // border: 1px solid #FFFFFF;
+        // box-shadow: 0 2px 2px 0 rgba(0,0,0,0.30);
     }
     .el-carousel__indicator.is-active .el-carousel__button{
-        background: #FFFFFF;
+        background: #20A0FF;
     }
     .el-carousel__item h3 {
         color: #475669;
