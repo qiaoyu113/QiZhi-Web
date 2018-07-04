@@ -532,11 +532,8 @@
         },
         buyAlready:function() {
             const that = this
-            indexService.mySinglePro({
-                type: that.orderType,
-                id: that.actId, // 微信h5支付 ALIPAY_PC WX_NATIVE
-            }).then(function (res) {
-                if(res.data.datas.result == true){
+            indexService.orderItem(that.orderNo).then(function (res) {
+                if(res.data.datas.status == 3){
                     that.showzhezhao = true
                     that.$router.push({name:'purchase'})
                 } else {
