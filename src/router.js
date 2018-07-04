@@ -44,6 +44,7 @@ const author = (resolve) => {require(['./pages/concern/author.vue'],resolve)}
 // 活动
 const activity = (resolve) => {require(['./pages/activity/index.vue'],resolve)}
 const activityDetail = (resolve) => {require(['./pages/activity/detail.vue'],resolve)}
+const createOrder = (resolve) => {require(['./pages/activity/create-order.vue'],resolve)}
 const payment = (resolve) => {require(['./pages/activity/payment.vue'],resolve)} //支付页面
 // 付费读
 const subject = (resolve) => {require(['./pages/subject/index.vue'],resolve)}
@@ -63,8 +64,11 @@ const follow = (resolve) => {require(['./pages/personal/follow.vue'],resolve)}
 const code = (resolve) => {require(['./pages/personal/code.vue'],resolve)}
 const notice = (resolve) => {require(['./pages/personal/notice.vue'],resolve)}
 const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
+const ticket = (resolve) => {require(['./pages/personal/ticket.vue'],resolve)}
 
 
+const alipay = (resolve) => {require(['./pages/activity/alipay.vue'],resolve)} //支付宝支付
+const paySuccess = (resolve) => {require(['./pages/activity/payOk.vue'],resolve)} //支付成功
 
 
 // 登录注册
@@ -95,13 +99,16 @@ const routers = [
     {name: 'keywords',path:'/keywords/:id',component: keywords},
     // 关注
     {name: 'concern',path:'/concern',component: concern},
-    {name: 'concernDetail',path:'/concern/:id',component: concernDetail},
+    {name: 'concernDetail',path:'/concern/detail',component: concernDetail},
     {name: 'author',path:'/author/:id',component: author},
     
     // 活动
     {name: 'activity',path:'/activity',component: activity},
     {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
-    {name: 'payment',path:'/:lang/productions/payment/:id',component: payment},
+    {name: 'createOrder', path:'/order/:type/:comNo',component:createOrder},
+    {name: 'payment',path:'/payment/:id/:type',component: payment},
+    {name: 'alipay',path:'/alipay',component: alipay},
+    {name: 'paySuccess',path:'/paySuccess',component: paySuccess},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
@@ -110,6 +117,9 @@ const routers = [
     // 会员
     {name: 'vip',path:'/vip',component: vip},
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
+     //电子票
+    {name: 'ticket',path:'/ticket',component: ticket},
+
     //个人中心
     // {name: 'personal',path:'/personal',component: personal},
     {name: 'personal',path:'/personal',component: personal,redirect:'/personal/purchase',

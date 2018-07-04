@@ -6,7 +6,7 @@
     	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">主办方</p></div>
     </div>
     <div class="box clearfix">
-       <div class="row" v-for="list in data">
+       <div class="row" v-for="list in data" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
        	   <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
        	   <div class="rowtitle">{{list.hostCompany}}</div>
@@ -52,7 +52,6 @@
       }
     },
     computed: {
-       
             picHead() {
                 return this.$store.state.picHead
             },
@@ -154,7 +153,7 @@
   			 // padding:26px 16px 0;
   			 margin-top: 20px;
   			 margin-right: 20px;
-  			 background-image: url("../../assets/image/hot.png");
+  			 // background-image: url("../../assets/image/hot.png");
          background-size: 100% 100%;
          border-radius: 2px;
              .rowimg{
@@ -243,7 +242,7 @@
   		}
       .row:hover .rowbackimg{
 
-           background: rgba(221,243,255,0.10);
+           background: rgba(221,243,255,0.4);
       }
   		.row:nth-child(3n+3){
   			 margin-right: 0;

@@ -3,8 +3,8 @@
      <div class="personalbox clearfix">
      	 <div class="personalboxl">
      	 	 <div class="headimg">
-     	 	 	 <img src="../../assets/image/hot.png" />
-     	 	 	 <p>用户的名称</p>
+     	 	 	 <img :src="picHead + name.headImg" />
+     	 	 	 <p>{{name.nickName}}</p>
      	 	 </div>
      	 	 <div class="tab"> 
      	 	 	 <router-link :to="{name:'purchase'}"><div class="tabrow" :class="selectindex==1?'select':''"><p>我的购买</p></div></router-link>
@@ -26,18 +26,36 @@
   </div>
 </template>
 <script>
+ import {indexService} from '../../service/indexService'
   export default {
     props: [],
     data () {
       return {
         title:'个人中心',
         selectindex:7,
+        name:'',
       }
     },
     components: {},
+    computed: {
+            picHead() {
+                return this.$store.state.picHead
+            },
+        },
     mounted () {
+           this.getname()
     },
     methods: {
+        getname:function(){
+            let that=this
+
+             indexService.myCenter({
+                }).then(function (res) {
+               
+                  let User = res.data.datas
+                  that.name = User.user
+              })
+        }
       
     }
   }

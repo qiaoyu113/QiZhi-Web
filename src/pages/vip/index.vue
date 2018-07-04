@@ -11,7 +11,7 @@
                     <div class="img"><img :src="picHead + data.headImg" /></div>
                     <div class="personalr">
                         <div class="name clearfix">
-                           <p>哎呦喂矮油喂</p><img src="../../assets/image/hot.png" />
+                           <p>{{data.nickName}}</p><img src="../../assets/image/hot.png" />
                         </div>
                         <!-- <p class="branch">我的积分<span>208</span>分</p> -->
                         <!-- <p class="time" v-if="data.myVip.vip==true">积分有效期<span>{{data.myVip.endTime | stampFormate}}</span>积分规则》</p> -->

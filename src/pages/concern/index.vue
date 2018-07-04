@@ -8,17 +8,18 @@
     <div class="author">推荐作者</div>
     <div class="authorapply">申请成为作者</div>
     <div class="box clearfix">
-       <div class="row" v-for="list in data">
+       <div class="row" v-for="list in data" @click="goconcernDetail(list.id,list.isFollow)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
            <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
            <div class="rowtitle">{{list.hostCompany}}</div>
            <div class="rowcon">{{list.hostDesc}}</div>
            <div class="rowlabel clearfix">
-             <div class="rowlabell"><p>粉丝 {{list.subNum}} </p></div>
+             <div class="rowlabell"><p v-if="list.subNum!=null">粉丝 {{list.subNum}} </p>
+                                    <p v-if="list.subNum==null">粉丝 0 </p></div>
              <div class="rowlabelr"><p> 文章 110 </p></div>
            </div>
-           <div class="rowbtn" @click="open2(list.id)" v-if="list.isFollow==true">已关注</div>
-           <div class="rowbtn" @click="postFollow(list.id)" v-if="list.isFollow==false"> + 关注</div>
+           <div class="rowbtn" @click="open2(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==true">已关注</div>
+           <div class="rowbtn" @click="postFollow(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==false"> + 关注</div>
            </div>
        </div>
      
@@ -60,6 +61,13 @@
            this.getAllAdminUser()
     },
     methods: {
+      // 
+      goconcernDetail:function(id,isFollow){
+        // console.log(id)
+        // return false
+          this.$router.push({path:"/concern/detail",query:{id:id,isFollow:isFollow}}) 
+          // this.$router.replace({name:'concernDetail'})
+      },
       titleindex:function(index){
               this.titlep=index
               this.page.num=1
@@ -106,6 +114,7 @@
       //关注社群号
       postFollow (id){
         let that = this;
+
         modularService.postFollow({adminId:id}).then(function (res) {
              console.log(res)
                   if(res.data.code==200){
@@ -140,7 +149,7 @@
              console.log(res)
                   if(res.data.code==200){
                      that.$message.success('取消关注成功');
-                     that.getMyFollow()
+                     that.getAllAdminUser()
                  
                   }
         });
@@ -196,13 +205,14 @@
       width: 1200px;
       margin: 0 auto;
       .row{
+        display:block;
          float: left;
          width: 277px;
          height: 314px;
          // padding:26px 16px 0;
          margin-top: 20px;
          margin-right: 20px;
-         background-image: url("../../assets/image/hot.png");
+         // background-image: url("../../assets/image/hot.png");
          background-size: 100% 100%;
          border-radius: 2px;
              .rowimg{
@@ -287,11 +297,13 @@
                border: 1px solid rgba(224,224,224,0.50);
                box-shadow: 0 5px 4px 0 rgba(202,202,202,0.10);
                 border-radius: 2px;
+                cursor: pointer;
+
             }
       }
       .row:hover .rowbackimg{
 
-           background: rgba(221,243,255,0.10);
+           background: rgba(221,243,255,0.4);
       }
       .row:nth-child(4n+4){
          margin-right: 0;

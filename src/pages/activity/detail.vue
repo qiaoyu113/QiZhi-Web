@@ -124,7 +124,7 @@
     <div class="typo-box">
         
     </div>
-
+      <add-info v-if="showAddInfo"  :postInfo="signInfo"></add-info>
     <!--活动提问标题-->
     <!-- <div class="quiz-title">
         <div class="quiz-text">活动提问</div>
@@ -265,6 +265,7 @@ import QRCode from 'qrcode'
 import share from '../../component/common/share.vue'
 import {commonService} from '../../service/commonService'
 import {indexService} from '../../service/indexService'
+import addInfo from './addInfo.vue'
   export default {
     // 添加以下代码
     metaInfo () {
@@ -313,9 +314,11 @@ import {indexService} from '../../service/indexService'
             summary: '',
             pics: ''
         },
+          showAddInfo:false,
+          signInfo:'',
       }
     },
-    components: {share},
+    components: {share,'add-info':addInfo},
     mounted () {
         //获取分享信息
         this.$refs.myShare.title = this.detail.activityTitle;
@@ -323,9 +326,14 @@ import {indexService} from '../../service/indexService'
         this.$refs.myShare.pics = this.$store.state.picHead + this.detail.activityPoster;
         this.getTickets() //订单信息
         this.codelDetail() //手机二维码
+        let that = this;
         if(localStorage.token && localStorage.token!='undefined'){
             this.saveIs()
             this.likeIs()
+            indexService.signActivity({actId:that.detail.id}).then(function(res){
+                that.signInfo = res.data.datas
+            })
+
         }
         console.log(this.detail)
         window.scrollTo(0,0);
@@ -406,16 +414,17 @@ import {indexService} from '../../service/indexService'
             //接口未弄好
             indexService.checkTicket({actId:that.$route.params.id,ticketId:that.radio1,num:that.num1}).then(function (res) {
                 //如果可购买
-                // if(){
-                //     //下单
-                //     that.key = '' //获取key
-                //     that.putTicket()
-                // } else {
-                //     //提示后刷新页面
-                //     that.getDetails()
-                //     that.getTickets()
-                // }
-                // console.log('检查片',res.data.datas)
+                /*if(){
+                    //下单
+                    that.key = '' //获取key
+                    that.putTicket()
+                } else {
+                    //提示后刷新页面
+                    that.getDetails()
+                    that.getTickets()
+                }*/
+                that.coded(res.data)
+                console.log('检查片',res.data.datas)
             });
         },
         putTicket(){
@@ -466,26 +475,44 @@ import {indexService} from '../../service/indexService'
         coded: function(item) {
             const that = this;
             if(item.code === 200){
+                that.showAddInfo=true;
 
             } else if (item.code === 517107){ //您有一个待支付订单,请先处理(datas会有待支付订单号) ===携带订单编号，跳转到订单页
-                that.$store.state.msg = {
-                    text: '您有一个待支付订单,请先处理',
-                    cb:'goOrder',
-                    type: 5
-                };
+                that.$confirm('您有一个待支付订单,请先处理!', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    that.goOrder()
+                }).catch(() => {
+
+                });
             } else if (item.code === 517109){ //您有一个待审核订单,请先处理(datas会有待审核订单号)  ===携带审核订单号，跳转到审核页面
-                that.$store.state.msg = {
-                    text: '您有一个待审核订单',
-                    cb:'goOrder',
-                    type: 5
-                };
+
+                that.$confirm('您有一个待审核订单,请先处理!', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    that.goOrder()
+                }).catch(() => {
+
+                });
             } else if (item.code === 517117){ ////当前票太抢手了,请刷新重试
-                commonService.autoCloseModal(that,item.message,1)
+                // commonService.autoCloseModal(that,item.message,1)
+                that.$message({
+                    type: 'info',
+                    message: item.message
+                });
                 setTimeout(function(){
                     that.$router.go(0)
                 },500)
             } else{ //当前票种已售罄,请选择其它票种 === 刷新活动详情页
-                commonService.autoCloseModal(that,item.message,1)
+                // commonService.autoCloseModal(that,item.message,1)
+                that.$message({
+                    type: 'info',
+                    message: item.message
+                });
             }
         },
     }

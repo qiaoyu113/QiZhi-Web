@@ -95,6 +95,14 @@ export const indexService = {
     getActList: function(params){
         return axios.get('/activities'+ this.getParam(params))
     },
+    // 活动
+    getColumns: function(params){
+        return axios.get('/columns'+ this.getParam(params))
+    },
+    // 作者/主办方
+    getAuthor: function(params){
+        return axios.get('/allAdminUser'+ this.getParam(params))
+    },
     // 活动详情
     getActDetail:function(params){
         return axios.get('/activities/'+params.activityId)
@@ -111,11 +119,34 @@ export const indexService = {
     getDictionary:function(params){
         return axios.get('/dictionarys/'+params.classId)
     },
-
     //支付页面
     //选择票种后初步检查是否可购
     checkTicket: function(params){
         return axios.post('/activities/'+params.actId+'/check',qs.stringify(params))
+    },
+    /* 获取列表 */
+    postApplyInfo: function (params) {
+        return axios.post('/activities/'+params.actId+'/apply/',qs.stringify(params))
+    },
+    /* 获取列表 */
+    createOrder: function (params) {
+        return axios.post('/activities/'+params.actId+'/order/',qs.stringify(params))
+    },
+    /* 获取列表 */
+    signActivity: function (params) {
+        return axios.get('/activities/'+params.actId+'/sign/'+this.getParam(params))
+    },
+    /* 获取列表 */
+    getOrder: function (orderNo) {
+        return axios.get('/orders/'+orderNo)
+    },
+    /* （本地）获取订单内容 */
+    getOderform: function (params) {
+        return axios.post('/orders/',qs.stringify(params))
+    },
+    /*   订单详情页请求  */
+    orderItem:function(id){
+        return axios.get('/orders/' + id)
     },
     //购买票下单去支付
     putOrder: function(params){

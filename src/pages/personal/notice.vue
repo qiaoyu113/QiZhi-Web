@@ -2,24 +2,19 @@
   <div class="" id="notice" v-set-title="title">
     
     <div class="title clearfix">
-    	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">通知</p></div>
-    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">私信</p></div>
-    	<div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">日程消息</p></div>
-    	<div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">更新消息</p></div>
+    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">通知<i v-if="tz==true"></i></p></div>
+    	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">私信<i v-if="sx==true"></i></p></div>
+    	<!-- <div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">日程消息</p></div> -->
+    	<!-- <div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">更新消息</p></div> -->
     </div>
     <div class="box">
-    	<div class="boxrow clearfix"><p class="boxrowl">贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息</p>
-    	<p class="boxrowr">2018-02-06 12:20</p>
+    	<div class="boxrow clearfix" v-for="list in data" @click="postInnerletter(list.id)">
+        <p class="boxrowl" :class="list.readStatus!=false ? 'ash':''">{{list.content}}</p>
+    	  <p class="boxrowr" :class="list.readStatus!=false ? 'ash':''">{{list.sendTime | stampFormate2}}</p>
     	</div>
-    	<div class="boxrow clearfix"><p class="boxrowl">贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息</p>
-    	<p class="boxrowr">2018-02-06 12:20</p>
-    	</div>
-    	<div class="boxrow clearfix"><p class="boxrowl">贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息</p>
-    	<p class="boxrowr">2018-02-06 12:20</p>
-    	</div>
-    	<div class="boxrow clearfix"><p class="boxrowl">贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息贾丹丹您好，非常开心您能注册我们的网站，我们现在有一个活动要不要参加呀，哈哈哈，营销类的消息</p>
-    	<p class="boxrowr">2018-02-06 12:20</p>
-    	</div>
+    
+      <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
+
     </div>
    
   </div>
@@ -31,35 +26,99 @@ import {modularService} from '../../service/modularService'
     data () {
       return {
         title:'消息通知',
-        titlep:1,
+        titlep:2,
         page:{
            num:1,
            size:10,
+           totalCount: 0,
+           totalPage:0,
         },
+        data:[],
+        loadStatus:0,
+        total:1,
+        tz:'',
+        sx:'',
       }
     },
     components: {},
     mounted () {
         this.getInnerletter()
+        this.getInnerletterIsunread()
     },
     methods: {
     	titleindex:function(index){
               this.titlep=index
+              this.page.num=1
+              this.data=[]
+              this.getInnerletter()
     	},
     	 //获取我的消息
       getInnerletter (){
         let that = this;
-        modularService.getInnerletter({pageNo: that.page.num, pageSize:that.page.size,type:1}).then(function (res) {
-             console.log(res)
+        modularService.getInnerletter({pageNo: that.page.num, pageSize:that.page.size,type:this.titlep}).then(function (res) {
+             // console.log(res)
                   if(res.data.code==200){
                       //  that.data=res.data.datas.datas
                       // that.inde=res.data.datas.totalPage * 10
                       // console.log(that.inde)
+                      let newArr=res.data.datas.datas
+                    that.page.totalPage = res.data.datas.totalPage
+                    that.total=res.data.datas.total
+                    that.page.totalCount = res.data.datas.totalCount == null ? 0 : parseInt(res.data.datas.totalCount);
+                     if(newArr != null){
+                       for(let i=0;i<newArr.length;i++){
+                        that.data.push(newArr[i]);
+                    }
+                     }
+             
+                    if(res.data.datas.pageNo>=res.data.datas.totalPage){
+                        that.loadStatus = 2
+                    }else {
+                        that.loadStatus = 0
+                    }
               
                  
                   }
         });
       },
+       // 获取个人站内信息
+      getInnerletterIsunread(){
+        let that=this;
+        modularService.getInnerletterIsunread().then(function(res){
+            console.log(res)
+          if(res.data.success){
+            // let yule = res.data.datas.user.numItem.unreadMsgNum
+            that.tz=res.data.datas[1]
+            that.sx=res.data.datas[2]
+            // console.log()
+
+             console.log(that.tz)
+             console.log(that.sx)
+          }else{
+
+             }
+          })
+        },
+      //消息已读
+      postInnerletter (id){
+        let that = this;
+        console.log(id)
+        modularService.postInnerletter({letterIds:id}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                       
+                 
+                  }
+        });
+      },
+
+      loadmore(i){
+                //loadstatus为加载状态，每次收到接口数据后要修改该状态
+                let that = this
+                that.$store.state.homeStore.loadStatus = 1
+                that.page.num = i
+                that.getInnerletter()
+            }
       
     }
   }
@@ -80,7 +139,18 @@ import {modularService} from '../../service/modularService'
          	 	color: #999;
          	 	line-height: 58px;
          	 	cursor: pointer;
-         	 	
+            position: relative;
+         	 	i{
+              display: block;
+              position: absolute;
+              top: 18px;
+              right: -4px;
+              width: 8px;
+              height: 8px;
+              border-radius: 4px;
+              background: red;
+
+            }
          	 	// box-sizing: border-box;
          	 	// box-sizing: content-box;
          	 }
@@ -106,12 +176,14 @@ import {modularService} from '../../service/modularService'
              	 overflow: hidden;
              	 text-overflow:ellipsis;
                  white-space:nowrap;
-
              }
              .boxrowr{
              	 float: right;
              	 color: #333;
              	 line-height: 60px;
+             }
+             .ash{
+                color: #999;
              }
   		}
   	}
