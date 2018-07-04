@@ -99,7 +99,18 @@ export const modularService = {
    getActivitiesId: function(id){
         return axios.get('/activities/'+ id)
     },
-
+      // 获取vip价格
+   getVips: function(){
+        return axios.get('/vips')
+    },
+     // 确认订单  
+    putVipsOrderconfirm: function (params) {
+        return axios.put('/vips/orderconfirm'+this.getParam(params))
+    },
+     // 生成订单  
+    putVipsOrdersubmit: function (params) {
+        return axios.put('/vips/ordersubmit'+this.getParam(params))
+    },
 
 
 

@@ -11,7 +11,7 @@
         	 	 <p class="h3">{{list.orderDetails[0].actName}}</p>
         	
         	 	 <p class="time">开始时间 : {{list.orderDetails[0].actStartTime | stampFormate2}}</p>
-        	 	 <p class="place">活动地点 : {{list.orderDetails[0].address}}<span>票价 : <i>￥{{list.orderDetails[0].ticketPrice | money}}</i></span></p>
+        	 	 <p class="place clearfix">活动地点 : {{list.orderDetails[0].address}}<span>票价 : <i>￥{{list.orderDetails[0].ticketPrice | money}}</i></span></p>
 
         	 </div>
         	 <div class="roworder">
@@ -36,8 +36,8 @@
               <p class="paymentp" v-if="list.status ==18">已发货</p>
               <p class="paymentp" v-if="list.status ==19">交易完成</p>
           
-             <div class="ticket touming" v-if="list.status !=3 && list.status !=9 && list.status !=5 && list.status !=19">查看电子票</div>
-             <div class="ticket" v-if="list.status ==3 || list.status ==5 || list.status ==9 || list.status ==19" @click="goactivity(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
+             <div class="ticket touming" v-if="list.status !=3 && list.status !=9">查看电子票</div>
+             <div class="ticket" v-if="list.status ==3 || list.status ==9" @click="goactivity(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
 
         	 </div>
            <div class="floftdiv">
@@ -319,8 +319,10 @@ import {modularService} from '../../service/modularService'
   		 	 	 	 color: #999;
   		 	 	 	 line-height: 19px;
   		 	 	 	 margin-top: 10px;
+             width: 320px;
   		 	 	 	 span{
-  		 	 	 	 	 margin-left: 74px;
+               float: right;
+  		 	 	 	 	 margin-left: 10px;
   		 	 	 	 	 i{
   		 	 	 	 	 	 color: #20A0FF;
   		 	 	 	 	 }

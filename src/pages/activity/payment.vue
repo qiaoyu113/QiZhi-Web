@@ -157,15 +157,16 @@
                         that.statePay = '11';
                     }
                     //订单编号
-                    that.orderNo = parseInt(state.orderNo);
+                    that.orderNo = state.orderNo;
                     that.openTime = state.createTime
                     that.orderName = state.orderDetails[0].name;
                     that.orderPrice = state.orderDetails[0].price;
                     that.orderTime = state.orderDetails[0].endTime
                     that.detailMoney = state.orderDetails[0].price * state.orderDetails[0].timeNum;
                     that.detailMoneyAll = state.amount;
-                    that.detailName = state.orderDetails[0].applyInfo.name
-                    that.detailPhone = state.orderDetails[0].applyInfo.phone
+                    // that.detailName = state.orderDetails[0].applyInfo.name
+                    // that.detailPhone = state.orderDetails[0].applyInfo.phone
+                    that.selectPay(1)
                     let userId = state.userId
                     indexService.myCenter().then(function(res){
                         let user = res.data.datas.user;
