@@ -220,7 +220,7 @@
                         that.statePay = '3';
                     }
                     //订单编号
-                    that.orderNo = parseInt(state.orderNo);
+                    that.orderNo = state.orderNo;
                     that.orderImg = state.orderDetails[0].cover;
                     that.orderWeek = state.orderDetails[0]
                     that.openTime = state.createTime
