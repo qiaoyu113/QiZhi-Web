@@ -11,7 +11,7 @@
                     <div class="img"><img :src="picHead + data.headImg" /></div>
                     <div class="personalr">
                         <div class="name clearfix">
-                           <p>{{data.nickName}}</p><img src="../../assets/image/hot.png" />
+                           <p>{{data.nickName}}</p><img src="../../assets/image/viptit.png" v-if="data.myVip.vip==true"/>
                         </div>
                         <!-- <p class="branch">我的积分<span>208</span>分</p> -->
                         <!-- <p class="time" v-if="data.myVip.vip==true">积分有效期<span>{{data.myVip.endTime | stampFormate}}</span>积分规则》</p> -->
@@ -30,18 +30,18 @@
                <div class="openup">
                   <p class="title">会员套餐</p>
                   <div class="block clearfix">
-                     <div class="blockli">
-                        <div class="money">30天/<span>10元</span></div>
-                        <div class="btn">立即开通</div>
+                     <div class="blockli" v-for="list in vipdata">
+                        <div class="money">{{list.time}}<i v-if="list.per==1">年</i><i v-if="list.per==2">月</i>/<span>{{list.price_s}}元</span></div>
+                        <div class="btn" @click="gopayment(list.id,list.vipId)">立即开通</div>
                      </div>
-                     <div class="blockli">
+                  <!--    <div class="blockli">
                         <div class="money">180天/<span>58元</span></div>
                         <div class="btn">立即开通</div>
                      </div>
                      <div class="blockli">
                         <div class="money">365天/<span>116元</span></div>
                         <div class="btn">立即开通</div>
-                     </div>
+                     </div> -->
                   </div>
                </div>
                <div class="zx">
@@ -94,6 +94,33 @@ import {modularService} from '../../service/modularService'
         title:'会员中心',
         personal:1,
         data:'',
+        vipdata:[],
+        vip:[{
+          "time":"1",
+          "per":"2",
+          "price_s":"01",
+
+        },{
+          "time":"1",
+          "per":"2",
+          "price_s":"01",
+
+        },{
+          "time":"1",
+          "per":"2",
+          "price_s":"01",
+
+        },{
+          "time":"1",
+          "per":"2",
+          "price_s":"01",
+
+        },{
+          "time":"1",
+          "per":"2",
+          "price_s":"01",
+
+        }],
       }
     },
     computed: {
@@ -104,6 +131,7 @@ import {modularService} from '../../service/modularService'
         },
     mounted () {
        this.obtain()
+       this.getVips()
     },
     methods: {
       govipPoints:function(){
@@ -116,7 +144,7 @@ import {modularService} from '../../service/modularService'
            let that =this
            // let token = sessionStorage.getItem('token');
            let token =localStorage.token
-           console.log(token)
+           // console.log(token)
            if(token == '' || token == null || token == 'undefined'){
                that.personal=2
            }else{
@@ -124,15 +152,78 @@ import {modularService} from '../../service/modularService'
               that.personal=1
            }
        },
+       //订单弹出
+       gopayment(id,vipItemId) {
+        this.$confirm('您正在购买会员，确定开通会员吗?', '开通会员', {
+          confirmButtonText: '开通会员',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '去支付!'
+          });
+          this.putVipsOrderconfirm(id,vipItemId)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
+      },
+       //去付款
+       // gopayment:function(id,vipItemId){
+         // this.$router.push({name:'payment',params:{id:id,type:3}})
+         // this.putVipsOrderconfirm(id,vipItemId)
+       // },
       
        //获取我的信息
       getUserCenter (){
         let that = this;
         modularService.getUserCenter().then(function (res) {
+                  if(res.data.code==200){
+                    // console.log(res.data.datas.user)
+                       that.data=res.data.datas.user
+                      // that.inde=res.data.datas.totalPage * 10
+                      console.log(that.data)
+                  }
+        });
+      },
+      //确认订单
+      putVipsOrderconfirm:function(id,vipItemId){
+         let that=this
+         modularService.putVipsOrderconfirm({vipId:vipItemId,vipItemId:id}).then(function (res) {
              console.log(res)
                   if(res.data.code==200){
-                    console.log(res.data.datas.user)
-                       that.data=res.data.datas.user
+                    // console.log(res.data.datas.user)
+                       // that.vipdata=res.data.datas.vipItems
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+                      that.putVipsOrdersubmit(res.data.datas.key)
+                  }
+        });
+      },
+     //生成订单
+      putVipsOrdersubmit:function(key){
+         let that=this
+         modularService.putVipsOrdersubmit({key:key}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==211101){
+                    // console.log(res.data.datas.user)
+                       // that.vipdata=res.data.datas.vipItems
+                   that.$router.push({name:'payment',params:{id:res.data.datas,type:3}})
+                  }
+        });
+      },
+
+       //获取vip
+      getVips (){
+        let that = this;
+        modularService.getVips().then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                    // console.log(res.data.datas.user)
+                       that.vipdata=res.data.datas.vipItems
                       // that.inde=res.data.datas.totalPage * 10
                       // console.log(that.inde)
               
@@ -163,7 +254,7 @@ import {modularService} from '../../service/modularService'
                      float: left;
                      width: 114px;
                      height: 38px;
-                     border: 1px solid;
+                     border: 2px solid;
                      border-color: -webkit-linear-gradient(90deg,#474747, #A58455) 1 30;
                      border-color: -moz-linear-gradient(90deg,#474747, #A58455) 1 30;
                      border-image: linear-gradient(90deg,#474747, #A58455) 1 30;
@@ -205,9 +296,10 @@ import {modularService} from '../../service/modularService'
                           }
                           img{
                              float: left;
-                             margin-left: 20px;
-                             width: 105px;
-                             height: 24px;
+                             margin-left: 8px;
+                             margin-top: 5px;
+                             width: 32px;
+                             height: 15px;
                           }
                        }
                        .branch{
@@ -267,7 +359,8 @@ import {modularService} from '../../service/modularService'
            padding-bottom: 100px;
            .openup{
              width: 1100px;
-             height: 370px;
+             // height: 370px;
+             padding-bottom: 40px;
              margin: 0 auto;
              background: #FFFFFF;
              border: 1px solid #DDDDDD;
