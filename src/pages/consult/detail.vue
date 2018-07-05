@@ -31,7 +31,7 @@
                     <div v-show="phoneRead" class="phone">
                         <div class="top">
                             <span>扫描二维码在手机上继续阅读本文</span> 
-                            <i class="iconfont icon-guanbi" @click="clickPhone"></i>
+                            <i class="iconfont icon-guanbi2" @click="clickPhone"></i>
                         </div>
                         <canvas class="canvas" id="canvas1"></canvas>
                     </div>
@@ -174,7 +174,7 @@
         data:[],
         author:'',
         id:'',//id
-        isFollow:false, //是否关注
+        isFollow:'', //是否关注
         hotArticleLists:{}
       }
     },
@@ -246,7 +246,7 @@
         //是否关注某个主办方
         isFollowMain (){
             let that = this;
-            console.log('9999',that.id)
+            console.log('9999',that.newDetail.createUserId)
             indexService.isFollowMain({adminId:that.newDetail.createUserId}).then(function (res) {
                 if(res.data.code==200){
                     that.isFollow = res.data.datas
@@ -257,7 +257,7 @@
         //获取社群号信息
         getMyFollowMain (){
             let that = this;
-            modularService.getMyFollowMain({type:2,adminId:that.id}).then(function (res) {
+            modularService.getMyFollowMain({type:2,adminId:that.newDetail.createUserId}).then(function (res) {
                 console.log(res)
                     if(res.data.code==200){
                         that.author=res.data.datas
@@ -300,8 +300,8 @@
         //关注社群号
         postFollow (id){
             let that = this;
-            modularService.postFollow({adminId:id}).then(function (res) {
-                console.log(res)
+            if(localStorage.token && localStorage.token!='undefined'){
+                modularService.postFollow({adminId:id}).then(function (res) {
                     if(res.data.code==200){
                         // that.getAllAdminUser()
                             that.$message.success('关注成功');
@@ -312,7 +312,11 @@
                 
                     
                     }
-            });
+                });
+            } else {
+                that.$router.push({name:'login'})
+            }
+            
         },
         //取消关注
         putCancleFollow(id){
@@ -545,10 +549,9 @@
                     i{
                         position: absolute;
                         right: 15px;
-                        top: 15px;
-                        font-size: 0;
+                        top: 10px;
                         line-height: initial;
-                        font-size: 12px;
+                        font-size: 20px;
                         display: inline-block;
                         cursor: pointer;
                     }

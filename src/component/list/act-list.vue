@@ -13,7 +13,7 @@
                 <div class="activity-center-list-1-center">
                     <p class="p1">{{item.activityTitle}}</p>
                     <p class="p2"><span><i class="iconfont icon-wait" style="font-size:13px;"></i></span>{{item.actStartTime | stampFormate3}}</p>
-                    <p class="p3"><span><i class="iconfont icon-dangqianweizhi"></i></span>{{item.dist}}</p>
+                    <p class="p3"><span><img src="../../assets/image/dizhi.png" style="margin-top: 5px;margin-right: 5px;" alt=""> </span>{{item.city}} {{item.dist}}</p>
                     <!-- <p class="p4">收藏<span>(23)</span></p> -->
                 </div>
                 <div class="activity-center-list-1-bottom">

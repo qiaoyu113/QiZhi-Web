@@ -58,7 +58,8 @@
             },
         },
     mounted () {
-           this.getAllAdminUser()
+      window.scrollTo(0,0);
+      this.getAllAdminUser()
     },
     methods: {
       // 

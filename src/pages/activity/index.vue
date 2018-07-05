@@ -60,10 +60,10 @@
     </div>
     <div class="secondList">
       <el-select v-model="select1" placeholder="" @change="search()">
-        <el-option label="置顶活动" value="publishTime"></el-option>
+        <el-option label="综合排序" value="publishTime"></el-option>
         <el-option label="最新发布" value="actEndTime"></el-option>
         <el-option label="热门点击" value="actReadNum"></el-option>
-        <el-option label="最多参与" value="sortNumber"></el-option>
+        <el-option label="最近开始" value="sortNumber"></el-option>
       </el-select>
       <el-checkbox-group v-model="checked1" @change="search()">
         <el-checkbox label="0" border>仅免费</el-checkbox>
@@ -116,7 +116,7 @@ import {indexService} from '../../service/indexService'
     },
     asyncData({store,route}){
       function getType(){
-          return indexService.getDictionaries({type:5}).then(function (res) {
+          return indexService.getDictionaries({type:4}).then(function (res) {
             store.state.homeStore.actClass = res.data.datas
           });
       }

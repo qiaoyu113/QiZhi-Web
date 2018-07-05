@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="scroll" v-bind="{'minWidth':this.$route.name!='invitelogin'}">
-        <navbar v-if="show == true"></navbar>
+        <navbar v-if="show == true && navshow==true"></navbar>
         <router-view class="view" v-if="show == true"></router-view>
         <z-footer v-if="show == true"></z-footer>
     </div>
@@ -26,6 +26,7 @@
                 loginIs:null,
                 noinvite:false,
                 show:false,
+                navshow:true,
             }
         },
         components: {},
@@ -42,6 +43,9 @@
             // this.hasCommon()
             // this.loginWay();
             // this.hasInvite()
+            if(this.$route.name == 'activityPlace'){
+                this.navshow =false 
+            }
             this.$nextTick(function(){
                 this.show = true
             })
@@ -86,6 +90,6 @@
         margin-top: 60px;
         min-height:700px;
         overflow: hidden;
-        margin-bottom: 100px;
+        padding-bottom: 100px;
     }
 </style>

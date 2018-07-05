@@ -10,7 +10,7 @@
 
     <!--活动信息板块-->
     <div class="activity-message">
-        <p class="tuiguang"><i class="iconfont icon-iconfontdaohanggonggao"></i> 推广本活动，赚取积分！</p>
+        <!-- <p class="tuiguang"><i class="iconfont icon-iconfontdaohanggonggao"></i> 推广本活动，赚取积分！</p> -->
         <div class="activity-message-top">
           <p class="title">{{detail.activityTitle}}</p>
           <!-- <p class="browse">浏览：<span>234</span></p> -->
@@ -19,48 +19,30 @@
             <div class="activity-message-bottom-left">
               <div class="imgHead"><img v-if="detail.activityPoster != null" :src="detail.activityPoster | picTurn"></div>
                 <p class="p1">分享到：<share :option="myShareOption" ref="myShare"></share></p>
-                <p class="p2"><i class="iconfont icon-shouji1"></i> 手机访问二维码<i class="erweima" id="qrcode"></i>
-                    <div class="erweima">
+                <p class="p2">
+                    <i class="iconfont icon-shouji1"></i> 手机访问二维码
+                    <span class="erweima" style="display:inline-block;">
                         <canvas class="canvas" id="canvas1"></canvas>
-                    </div>
+                    </span>
                 </p>
             </div>
             <div class="activity-message-bottom-right">
                 <div class="activity-message-bottom-right-1">
                     <span class="title">主办方：</span>
-                    <p class="gs-name">
-                        <img :key="detail.pubUserHeadimg">
+                    <p class="gs-name" @click="enterPublish(detail.publishUserId)">
+                        <img :src="detail.pubUserHeadimg">
                         <span class="gs-con">{{detail.publishUser}}</span><i class="i1"></i></p>
-                    <!-- <a><p class="telephone">13521692060</p></a> -->
-                    
-                    <!--主办方信息-->
-                    <!-- <div class="sponsor">
-                        <div class="sponsor-top">
-                            <div class="sponsor-left">
-                              <div class="activity-message-bottom-right-3-left"><i class="iconfont icon-clock"></i></div>
-                            </div>
-                            <div class="sponsor-right">
-                                <div class="sponsor-p1">主办方名称</div>
-                                <div class="sponsor-p2">活动方的一些简介啥的就是简介最多显示三行，超出就省略，龙卷风代理商三行就够了。都寄过来时打开就够啦的四款赶脚啊收到了开关机的撒老规矩阿萨德</div>
-                                <div class="sponsor-p3">已发布活动：<span>1234</span></div>
-                            </div>
-                        </div>
-                        <div class="sponsor-bottom">
-                            <p class="sponsor-bottom-p">进入主页</p>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="activity-message-bottom-right-2">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/shijian.png" alt=""> </div>
                     <div class="activity-message-bottom-right-2-right">
-                        <p>{{detail.signupStartTime | stampFormate4}}至&nbsp;{{detail.signupEndTime | stampFormate4}}<span>{{state[detail.actApplyStauts]}}</span></p>
-                        <!-- <p>2016-06-06 10:00 至 2016-08-31 14:00 报名截止</p> -->
+                        <p>{{detail.signupStartTime | stampFormate4}}至&nbsp;{{detail.signupEndTime | stampFormate4}}<span>{{state[detail.actStauts]}}</span></p>
                     </div>
                 </div>
                 <div class="activity-message-bottom-right-3">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/didian.png" alt=""></div>
-                    <div class="activity-message-bottom-right-3-right" v-if="detail.newcity!=detail.newprov"><a>{{detail.prov}}{{detail.city}}{{detail.dist}}{{detail.activityAddress}}</a><span></span></div>
-                    <div class="activity-message-bottom-right-3-right" v-if="detail.newcity==detail.newprov"><a>{{detail.city}}{{detail.dist}}{{detail.activityAddress}}</a><span></span></div>
+                    <div class="activity-message-bottom-right-3-right" v-if="detail.newcity!=detail.newprov" @click="enterMap()"><a>{{detail.prov}}{{detail.city}}{{detail.dist}}{{detail.activityAddress}}</a><span></span></div>
+                    <div class="activity-message-bottom-right-3-right" v-if="detail.newcity==detail.newprov" @click="enterMap()"><a>{{detail.city}}{{detail.dist}}{{detail.activityAddress}}</a><span></span></div>
                 </div>
                 <div class="activity-message-bottom-right-4">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/renwu.png" alt=""></div>
@@ -70,11 +52,7 @@
                     </div>
                     <div class="activity-message-bottom-right-4-right2">
                         <div class="right-4-img2"></div>
-                        <div class="right-4-img">
-                          <!-- <img src="">
-                          <img src="">
-                          <img src=""> -->
-                        </div>
+                        <div class="right-4-img"></div>
                     </div>
                 </div>
                 <div class="activity-message-bottom-right-5">
@@ -84,11 +62,11 @@
                             <el-radio-group v-model="radio1" @change="chooseTicket(radio1)">
                                 <el-radio :label="item.id" border  class="wxz" v-for="(item,index) in tickets" :key="index">
                                     <span class="pricename">{{item.name}}</span> 
-                                    <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
+                                    <span v-if="item.price!=0" class="price">￥ {{item.price/100}}</span>
                                     <span v-if="item.price==0" class="price">免费票</span>
                                  </el-radio>
                                  <el-radio disabled :label="item.id" border class="wxz nofree disable" v-for="(item,index) in notickets" :key="index">
-                                    <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price}}</span>
+                                    <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price/100}}</span>
                                  </el-radio>
                             </el-radio-group>
                         </div>
@@ -102,7 +80,13 @@
                     <p v-if="showNum"><span>剩余{{singleTicket.leftNum}}张</span>/<span>限购{{singleTicket.limitNum}}张</span></p>
                 </div>
                 <div class="activity-message-bottom-right-8">
-                    <div class="right-8-btn1" @click="apply()">立即报名</div>
+                    <!-- <div class="right-8-btn1" @click="apply()">立即报名</div> -->
+                    <div class="right-8-btn1 box2" v-if="detail.actApplyStauts*1===1" @click="apply()">立即报名</div>
+                    <div class="right-8-btn1 box2 " v-if="detail.actApplyStauts*1===0">
+                        <div class="startapply">开始报名</div>
+                        <div class="box-min">{{detail.signupStartTime | stampFormate2}}</div>
+                    </div>
+                    <div class="right-8-btn1 box2 gray-box" v-if="detail.actApplyStauts*1===2">活动已结束</div>
                     <div class="right-8-btn2" v-if="!isSave" @click="saveClick"><i class="iconfont icon-xianxingxing"></i> 收藏</div>
                     <div class="right-8-btn2" v-if="isSave" @click="saveClick"><i class="iconfont icon-xing" style="color:#389bff;font-size:19px;margin-right: 5px;"></i> 收藏</div>
                     <div class="right-8-btn3" v-if="!isLike" @click="likeClick"><i class="iconfont icon-xianxingzan"></i>赞</div>
@@ -127,6 +111,19 @@
         
     </div>
       <add-info v-if="showAddInfo"  :postInfo="signInfo"></add-info>
+      <div class="baoming">
+          <div class="top">
+              <span>已报名的人</span>
+              <i class="iconfont icon-guanbi"></i>
+          </div>
+          <div class="bottom">
+              <div>
+                  <img src="" alt="">
+                  <span class="name">13526492830</span>
+                  <span class="time">09-14-2016</span>
+              </div>
+          </div>
+      </div>
     <!--活动提问标题-->
     <!-- <div class="quiz-title">
         <div class="quiz-text">活动提问</div>
@@ -318,6 +315,7 @@ import addInfo from './addInfo.vue'
         },
           showAddInfo:false,
           signInfo:'',
+          isFollowed:false,
       }
     },
     components: {share,'add-info':addInfo},
@@ -341,6 +339,27 @@ import addInfo from './addInfo.vue'
         window.scrollTo(0,0);
     },
     methods: {
+        enterMap: function () {
+            const that = this
+            that.$router.push({
+                name: 'activityPlace',
+                query: {place: that.detail.city + that.detail.dist + that.detail.activityAddress}
+            })
+        },
+        enterPublish(id){
+            const that = this
+            if(localStorage.token && localStorage.token!='undefined'){
+                indexService.isFollowMain({
+                    userId:id
+                }).then(function (res) {
+                    that.isFollowed = res.data.datas
+                    that.$router.push({name:'concernDetail',query:{id:id,isFollow:that.isFollowed}})
+                })
+            } else {
+                that.$router.push({name:'concernDetail',query:{id:id,isFollow:that.isFollowed}})
+            }
+            
+        },
         codelDetail:function(){
             const that = this
             let canvas1 = document.getElementById('canvas1');
@@ -523,7 +542,7 @@ import addInfo from './addInfo.vue'
 <style lang="less">
   #activity_detail{
     //   position: relative;
-    .erweima{position: absolute;top:271px;right:0px;visibility: hidden;}
+    .erweima{position: absolute;top:271px;right:0px;}
     .tuiguang{
         position: absolute;
         bottom: 0px;
@@ -569,13 +588,15 @@ import addInfo from './addInfo.vue'
     .activity-message-bottom-left .p1 a:nth-child(2){display:block;width:26px;height:26px;position: absolute;left:94px;top: -2px;}
     .activity-message-bottom-left .p1 a:nth-child(3){display:block;width:26px;height:26px;position: absolute;left:128px;top: -2px;}
     .activity-message-bottom-left .p1 a:hover{cursor: pointer;}
-    .activity-message-bottom-left .p2{float:right;margin-top:17px;font-size:12px;color:#7c818b;text-align:left;position:relative;}
-    .activity-message-bottom-left .p2:hover{cursor: pointer;
-        .erweima{visibility: visible;
+    .activity-message-bottom-left .p2{float:right;margin-top:17px;font-size:12px;color:#7c818b;text-align:left;position:relative;
+    overflow:hidden;
+    }
+    .activity-message-bottom-left .p2:hover{cursor: pointer;overflow: visible !important;
+        .erweima{visibility: visible !important;
         }
     }
     .activity-message-bottom-left .p2 span{display: block;width:16px;height:20px;float:left;}
-    .activity-message-bottom-left .p2 .erweima{width:150px;height:150px;position:absolute;top:25px;background:#fff;border:1px solid #b2b2b2;left:-25px;box-sizing: border-box;padding:14px;display: none;}
+    .activity-message-bottom-left .p2 .erweima{position:absolute;top:13px;background:#fff;left:-58px;box-sizing: border-box;padding:14px;}
     .activity-message-bottom-right{margin-left:30px;width:650px;right:0;overflow: hidden;min-height:400px;float:left;}
     .activity-message-bottom-right-1{font-size:0;background:#FFFEF3;width:656px;height:51px;line-height:51px;font-size:14px;color:#999999;position:relative;margin-top:25px;}
     .activity-message-bottom-right-1 .title{float:left;}
@@ -754,5 +775,43 @@ import addInfo from './addInfo.vue'
         }
       }
   }
+    .baoming{
+        width: 600px;
+        background: #FFFFFF;
+        .top{
+            padding: 0 16px;
+            height: 43px;
+            line-height: 43px;
+            box-shadow: inset 0 -1px 0 0 #DDDDDD;
+            span{
+                font-size: 16px;
+                color: #303030;
+            }
+            i{
+                color: #B2B2B2;
+                font-size: 16px;
+                float: right;
+                margin-top: 14px;
+            }
+        }
+    }
+    .gray-box{
+        cursor:initial !important;
+        border: 1px solid #eee !important;
+        background: #fafafa !important;
+        color:#666 !important;
+    }
+    .startapply{
+        cursor:initial !important;
+        height: 28px;
+        line-height: 30px;
+        font-size: 17px;
+    }
+    .box-min{
+        cursor:initial !important;
+        height: 20px;
+        line-height: 17px;
+        font-size: 12px;
+    }
   }
 </style>

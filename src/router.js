@@ -46,6 +46,7 @@ const activity = (resolve) => {require(['./pages/activity/index.vue'],resolve)}
 const activityDetail = (resolve) => {require(['./pages/activity/detail.vue'],resolve)}
 const createOrder = (resolve) => {require(['./pages/activity/create-order.vue'],resolve)}
 const payment = (resolve) => {require(['./pages/activity/payment.vue'],resolve)} //支付页面
+const activityPlace = (resolve) => {require(['./pages/activity/place.vue'],resolve)}
 // 付费读
 const subject = (resolve) => {require(['./pages/subject/index.vue'],resolve)}
 const subjectDetail = (resolve) => {require(['./pages/subject/detail.vue'],resolve)}
@@ -109,6 +110,7 @@ const routers = [
     {name: 'payment',path:'/payment/:id/:type',component: payment},
     {name: 'alipay',path:'/alipay',component: alipay},
     {name: 'paySuccess',path:'/paySuccess',component: paySuccess},
+    {name: 'activityPlace',path:'/place',component:activityPlace},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},

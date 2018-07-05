@@ -27,6 +27,7 @@ const homeStore = {
         activity: '', //
         actDetail:{},//详情页 
         adminId:'',
+        hotActivity:[],//首页热门活动
 
     },
     mutations: {
