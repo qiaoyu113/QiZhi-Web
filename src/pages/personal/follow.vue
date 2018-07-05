@@ -98,8 +98,6 @@
                        that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10
                       // console.log(that.inde)
-              
-                 
                   }
         });
       },

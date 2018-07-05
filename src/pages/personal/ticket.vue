@@ -9,8 +9,8 @@
            <div class="txt">3.本活动由「ID时候说的返回」提供票券服务，其拥有最终解释权。</div>
         </div>
         <div class="boxr" >
-            <div class="lbtn" @click="btnleft()"><i class="el-icon-arrow-left"></i></div>
-            <div class="rbtn" @click="btnright()"><i class="el-icon-arrow-right"></i></div>
+            <div class="lbtn" @click="btnleft()" v-if="data.length!=1 && ticindex!=0"><i class="el-icon-arrow-left"></i></div>
+            <div class="rbtn" @click="btnright()" v-if="data.length!=1 && data.length!=ticindex"><i class="el-icon-arrow-right"></i></div>
           <div class="piao" v-for="(list,index) in data" @click="yy(index)" v-if="index==ticindex">
             <div class="boxr1">第{{index+1}}张</div>
             <div class="boxr2"> <canvas id="canvas" class="canvas"></canvas></div>
@@ -79,10 +79,12 @@ var QRCode = require('qrcode')
                        that.getQRCode(that.ticketUrl[that.ticindex])
                         },0)
             }else{
-                this.ticindex=this.data.length-1
-                 setTimeout( () => {
-                       that.getQRCode(that.ticketUrl[that.ticindex])
-                        },0)
+
+                // this.ticindex=this.data.length-1
+                // that.$message.error('已经是第一张了');
+                 // setTimeout( () => {
+                 //       that.getQRCode(that.ticketUrl[that.ticindex])
+                 //        },0)
             }
          },
          //右
@@ -94,10 +96,11 @@ var QRCode = require('qrcode')
                        that.getQRCode(that.ticketUrl[that.ticindex])
                         },0)
               }else{
-                 this.ticindex=0
-                  setTimeout( () => {
-                       that.getQRCode(that.ticketUrl[that.ticindex])
-                        },0)
+                 // this.ticindex=0
+                 // that.$message.error('已经是最后一张了');
+                  // setTimeout( () => {
+                  //      that.getQRCode(that.ticketUrl[that.ticindex])
+                  //       },0)
               }
          },
         getQRCode (url) {
@@ -189,7 +192,7 @@ var QRCode = require('qrcode')
            position: relative;
            .lbtn{
               position: absolute;
-              left: 0px;
+              left: -50px;
               top: 254px;
               width: 30px;
               height: 45px;
@@ -205,7 +208,7 @@ var QRCode = require('qrcode')
            }
            .rbtn{
               position: absolute;
-              right: 0px;
+              right: -50px;
               top: 254px;
               width: 30px;
               height: 45px;
