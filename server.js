@@ -8,7 +8,7 @@ const http = require('http');
 const API = require('request');
 
 // const isProd = process.env.NODE_ENV === 'production'
-const isProd = false
+const isProd = true
 
 
 const app = express()
@@ -57,6 +57,7 @@ app.use('/service-worker.js', serve('./dister/service-worker.js'))
 app.use('/src/assets/js/swiper.min.js', serve('./src/assets/js/swiper.min.js'))
 app.use('/src/assets/image/common/favicon.ico', serve('./src/assets/image/common/favicon.ico'))
 app.use('/src/assets/', serve('./src/assets/'))
+app.use('/MP_verify_XvpMPNigMWz3yqY1.txt', serve('./MP_verify_XvpMPNigMWz3yqY1.txt'))
 
 
 app.get('*', (req, res) => {
