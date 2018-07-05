@@ -2,6 +2,7 @@ const path = require('path')
 // const projectRoot = path.resolve(__dirname, '../')
 const vueConfig = require('./vue-loader.config')
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+require("babel-polyfill")
 
 module.exports = {
   entry: {
