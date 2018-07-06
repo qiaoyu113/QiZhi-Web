@@ -6,11 +6,11 @@
            <div class="tic">使用说明 :</div>
            <div class="txt">1.本活动凭票入场，一票一码一次性，请勿复制或转寄他人；</div>
            <div class="txt">2.请截图保存至手机或打印携带，保持二维码清晰完整；</div>
-           <div class="txt">3.本活动由「ID时候说的返回」提供票券服务，其拥有最终解释权。</div>
+           <div class="txt">3.本活动由「{{orderDetails.publishUser}}」提供票券服务，其拥有最终解释权。</div>
         </div>
         <div class="boxr" >
             <div class="lbtn" @click="btnleft()" v-if="data.length!=1 && ticindex!=0"><i class="el-icon-arrow-left"></i></div>
-            <div class="rbtn" @click="btnright()" v-if="data.length!=1 && data.length!=ticindex"><i class="el-icon-arrow-right"></i></div>
+            <div class="rbtn" @click="btnright()" v-if="data.length!=1 && data.length-1!=ticindex"><i class="el-icon-arrow-right"></i></div>
           <div class="piao" v-for="(list,index) in data" @click="yy(index)" v-if="index==ticindex">
             <div class="boxr1">第{{index+1}}张</div>
             <div class="boxr2"> <canvas id="canvas" class="canvas"></canvas></div>
@@ -122,7 +122,7 @@ var QRCode = require('qrcode')
                       that.orderDetails=res.data.datas
                       // that.ticketUrl="http://wetuc.dtfind.com/d/" + that.data[0].ticketUrl
                 
-      
+                     console.log(that.orderDetails)
                   }
         });
       },
@@ -160,6 +160,7 @@ var QRCode = require('qrcode')
       background: #eee;
       padding-bottom: 100px;
       margin-bottom: 0;
+      margin-top: 0;
      .box{
         width: 782px;
         margin: 178px auto 0;
@@ -297,11 +298,17 @@ var QRCode = require('qrcode')
                  float: left;
                  width: 253px;
                  margin-left: 4px;
-                 height: 40px;
-                 overflow: hidden;
+                 // height: 40px;
+                 max-height: 40px;
+                 // overflow: hidden;
                  color: #151515;
                  line-height: 20px;
                  font-size: 14px;
+                 overflow : hidden;
+                 text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
               }
             }
             .boxr7{

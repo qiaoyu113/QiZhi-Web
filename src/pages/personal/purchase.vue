@@ -2,7 +2,7 @@
   <div class="" id="purchase" v-set-title="title">
     <div class="title clearfix">
     	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">活动</p></div>
-    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">付费读</p></div>
+    	<!-- <div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">付费读</p></div> -->
     </div>
     <div class="box1" v-if="titlep==1">
         <div class="row clearfix" v-for="list in data">

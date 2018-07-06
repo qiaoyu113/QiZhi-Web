@@ -9,9 +9,9 @@
      	 	 <div class="tab"> 
      	 	 	 <router-link :to="{name:'purchase'}"><div class="tabrow" :class="selectindex==1?'select':''"><p>我的购买</p></div></router-link>
      	 	 	 <router-link :to="{name:'collection'}"><div class="tabrow" :class="selectindex==2?'select':''"><p>我的收藏</p></div></router-link>
-     	 	 	 <router-link :to="{name:'integral'}"><div class="tabrow" :class="selectindex==3?'select':''"><p>我的积分</p></div></router-link>
+     	 	 	 <!-- <router-link :to="{name:'integral'}"><div class="tabrow" :class="selectindex==3?'select':''"><p>我的积分</p></div></router-link> -->
      	 	 	 <router-link :to="{name:'follow'}"><div class="tabrow" :class="selectindex==4?'select':''"><p>我的关注</p></div></router-link>
-     	 	 	 <router-link :to="{name:'code'}"><div class="tabrow" :class="selectindex==5?'select':''"><p>总换码</p></div></router-link>
+     	 	 	 <!-- <router-link :to="{name:'code'}"><div class="tabrow" :class="selectindex==5?'select':''"><p>总换码</p></div></router-link> -->
      	 	 	 <router-link :to="{name:'notice'}"><div class="tabrow" :class="selectindex==6?'select':''"><p>消息通知</p></div></router-link>
      	 	 	 <router-link :to="{name:'setup'}"><div class="tabrow" :class="selectindex==7?'select':''"><p>账号设置</p></div></router-link>
 

@@ -1,8 +1,8 @@
-<template>
+e<template>
     <div id="app" class="scroll" v-bind="{'minWidth':this.$route.name!='invitelogin'}">
         <navbar v-if="show == true && navshow==true"></navbar>
         <router-view class="view" v-if="show == true"></router-view>
-        <z-footer v-if="show == true"></z-footer>
+        <z-footer v-if="show == true && footershow==true"></z-footer>
     </div>
 </template>
 
@@ -27,6 +27,7 @@
                 noinvite:false,
                 show:false,
                 navshow:true,
+                footershow:true,
             }
         },
         components: {},
@@ -36,6 +37,7 @@
                 // that.hasCommon();
                 // that.loginWay();
                 // that.hasInvite();
+                   that.watchticket()
             }
         },
         mounted: function () {
@@ -43,9 +45,12 @@
             // this.hasCommon()
             // this.loginWay();
             // this.hasInvite()
-            if(this.$route.name == 'activityPlace'){
-                this.navshow =false 
-            }
+           if(this.$route.name == 'ticket' || this.$route.name == 'activityPlace'){
+                       this.navshow =false 
+                       this.footershow=false
+                     }
+            
+
             this.$nextTick(function(){
                 this.show = true
             })
@@ -61,6 +66,15 @@
                 } else {
                     this.loginIs = false
                 }
+            },
+            watchticket:function(){
+                  if(this.$route.name == 'ticket' || this.$route.name == 'activityPlace'){
+                       this.navshow =false 
+                       this.footershow=false
+                     }else{
+                        this.navshow =true 
+                       this.footershow=true
+                    }
             },
             hasCommon:function(){
                 const that = this

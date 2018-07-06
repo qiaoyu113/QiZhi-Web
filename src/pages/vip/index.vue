@@ -5,7 +5,7 @@
              <div class="con">
                  <div class="tabbtn clearfix">
                      <div class="tabbtnl">会员中心</div>
-                     <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div>
+                     <!-- <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div> -->
                  </div>
                  <div class="personal clearfix" v-if="personal==1">
                     <div class="img"><img :src="picHead + data.headImg" /></div>

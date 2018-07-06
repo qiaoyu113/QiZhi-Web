@@ -27,14 +27,21 @@
                   <div class="th th7">操作</div>
                 </div>
                 <div class="tbody">
-                   <div class="row clearfix">
-                    <div class="td td1"></div>
-                    <div class="td td2"><p class="td2p">《中国汽车后市场物流服务洞察报告》.pdf</p><p>3.6M</p></div>
+                   <div class="row clearfix" v-for="(list,index) in data">
+                    <div class="td td1"><img src="../../assets/image/audio.png" v-if="list.form=='image'"/>
+                                        <img src="../../assets/image/ppt.png" v-if="list.form=='ppt'"/>
+                                        <img src="../../assets/image/pdf.png" v-if="list.form=='pdf'"/>
+                                        <img src="../../assets/image/excel.png" v-if="list.form=='excel'"/>
+                                        <img src="../../assets/image/word.png" v-if="list.form=='word'"/>
+                                        <img src="../../assets/image/exe.png" v-if="list.form=='other'"/>
+                                        <img src="../../assets/image/pdf2.png" v-if="list.form=='zip'"/>
+                                        </div>
+                    <div class="td td2"><p class="td2p">{{list.name}}</p><p>{{list.size}}</p></div>
                     <div class="td td3">免费</div>
-                    <div class="td td4">0</div>
-                    <div class="td td5">2018-05-30</div>
-                    <div class="td td6">运联传媒</div>
-                    <div class="td td7">下载</div>
+                    <div class="td td4">{{list.downloadCount}}</div>
+                    <div class="td td5">{{list.createTime | stampFormate}}</div>
+                    <div class="td td6">{{list.adminName}}</div>
+                    <div class="td td7" @click="getDownloadsUrl(list.name,list.url)"><a :href="'https://mini.dtfind.com/downloads/url?urlStr='+ list.url+'&fileName='+list.name+'&form='+list.suffix">下载</a></div>
                     </div>
 
                 </div>
@@ -57,6 +64,7 @@
   </div>
 </template>
 <script>
+  import {modularService} from '../../service/modularService'
   export default {
     props: [],
     data () {
@@ -67,24 +75,83 @@
         inde:10,
         page:{
            num:1,
-           size:6,
+           size:10,
         },
+        form:'',
+        data:'',
+        form:[],
       }
     },
     components: {},
     mounted () {
+       this.getDocuments()
     },
     methods: {
       dian:function(id){
          this.index=id
+         if(id==1){
+           this.form=''
+         }else if(id==2){
+              this.form='word'
+         }else if(id==3){
+              this.form='ppt'
+         }else if(id==4){
+              this.form='excel'
+         }else if(id==5){
+              this.form='pdf'
+         }else if(id==6){
+              this.form='image'
+         }else if(id==7){
+              this.form='other'
+         }
+         this.getDocuments()
       },
       borderbox:function(id){
         this.box=id
+        this.getDocuments()
       },
          //分页
       handleCurrentChange(val){
           this.page.num=val
-          this.getMyFollow()
+          this.getDocuments()
+      },
+      //获取所有社群号
+      getDocuments (){
+        let that = this;
+        modularService.getDocuments({pageNo: that.page.num, pageSize:that.page.size,form:that.form,type:that.box}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                       that.data=res.data.datas.datas
+                      that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+                     // if(that.data!=''){
+                     //   for(let i=0;i<that.data.length;i++){
+                     //      let arr=that.data[i].url.split('.')
+                     //     that.form[i]=arr[arr.length-1]
+                     //  }
+                     // }
+                     // console.log(that.form)
+                    
+                 
+                  }
+        });
+      },
+      
+      //获取资料库下载地址
+      getDownloadsUrl (name,url){
+        let that = this;
+        console.log(1)
+
+        modularService.getDownloadsUrl({form:form,urlStr:url,fileName:name}).then(function (res) {
+             console.log(res)
+                  if(res.data.code==200){
+                       // that.data=res.data.datas.datas
+                      // that.inde=res.data.datas.totalPage * 10
+                      // console.log(that.inde)
+              
+                 
+                  }
+        });
       },
       
     }
@@ -103,10 +170,11 @@
          box-shadow: 0px 5px 4px 0px rgba(202,202,202,0.10);
          .top{
           span{
-             line-height: 45px;
+             line-height: 60px;
              text-align: left;
              font-size: 16px;
              color: #3c4350;
+             margin-left: 48px;
           }
 
          }
@@ -115,16 +183,20 @@
             cursor: pointer;
             .rowl{
                float: left;
-                width: 40px;
-                height: 40px;
+                width: 16px;
+                height: 16px;
+                border:1px solid #C0CCDA;
+                border-radius: 4px;
+                margin: 10px 10px 0px 20px;
                 text-align: center;
                i{
                  display: none;
                 text-align: center;
                 font-size: 14px;
+                line-height: 16px;
                 color: #389bff;
                 font-weight: bold;
-               line-height: 40px;
+               // line-height: 40px;
                }
                
             }
@@ -136,7 +208,7 @@
             }
          }
          .xuzhong{
-            .rowl{i{display: block;}}
+            .rowl{background: #389bff;border:1px solid #389bff;i{display: block;color: #fff;}}
             .rowr{color: #389bff; }
          }
        } 
@@ -153,23 +225,25 @@
                }
                .option1{
                     float: left;
-                    width: 102px;
-                    line-height: 40px;
-                    margin-top: 15px;
-                    height: 40px;
+                    width: 92px;
+                    line-height: 30px;
+                    margin-top: 20px;
+                    height: 30px;
                     margin-left: 20px;
                     color: #666;
                     text-align: center;
                     cursor: pointer;
                }
                .optionbox{
-                  height: 38px;
-                  width: 100px;
-                  line-height: 38px;
-                  border:1px solid;
-                  border-color: -webkit-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
-                  border-color: -moz-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
-                  border-image: linear-gradient(90deg,#FD9366, #77B9F8) 1 30; 
+                  height: 28px;
+                  width: 90px;
+                  line-height: 28px;
+                  border:1px solid #20A0FF;
+                  border-radius: 14px;
+                  color: #20A0FF;
+                  // border-color: -webkit-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                  // border-color: -moz-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                  // border-image: linear-gradient(90deg,#FD9366, #77B9F8) 1 30; 
                }
                .form{
                   margin-top: 25px;
@@ -204,16 +278,19 @@
                          font-size: 14px;
                          color: #999;
                       }
-                     .td1{ width: 60px;}
+                     .td1{ width: 60px;img{width: 24px;height: 32px;margin-top: 27px;}}
                      .td2{ width: 298px;line-height: 42px;
-                      .td2p{color: #333;}}
+                      .td2p{color: #333;height: 42px;overflow: hidden;text-overflow:ellipsis;
+                        white-space:nowrap}}
                      .td3{ width: 58px;color: #50c87e;}
                      .td4{ width: 66px;}
                      .td5{ width: 104px;}
                      .td6{ width: 104px;}
-                     .td7{ width: 50px;}
-
-
+                     .td7{ width: 50px;height: 30px;border: 1px solid #389bff;margin-top: 28px;line-height: 30px;margin-left: 10px;text-align: center;cursor: pointer;
+                      a{display: block;}}
+                      .td7:hover{
+                         background: #389bff;
+                      }
                     }
 
                    }

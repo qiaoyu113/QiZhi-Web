@@ -4,7 +4,7 @@
     <div class="title clearfix">
     	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">文章</p></div>
     	<div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">活动</p></div>
-    	<div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">付费读</p></div>
+    	<!-- <div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">付费读</p></div> -->
     </div>
     <div class="box">
         <div class="row clearfix" v-for="list in data">
