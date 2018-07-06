@@ -55,7 +55,7 @@ app.use('/dister', serve('./dister', true))
 // app.use(favicon(path.resolve('./src/assets/image/common/favicon.ico')))
 app.use('/service-worker.js', serve('./dister/service-worker.js'))
 app.use('/src/assets/js/swiper.min.js', serve('./src/assets/js/swiper.min.js'))
-app.use('/src/assets/image/common/favicon.ico', serve('./src/assets/image/common/favicon.ico'))
+app.use('/src/assets/image/favicon.ico', serve('./src/assets/image/favicon.ico'))
 app.use('/src/assets/', serve('./src/assets/'))
 app.use('/MP_verify_XvpMPNigMWz3yqY1.txt', serve('./MP_verify_XvpMPNigMWz3yqY1.txt'))
 
