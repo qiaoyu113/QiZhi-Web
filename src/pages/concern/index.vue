@@ -16,7 +16,8 @@
            <div class="rowlabel clearfix">
              <div class="rowlabell"><p v-if="list.subNum!=null">粉丝 {{list.subNum}} </p>
                                     <p v-if="list.subNum==null">粉丝 0 </p></div>
-             <div class="rowlabelr"><p> 文章 110 </p></div>
+             <div class="rowlabelr" v-if="titlep==1"><p> 文章 {{list.addArticleNum==null?'0':list.addArticleNum}} </p></div>
+             <div class="rowlabelr" v-if="titlep==2"><p> 活动 {{list.addActivityNum==null?'0':list.addActivityNum}} </p></div>
            </div>
            <div class="rowbtn1" @click="open2(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==true">已关注</div>
            <div class="rowbtn2" @click="postFollow(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==false"> + 关注</div>
@@ -342,7 +343,7 @@
     }
     .v_paging{
         width: 1200px;
-        margin: 35px auto 170px;
+        margin: 35px auto 0px;
     }
         
       

@@ -220,6 +220,7 @@ import {modularService} from '../../service/modularService'
 </script>
 <style lang="less">
   #vip{
+     padding-bottom: 0;
     .body{
         background: #f3f3f3;
         .top{

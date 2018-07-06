@@ -6,19 +6,21 @@
                 <div class="authorname">{{author.hostCompany}}</div>
                 <div class="authorcon">{{author.hostDesc}}</div>
                 <div class="authortit clearfix">
-                   <div class="authortitl"><p>粉丝 {{author.subNum}} </p></div>
-                   <div class="authortitr"><p>文章 110 </p></div>
+                   <div class="authortitl"><p>粉丝 {{author.subNum==null?'0':author.subNum}} </p></div>
+                   <div class="authortitr" v-if="concernstatus==3"><p>文章 {{author.addArticleNum==null?'0':author.addArticleNum}} </p></div>
+                   <div class="authortitr" v-if="concernstatus==2"><p>活动 {{author.addActivityNum==null?'0':author.addActivityNum}} </p></div>
+
                 </div>
                 <div class="authorbtn" @click="postFollow(author.id)" v-if="isFollow==false">+ 关注</div>
                 <div class="authorbtn" @click="open2(author.id)" v-if="isFollow==true">已关注</div>
             </div>
             <div class="division clearfix">
-              <div class="divisionl" v-if="author.adminType!=2">最新发表的活动</div>
-              <div class="divisionl" v-if="author.adminType==2">最新发表的文章</div>
+              <div class="divisionl" v-if="concernstatus==2">最新发表的活动</div>
+              <div class="divisionl" v-if="concernstatus==3">最新发表的文章</div>
               <div class="divisionr"></div>
             </div>
             <div class="surface">
-                <div class="row clearfix" v-for="list in data">
+                <div class="row clearfix" v-for="list in data" v-if="concernstatus==2">
                      <div class="rowl">
                         <img :src="picHead + list.activityPoster" />
                      </div>
@@ -28,6 +30,17 @@
                          <p class="tim">{{list.actStartTime | stampFormate}}</p>
                      </div>
                 </div>
+                  <div class="row clearfix" v-for="list in data" v-if="concernstatus==3">
+                     <div class="rowl">
+                        <img :src="picHead + list.authorHeadImg" />
+                     </div>
+                     <div class="rowr">
+                         <p class="top">{{list.title}}</p>
+                         <p class="con">{{list.summary}}</p>
+                         <p class="tim">{{list.createDate | stampFormate}}</p>
+                     </div>
+                </div>
+
 
                 <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
               
@@ -52,6 +65,7 @@
         data:[],
         loadStatus:0,
         total:1,
+        concernstatus:3,
         author:'',
           id:this.$route.query.id,//id
           isFollow:this.$route.query.isFollow, //是否关注
@@ -74,12 +88,21 @@
       getMyFollowMain (){
         let that = this;
         modularService.getMyFollowMain({type:2,adminId:that.id}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
-                     
+                     console.log(res)
                       that.author=res.data.datas
-                      that.getActivities(that.author.id)
-              
+                      for(let i=0;i<that.author.roles.length;i++){
+                         if(that.author.roles[i]==2){
+                           that.concernstatus=2
+                            break;
+                         }
+                      }
+
+                      if(that.concernstatus==2){
+                          that.getActivities(that.author.id)
+                      }else if(that.concernstatus==3){
+                           that.getArticles(that.author.id)
+                      }
                  
                   }
         });
@@ -89,12 +112,7 @@
       getActivities (id){
         let that = this;
         modularService.getActivities({pageNo:that.page.num,pageSize:that.page.size,sortKey:'sortNumber',adminId:id,queryType:1}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
-                       // that.data=res.data.datas.datas
-                      // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
-                      // that.author=res.data.datas
                         let newArr=res.data.datas.datas
                     that.page.totalPage = res.data.datas.totalPage
                     that.total=res.data.datas.total
@@ -104,8 +122,30 @@
                         that.data.push(newArr[i]);
                     }
                      }
-                     
-             
+                    if(res.data.datas.pageNo>=res.data.datas.totalPage){
+                        that.loadStatus = 2
+                    }else {
+                        that.loadStatus = 0
+                    }
+              
+                 
+                  }
+        });
+      },
+        //获取社群号文章
+      getArticles (id){
+        let that = this;
+        modularService.getArticles({pageNo:that.page.num,pageSize:that.page.size,adminId:id,queryType:1}).then(function (res) {
+                  if(res.data.code==200){
+                        let newArr=res.data.datas.datas
+                    that.page.totalPage = res.data.datas.totalPage
+                    that.total=res.data.datas.total
+                    that.page.totalCount = res.data.datas.totalCount == null ? 0 : parseInt(res.data.datas.totalCount);
+                     if(newArr != null){
+                       for(let i=0;i<newArr.length;i++){
+                        that.data.push(newArr[i]);
+                    }
+                     }
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {
@@ -121,14 +161,12 @@
         let that = this;
 
         modularService.postFollow({adminId:id}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                        // that.getAllAdminUser()
                         that.$message.success('关注成功');
                         that.isFollow=true
                       //  that.data=res.data.datas.datas
-                      // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
+
               
                  
                   }
@@ -138,7 +176,6 @@
        putCancleFollow(id){
           let that=this
          modularService.putCancleFollow({adminId:id}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                      that.$message.success('取消关注成功');
                      that.isFollow=false
@@ -173,7 +210,12 @@
                 let that = this
                 that.$store.state.homeStore.loadStatus = 1
                 that.page.num = i
-                that.getActivities(that.author.id)
+                // that.getActivities(that.author.id)
+                 if(that.concernstatus==2){
+                          that.getActivities(that.author.id)
+                      }else if(that.concernstatus==3){
+                           that.getArticles(that.author.id)
+                      }
             }
       
     }

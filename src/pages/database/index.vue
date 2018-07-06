@@ -80,11 +80,13 @@
         form:'',
         data:'',
         form:[],
+        myVip:'',
       }
     },
     components: {},
     mounted () {
        this.getDocuments()
+       this.getUserCenter()
     },
     methods: {
       dian:function(id){
@@ -107,13 +109,45 @@
          this.getDocuments()
       },
       borderbox:function(id){
-        this.box=id
-        this.getDocuments()
+        let that=this
+        
+        if(id==2 && that.myVip!=true){
+           that.open()
+        }else{
+           that.box=id
+           that.getDocuments()
+        }
+       
+      },
+      //提示
+      open() {
+        this.$confirm('这个是会员专属资料,您还不是会员,开通之后就可以下载了', '提示', {
+          confirmButtonText: '开通会员',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$router.push({path:"/vip"})
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
       },
          //分页
       handleCurrentChange(val){
           this.page.num=val
           this.getDocuments()
+      },
+        //获取我的信息
+      getUserCenter (){
+        let that = this;
+        modularService.getUserCenter().then(function (res) {
+                  if(res.data.code==200){
+                       let data=res.data.datas.user
+                       that.myVip=data.myVip.vip
+                  }
+        });
       },
       //获取所有社群号
       getDocuments (){

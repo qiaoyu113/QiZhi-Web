@@ -16,7 +16,10 @@ export const modularService = {
    daleteTokens: function(params){
         return axios.delete('/tokens'+ this.getParam(params))
     },
-    
+     // 获取我的文章
+   getArticles: function(params){
+        return axios.get('/articles'+ this.getParam(params))
+    },
 
    // 获取我的收藏
    getUsersCollect: function(params){

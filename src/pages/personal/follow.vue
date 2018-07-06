@@ -6,7 +6,7 @@
     	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">主办方</p></div>
     </div>
     <div class="box clearfix">
-       <div class="row" v-for="list in data" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
+       <div class="row" v-for="list in data" @click="goconcernDetail(list.id,true)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
        	   <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
        	   <div class="rowtitle">{{list.hostCompany}}</div>
@@ -65,6 +65,12 @@
               this.page.num=1
               this.getMyFollow()
     	},
+      goconcernDetail:function(id,isFollow){
+        // console.log(id)
+        // return false
+          this.$router.push({path:"/concern/detail",query:{id:id,isFollow:isFollow}}) 
+          // this.$router.replace({name:'concernDetail'})
+      },
     	 //分页
       handleCurrentChange(val){
           this.page.num=val
@@ -94,6 +100,7 @@
         let that = this;
         modularService.getMyFollow({pageNo: that.page.num, pageSize:that.page.size,adminType:that.titlep,type:true}).then(function (res) {
              console.log(res)
+             console.log(1)
                   if(res.data.code==200){
                        that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10

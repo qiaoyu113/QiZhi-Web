@@ -25,7 +25,8 @@
                                      <span v-if="list.ticket.status==5">已退票</span>
                                      <span v-if="list.ticket.status==6">不同意退票</span>
                                     </div>
-            <div class="boxr8">票价：<span>¥{{list.ticket.price}}</span></div>
+            <div class="boxr8">票种：<span>{{list.ticket.name}}</span></div>
+            <div class="boxr8 boxr9">票价：<span>¥{{list.ticket.price}}</span></div>
            </div>
             <div class="index clearfix" :style="{marginLeft:(335-data.length*36) / 2 +'px'}">
                <div class="indexli" v-for="(ti,index) in data" :class="index==ticindex?'lu':''"></div>
@@ -121,8 +122,6 @@ var QRCode = require('qrcode')
                   if(res.data.code==200){
                       that.orderDetails=res.data.datas
                       // that.ticketUrl="http://wetuc.dtfind.com/d/" + that.data[0].ticketUrl
-                
-                     console.log(that.orderDetails)
                   }
         });
       },
@@ -132,7 +131,6 @@ var QRCode = require('qrcode')
         let that = this;
         let id = that.$route.query.id
         modularService.getMyticketsOrderNoid(id).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                       that.data=res.data.datas
                        
@@ -226,7 +224,7 @@ var QRCode = require('qrcode')
            }
            .piao{
             width: 335px;
-            height: 578px;
+            height: 628px;
             background-image: url("../../assets/image/tic.png");
             background-size: 100% 100%;
             border-top: 1px solid #eee;
@@ -236,6 +234,7 @@ var QRCode = require('qrcode')
                color:#333;
                margin-top: 12px;
                text-align: center;
+
             }
             .boxr2{
                width: 168px;
@@ -256,37 +255,40 @@ var QRCode = require('qrcode')
                color: #333;
             }
             .boxr4{
-               margin-top: 58px;
+               margin-top: 42px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
                color: #333;
+               border-bottom: 0.5px solid #EEEEEE;
                span{
                  color: #151515;
                }
             }
             .boxr5{
-                margin-top: 30px;
+                // margin-top: 30px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
+               border-bottom: 0.5px solid #EEEEEE;
                color: #333;
                span{
                  color: #151515;
                }
             }
             .boxr6{
-              margin-top: 30px;
-              padding: 0 20px;
+              // margin-top: 30px;
+              padding: 14px 20px;
               width: 295px;
+              border-bottom: 0.5px solid #EEEEEE;
               .box6l{
                  float: left;
 
@@ -312,32 +314,37 @@ var QRCode = require('qrcode')
               }
             }
             .boxr7{
-                margin-top: 30px;
+                // margin-top: 30px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
                color: #333;
+               border-bottom: 0.5px solid #EEEEEE;
                span{
                  color: #20A0FF;
                }
             }
             .boxr8{
-                margin-top: 30px;
+                // margin-top: 54px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
+               border-bottom: 0.5px solid #EEEEEE;
                color: #333;
                span{
                  color: #151515;
                }
+            }
+            .boxr9{
+               border-bottom: none;
             }
           }
             .index{
