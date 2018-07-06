@@ -410,7 +410,7 @@ import addInfo from './addInfo.vue'
             const that = this;
             if(localStorage.token && localStorage.token!='undefined'){
                 let type2
-                if(that.isSave == true){type2 = 1} else {type2 = 0}
+                if(that.isSave == true){type2 = 0} else {type2 = 1}
                 indexService.hasCollectAct({
                     type:type2,
                     activityId: that.$route.params.id,
