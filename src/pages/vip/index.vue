@@ -5,13 +5,13 @@
              <div class="con">
                  <div class="tabbtn clearfix">
                      <div class="tabbtnl">会员中心</div>
-                     <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div>
+                     <!-- <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div> -->
                  </div>
                  <div class="personal clearfix" v-if="personal==1">
                     <div class="img"><img :src="picHead + data.headImg" /></div>
                     <div class="personalr">
                         <div class="name clearfix">
-                           <p>{{data.nickName}}</p><img src="../../assets/image/viptit.png" v-if="data.myVip.vip==true"/>
+                           <p>{{data.nickName}}</p><img src="../../assets/image/viptit.png" v-if="myVip==true"/>
                         </div>
                         <!-- <p class="branch">我的积分<span>208</span>分</p> -->
                         <!-- <p class="time" v-if="data.myVip.vip==true">积分有效期<span>{{data.myVip.endTime | stampFormate}}</span>积分规则》</p> -->
@@ -95,6 +95,7 @@ import {modularService} from '../../service/modularService'
         personal:1,
         data:'',
         vipdata:[],
+        myVip:'',
         vip:[{
           "time":"1",
           "per":"2",
@@ -142,9 +143,7 @@ import {modularService} from '../../service/modularService'
       },
        obtain:function(){
            let that =this
-           // let token = sessionStorage.getItem('token');
            let token =localStorage.token
-           // console.log(token)
            if(token == '' || token == null || token == 'undefined'){
                that.personal=2
            }else{
@@ -182,10 +181,8 @@ import {modularService} from '../../service/modularService'
         let that = this;
         modularService.getUserCenter().then(function (res) {
                   if(res.data.code==200){
-                    // console.log(res.data.datas.user)
                        that.data=res.data.datas.user
-                      // that.inde=res.data.datas.totalPage * 10
-                      console.log(that.data)
+                       that.myVip=that.data.myVip.vip
                   }
         });
       },
@@ -193,12 +190,7 @@ import {modularService} from '../../service/modularService'
       putVipsOrderconfirm:function(id,vipItemId){
          let that=this
          modularService.putVipsOrderconfirm({vipId:vipItemId,vipItemId:id}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
-                    // console.log(res.data.datas.user)
-                       // that.vipdata=res.data.datas.vipItems
-                      // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
                       that.putVipsOrdersubmit(res.data.datas.key)
                   }
         });
@@ -207,10 +199,7 @@ import {modularService} from '../../service/modularService'
       putVipsOrdersubmit:function(key){
          let that=this
          modularService.putVipsOrdersubmit({key:key}).then(function (res) {
-             console.log(res)
                   if(res.data.code==211101){
-                    // console.log(res.data.datas.user)
-                       // that.vipdata=res.data.datas.vipItems
                    that.$router.push({name:'payment',params:{id:res.data.datas,type:3}})
                   }
         });
@@ -220,14 +209,8 @@ import {modularService} from '../../service/modularService'
       getVips (){
         let that = this;
         modularService.getVips().then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
-                    // console.log(res.data.datas.user)
                        that.vipdata=res.data.datas.vipItems
-                      // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
-              
-                 
                   }
         });
       },
@@ -237,6 +220,7 @@ import {modularService} from '../../service/modularService'
 </script>
 <style lang="less">
   #vip{
+     padding-bottom: 0;
     .body{
         background: #f3f3f3;
         .top{

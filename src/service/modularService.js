@@ -16,7 +16,10 @@ export const modularService = {
    daleteTokens: function(params){
         return axios.delete('/tokens'+ this.getParam(params))
     },
-    
+     // 获取我的文章
+   getArticles: function(params){
+        return axios.get('/articles'+ this.getParam(params))
+    },
 
    // 获取我的收藏
    getUsersCollect: function(params){
@@ -111,7 +114,14 @@ export const modularService = {
     putVipsOrdersubmit: function (params) {
         return axios.put('/vips/ordersubmit'+this.getParam(params))
     },
-
+     // 获取资料库
+   getDocuments: function(params){
+        return axios.get('/documents'+ this.getParam(params))
+    },
+     // 资料库下载
+   getDownloadsUrl: function(params){
+        return axios.get('/downloads/url'+ this.getParam(params))
+    },
 
 
     getParam: function(param){

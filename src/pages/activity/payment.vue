@@ -1,5 +1,5 @@
 <template>
-  <div class="payment" v-set-title="title">
+  <div id="payment" v-set-title="title">
     <div class="center">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ name: 'singlePro',params:{id:this.$route.params.id} }">活动</el-breadcrumb-item>
@@ -9,9 +9,11 @@
     <div class="content">
       <div class="pay_title">付款信息</div>
       <div class="bottom">
-        <div class="pro_name">活动名称：<router-link :to="{name:'activityDetail',params:{id:this.$route.params.id}}">{{orderName}}</router-link></div>
+        <div class="pro_name" v-if="orderType!=3">活动名称：<router-link :to="{name:'activityDetail',params:{id:this.$route.params.id}}">{{orderName}}</router-link></div>
+        <div class="pro_name" v-if="orderType ==3">名称：{{orderName}}</div>
           <!-- <div class="pro_price">合计金额：<span>{{parseInt(orderDetail.price/100)}}</span><span>.{{orderDetail.price%100}}</span><span> 元</span></div> -->
           <div class="pro_price">实际支付金额：<span></span>&nbsp;<span>{{detailMoneyAll}}</span></div>
+
           <div class="pro_way"><span>支付方式：</span>
             <div class="zhifubao box" @click="selectPay(1)" v-bind:class="{'boxOk':choose == 1,'boxNo':choose == 2}"><span v-if="choose == 1" id="triangle"></span><i class="iconfont icon-yes"></i></div>
             <div class="weixin box" @click="selectPay(2)" v-bind:class="{'boxOk':choose == 2,'boxNo':choose == 1}"><span v-if="choose == 2" id="triangle"></span><i class="iconfont icon-yes"></i></div>
@@ -127,6 +129,7 @@
                     //1.待支付。2.待审核。3.已付款。4.已取消。5.交易关闭。6.退款待审核。7退款中。
                     //8.退款失败。9.已通过退款申请。10.审核不通过。11.退款申请中。12.退款被拒绝。
                     //13.撤销退款申请。14.订单支付超时。15.退款成功。16.待领取。17.待发货。18.已发货。19.交易完成。
+                    console.log(state)
                     if(state.status === 1){//待支付
                         that.statePay = '1';
                         let nowDate = new Date().getTime();
@@ -163,7 +166,7 @@
                     that.orderPrice = state.orderDetails[0].price;
                     that.orderTime = state.orderDetails[0].endTime
                     that.detailMoney = state.orderDetails[0].price * state.orderDetails[0].timeNum;
-                    that.detailMoneyAll = state.amount;
+                    that.detailMoneyAll = (state.amount / 100).toFixed(2);
                     // that.detailName = state.orderDetails[0].applyInfo.name
                     // that.detailPhone = state.orderDetails[0].applyInfo.phone
                     that.selectPay(1)
@@ -609,7 +612,7 @@
     .boxNo{
         border: 1px solid #CCCCCC;
     }
-  .payment{
+  #payment{
     width:100%;
     height:fit-content;
     min-height:750px;

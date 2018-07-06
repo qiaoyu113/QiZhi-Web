@@ -16,10 +16,11 @@
            <div class="rowlabel clearfix">
              <div class="rowlabell"><p v-if="list.subNum!=null">粉丝 {{list.subNum}} </p>
                                     <p v-if="list.subNum==null">粉丝 0 </p></div>
-             <div class="rowlabelr"><p> 文章 110 </p></div>
+             <div class="rowlabelr" v-if="titlep==1"><p> 文章 {{list.addArticleNum==null?'0':list.addArticleNum}} </p></div>
+             <div class="rowlabelr" v-if="titlep==2"><p> 活动 {{list.addActivityNum==null?'0':list.addActivityNum}} </p></div>
            </div>
-           <div class="rowbtn" @click="open2(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==true">已关注</div>
-           <div class="rowbtn" @click="postFollow(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==false"> + 关注</div>
+           <div class="rowbtn1" @click="open2(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==true">已关注</div>
+           <div class="rowbtn2" @click="postFollow(list.id)" v-on:click.stop="doThis" v-if="list.isFollow==false"> + 关注</div>
            </div>
        </div>
      
@@ -243,6 +244,7 @@
                  color: #999999;
                  margin-top: 11px;
                  line-height: 21px;
+                 text-align: center;
                  height: 42px;
                  overflow: hidden;
              }
@@ -277,16 +279,46 @@
                }
              }
              .rowbtn{
-                   width: 100px;
+                   // width: 100px;
+                   // height: 34px;
+                   // margin: 0 auto;
+                   // border: 1px solid;
+                   // border-color: -webkit-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   // border-color: -moz-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   // border-image: linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   // line-height: 34px;
+                   // font-size: 14px;
+                   // color: #3c4350;
+                   // margin-top: 18px;
+                   // text-align: center;
+                   // cursor: pointer;
+             }
+             .rowbtn1{
+                   width: 82px;
                    height: 34px;
                    margin: 0 auto;
-                   border: 1px solid;
-                   border-color: -webkit-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
-                   border-color: -moz-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
-                   border-image: linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   border: 1px solid #20A0FF;
+                   background: #fff;
+                   line-height: 34px;
+                   border-radius: 17px;
+                   font-size: 14px;
+                   color: #20A0FF;
+                   margin-top: 18px;
+                   text-align: center;
+                   cursor: pointer;
+
+             }
+             .rowbtn2{
+                   width: 82px;
+                   height: 34px;
+                   margin: 0 auto;
+                   border: 1px solid #20A0FF;
+                   // background-image: linear-gradient(-90deg, #508DFF 0%, #389BFF 34%, #26C5FE 89%, #3BB8FE 100%);
+                   background-image: linear-gradient(-90deg, #3BB8FE 0%, #26C5FE 34%, #389BFF 89%, #508DFF 100%);
+                   border-radius: 17px;
                    line-height: 34px;
                    font-size: 14px;
-                   color: #3c4350;
+                   color: #fff;
                    margin-top: 18px;
                    text-align: center;
                    cursor: pointer;
@@ -299,12 +331,11 @@
                box-shadow: 0 5px 4px 0 rgba(202,202,202,0.10);
                 border-radius: 2px;
                 cursor: pointer;
-
             }
       }
       .row:hover .rowbackimg{
 
-           background: rgba(221,243,255,0.4);
+           background: rgba(221,243,255,0.7);
       }
       .row:nth-child(4n+4){
          margin-right: 0;
@@ -312,7 +343,7 @@
     }
     .v_paging{
         width: 1200px;
-        margin: 35px auto 170px;
+        margin: 35px auto 0px;
     }
         
       

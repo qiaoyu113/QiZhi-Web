@@ -6,7 +6,7 @@
     	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">主办方</p></div>
     </div>
     <div class="box clearfix">
-       <div class="row" v-for="list in data" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
+       <div class="row" v-for="list in data" @click="goconcernDetail(list.id,true)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
        	   <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
        	   <div class="rowtitle">{{list.hostCompany}}</div>
@@ -15,7 +15,7 @@
        	   	 <div class="rowlabell"><p>粉丝 {{list.subNumw}} </p></div>
        	   	 <div class="rowlabelr"><p> 文章 110 </p></div>
        	   </div>
-       	   <div class="rowbtn" @click="open2(list.id)">取消关注</div>
+       	   <div class="rowbtn2" @click="open2(list.id)">取消关注</div>
            </div>
        </div>
       
@@ -65,6 +65,12 @@
               this.page.num=1
               this.getMyFollow()
     	},
+      goconcernDetail:function(id,isFollow){
+        // console.log(id)
+        // return false
+          this.$router.push({path:"/concern/detail",query:{id:id,isFollow:isFollow}}) 
+          // this.$router.replace({name:'concernDetail'})
+      },
     	 //分页
       handleCurrentChange(val){
           this.page.num=val
@@ -94,6 +100,7 @@
         let that = this;
         modularService.getMyFollow({pageNo: that.page.num, pageSize:that.page.size,adminType:that.titlep,type:true}).then(function (res) {
              console.log(res)
+             console.log(1)
                   if(res.data.code==200){
                        that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10
@@ -215,20 +222,51 @@
              	 }
              }
              .rowbtn{
-                   width: 100px;
+                   // width: 100px;
+                   // height: 34px;
+                   // margin: 0 auto;
+                   // border: 1px solid;
+                   // border-color: -webkit-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   // border-color: -moz-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   // border-image: linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   // line-height: 34px;
+                   // font-size: 14px;
+                   // color: #3c4350;
+                   // margin-top: 18px;
+                   // text-align: center;
+                   // cursor: pointer;
+             }
+             .rowbtn1{
+                   width: 82px;
                    height: 34px;
                    margin: 0 auto;
-                   border: 1px solid;
-                   border-color: -webkit-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
-                   border-color: -moz-linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
-                   border-image: linear-gradient(90deg,#FD9366, #77B9F8) 1 30;
+                   border: 1px solid #20A0FF;
+                   background: #fff;
+                   line-height: 34px;
+                   border-radius: 17px;
+                   font-size: 14px;
+                   color: #20A0FF;
+                   margin-top: 18px;
+                   text-align: center;
+                   cursor: pointer;
+
+             }
+             .rowbtn2{
+                   width: 82px;
+                   height: 34px;
+                   margin: 0 auto;
+                   border: 1px solid #20A0FF;
+                   // background-image: linear-gradient(-90deg, #508DFF 0%, #389BFF 34%, #26C5FE 89%, #3BB8FE 100%);
+                   background-image: linear-gradient(-90deg, #3BB8FE 0%, #26C5FE 34%, #389BFF 89%, #508DFF 100%);
+                   border-radius: 17px;
                    line-height: 34px;
                    font-size: 14px;
-                   color: #3c4350;
+                   color: #fff;
                    margin-top: 18px;
                    text-align: center;
                    cursor: pointer;
              }
+
             .rowbackimg{
                background: #fff;
                width: 100%;
@@ -240,7 +278,7 @@
   		}
       .row:hover .rowbackimg{
 
-           background: rgba(221,243,255,0.4);
+           background: rgba(221,243,255,0.7);
       }
   		.row:nth-child(3n+3){
   			 margin-right: 0;

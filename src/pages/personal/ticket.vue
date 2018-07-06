@@ -6,11 +6,11 @@
            <div class="tic">使用说明 :</div>
            <div class="txt">1.本活动凭票入场，一票一码一次性，请勿复制或转寄他人；</div>
            <div class="txt">2.请截图保存至手机或打印携带，保持二维码清晰完整；</div>
-           <div class="txt">3.本活动由「ID时候说的返回」提供票券服务，其拥有最终解释权。</div>
+           <div class="txt">3.本活动由「{{orderDetails.publishUser}}」提供票券服务，其拥有最终解释权。</div>
         </div>
         <div class="boxr" >
             <div class="lbtn" @click="btnleft()" v-if="data.length!=1 && ticindex!=0"><i class="el-icon-arrow-left"></i></div>
-            <div class="rbtn" @click="btnright()" v-if="data.length!=1 && data.length!=ticindex"><i class="el-icon-arrow-right"></i></div>
+            <div class="rbtn" @click="btnright()" v-if="data.length!=1 && data.length-1!=ticindex"><i class="el-icon-arrow-right"></i></div>
           <div class="piao" v-for="(list,index) in data" @click="yy(index)" v-if="index==ticindex">
             <div class="boxr1">第{{index+1}}张</div>
             <div class="boxr2"> <canvas id="canvas" class="canvas"></canvas></div>
@@ -25,7 +25,8 @@
                                      <span v-if="list.ticket.status==5">已退票</span>
                                      <span v-if="list.ticket.status==6">不同意退票</span>
                                     </div>
-            <div class="boxr8">票价：<span>¥{{list.ticket.price}}</span></div>
+            <div class="boxr8">票种：<span>{{list.ticket.name}}</span></div>
+            <div class="boxr8 boxr9">票价：<span>¥{{list.ticket.price}}</span></div>
            </div>
             <div class="index clearfix" :style="{marginLeft:(335-data.length*36) / 2 +'px'}">
                <div class="indexli" v-for="(ti,index) in data" :class="index==ticindex?'lu':''"></div>
@@ -121,8 +122,6 @@ var QRCode = require('qrcode')
                   if(res.data.code==200){
                       that.orderDetails=res.data.datas
                       // that.ticketUrl="http://wetuc.dtfind.com/d/" + that.data[0].ticketUrl
-                
-      
                   }
         });
       },
@@ -132,7 +131,6 @@ var QRCode = require('qrcode')
         let that = this;
         let id = that.$route.query.id
         modularService.getMyticketsOrderNoid(id).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                       that.data=res.data.datas
                        
@@ -160,6 +158,7 @@ var QRCode = require('qrcode')
       background: #eee;
       padding-bottom: 100px;
       margin-bottom: 0;
+      margin-top: 0;
      .box{
         width: 782px;
         margin: 178px auto 0;
@@ -225,7 +224,7 @@ var QRCode = require('qrcode')
            }
            .piao{
             width: 335px;
-            height: 578px;
+            height: 628px;
             background-image: url("../../assets/image/tic.png");
             background-size: 100% 100%;
             border-top: 1px solid #eee;
@@ -235,6 +234,7 @@ var QRCode = require('qrcode')
                color:#333;
                margin-top: 12px;
                text-align: center;
+
             }
             .boxr2{
                width: 168px;
@@ -255,37 +255,40 @@ var QRCode = require('qrcode')
                color: #333;
             }
             .boxr4{
-               margin-top: 58px;
+               margin-top: 42px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
                color: #333;
+               border-bottom: 0.5px solid #EEEEEE;
                span{
                  color: #151515;
                }
             }
             .boxr5{
-                margin-top: 30px;
+                // margin-top: 30px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
+               border-bottom: 0.5px solid #EEEEEE;
                color: #333;
                span{
                  color: #151515;
                }
             }
             .boxr6{
-              margin-top: 30px;
-              padding: 0 20px;
+              // margin-top: 30px;
+              padding: 14px 20px;
               width: 295px;
+              border-bottom: 0.5px solid #EEEEEE;
               .box6l{
                  float: left;
 
@@ -297,40 +300,51 @@ var QRCode = require('qrcode')
                  float: left;
                  width: 253px;
                  margin-left: 4px;
-                 height: 40px;
-                 overflow: hidden;
+                 // height: 40px;
+                 max-height: 40px;
+                 // overflow: hidden;
                  color: #151515;
                  line-height: 20px;
                  font-size: 14px;
+                 overflow : hidden;
+                 text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
               }
             }
             .boxr7{
-                margin-top: 30px;
+                // margin-top: 30px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
                color: #333;
+               border-bottom: 0.5px solid #EEEEEE;
                span{
                  color: #20A0FF;
                }
             }
             .boxr8{
-                margin-top: 30px;
+                // margin-top: 54px;
                padding: 0 20px;
                width: 295px;
                overflow: hidden;
                text-overflow:ellipsis;
                white-space:nowrap;
                font-size: 14px;
-               line-height: 20px;
+               line-height: 54px;
+               border-bottom: 0.5px solid #EEEEEE;
                color: #333;
                span{
                  color: #151515;
                }
+            }
+            .boxr9{
+               border-bottom: none;
             }
           }
             .index{
