@@ -3,8 +3,11 @@
      <div class="personalbox clearfix">
      	 <div class="personalboxl">
      	 	 <div class="headimg">
-     	 	 	 <img :src="picHead + name.headImg" />
-     	 	 	 <p>{{name.nickName}}</p>
+     	 	 	 <img :src="picHead + name.headImg" class="headimgimg" />
+     	 	 	 <p>{{name.nickName}}
+                 
+                 <img src="../../assets/image/viptit.png" v-if="myVip==true"/>
+                 </p>
      	 	 </div>
      	 	 <div class="tab"> 
      	 	 	 <router-link :to="{name:'purchase'}"><div class="tabrow" :class="selectindex==1?'select':''"><p>我的购买</p></div></router-link>
@@ -34,6 +37,7 @@
         title:'个人中心',
         selectindex:7,
         name:'',
+        myVip:'',
       }
     },
     components: {},
@@ -54,6 +58,8 @@
                
                   let User = res.data.datas
                   that.name = User.user
+                  that.myVip = that.name.myVip.vip
+                  console.log(res)
               })
         }
       
@@ -76,7 +82,7 @@
              margin-right: 20px;
              float: left;
              .headimg{
-             	 img{
+             	 .headimgimg{
              	 	 margin: 30px 65px 10px;
              	 	 width: 80px;
              	 	 height: 80px;
@@ -88,6 +94,12 @@
                     line-height: 24px;
                     letter-spacing: 0;
                     text-align: center;
+                    img{
+                         width: 31px;
+                         height: 15px;
+                         margin-top: 5px;
+
+                    }
              	 }
              }
              .tab{
