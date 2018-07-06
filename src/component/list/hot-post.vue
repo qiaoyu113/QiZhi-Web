@@ -12,7 +12,7 @@
             <div class="time_info">
                 <img src="../../assets/image/clock.png" class="time">
                 <span>{{item.createDate | dateFormate}}</span>
-                <img src="../../assets/image/arrow-right.png" class="arrow-right">
+                <!-- <img src="../../assets/image/arrow-right.png" class="arrow-right"> -->
             </div>
         </div>
     </router-link>

@@ -60,10 +60,10 @@
     </div>
     <div class="secondList">
       <el-select v-model="select1" placeholder="" @change="search()">
-        <el-option label="综合排序" value="publishTime"></el-option>
-        <el-option label="最新发布" value="actEndTime"></el-option>
+        <el-option label="综合排序" value="sortNumber"></el-option>
+        <el-option label="最新发布" value="publishTime"></el-option>
         <el-option label="热门点击" value="actReadNum"></el-option>
-        <el-option label="最近开始" value="sortNumber"></el-option>
+        <el-option label="最近开始" value="actEndTime"></el-option>
       </el-select>
       <el-checkbox-group v-model="checked1" @change="search()">
         <el-checkbox label="0" border>仅免费</el-checkbox>
@@ -120,7 +120,7 @@ import {indexService} from '../../service/indexService'
             store.state.homeStore.actClass = res.data.datas
           });
       }
-      store.state.homeStore.page = {pageNo:1,pageSize:9}
+      store.state.homeStore.page = {pageNo:1,pageSize:9,sortKey:'sortNumber'}
       function getarticleList(){
           return indexService.getActList(store.state.homeStore.page).then(function (res) {
               store.state.homeStore.totalAct = res.data.datas
@@ -154,7 +154,7 @@ import {indexService} from '../../service/indexService'
         radio2:'',
         radio3:'',
         date1:[],
-        select1:'publishTime',
+        select1:'sortNumber',
         checked1:[],
         checked2:[],
         currentPage3: 5,

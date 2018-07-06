@@ -9,14 +9,13 @@
             <form class="from" v-if="postInfo.length>=2">
                 <div v-for="(item,index) in postInfo" :key="index">
                     <div class="phone-box  div" v-if="item.type == 'danh'">
-                        <label class="fl">{{item.key}}</label>
-                        <span class="red" v-if="item.must == 1"> *</span>
+                        <label class="fl">{{item.key}}</label><span class="red" v-if="item.must == 1"> *</span>
                         <input class="input" type="text" ref="danh" :placeholder="'请填写您的'+item.key" v-model="item.value">
                     </div>
                     <div class="duoh-box  div" v-if="item.type == 'duoh'">
                         <label class="fl">{{item.key}}</label>
-                        <span class="red" v-if="item.must == 1"> *</span>
                         <textarea rows="3" cols="20" placeholder ref="duoh" name="text_area" v-model="item.value" @blur="onblur()"></textarea>
+                        <span class="red" v-if="item.must == 1"> *</span>
                     </div>
                     <div class="danx-box  div" v-if="item.type == 'danx'">
                         <div class="xuanze">
@@ -152,14 +151,20 @@
                                     flag++;
                                 }
                             }
-                            if(flag === that.postInfo[i].value.length){
-                                commonService.autoCloseModal(that,'必填信息不能为空',1)
+                            let duoxuanList = []
+                            for(let a=0;a<that.postInfo[i].valueArr.length;a++){
+                                if(that.postInfo[i].valueArr[a].check == true){
+                                    duoxuanList.push(that.postInfo[i].valueArr[a].text)
+                                }
+                            }
+                            if(flag === duoxuanList.length){
+                                commonService.autoCloseModal(that,'多选不能为空',1)
                                 return false
                             }
                         }
                         if(that.postInfo[i].type == 'danx'){
                             if(that.postInfo[i].check === undefined){
-                                commonService.autoCloseModal(that,'必填信息不能为单选',1)
+                                commonService.autoCloseModal(that,'单选不能为空',1)
                                 return false
                             }
                         }
@@ -208,9 +213,11 @@
 //                console.log(applyParams);
                 indexService.postApplyInfo(applyParams).then(function (res) {
                     if(res.data.code == 200){
-                        indexService.createOrder({actId:that.$parent.detail.id,key:res.data.datas.detailKey}).then(function(res){
-                            that.coded(res.data);
-                        })
+                        console.log(res.data.datas)
+                        that.$router.push({name:'createOrder',params:{type:'2',comNo:'1'},query:{actId:that.$parent.detail.id,key:res.data.datas.detailKey,name:res.data.datas.actName,address:res.data.datas.address,ticketName:res.data.datas.ticketName,ticketNum:res.data.datas.ticketNum,activityPoster:res.data.datas.activityPoster,ticketPrice:res.data.datas.ticketPrice}})
+                        // indexService.createOrder({actId:that.$parent.detail.id,key:res.data.datas.detailKey}).then(function(res){
+                        //     that.coded(res.data);
+                        // })
                     }else{
                         that.coded(res.data);
                     }
@@ -228,6 +235,7 @@
                 const that = this;
                 if(item.code === 200){
                     that.detailKey = item.datas
+                    // console.log('comNo',item.datas)
                     that.$router.replace({name:'createOrder',params:{type:'2',comNo:item.datas}})
                 } else if (item.code === 517107){ //您有一个待支付订单,请先处理(datas会有待支付订单号) ===携带订单编号，跳转到订单页
 
@@ -279,9 +287,9 @@
 <style lang="less" scoped>
     // 单选的样式
     .pay_list_c1 {
-        margin-top: 4px;
-        width: 24px;
-        height: 18px;
+        margin-top: 8px;
+        width: 16px;
+        height: 16px;
         float: left;
         padding-top: 3px;
         cursor: pointer;
@@ -289,7 +297,6 @@
         margin-right: 10px;
         background-image: url('../../assets/image/wdanx.png');
         background-repeat: no-repeat;
-        background-position: -24px 0;
     }
     .on {
         background-position: 0 0;
@@ -303,9 +310,9 @@
         background-image: url('../../assets/image/yduox.png') !important;
     }
     .piaochecked {
-        margin-top: 4px;
-        width: 20px;
-        height: 20px;
+        margin-top: 8px;
+        width: 16px;
+        height: 16px;
         float: left;
         cursor: pointer;
         margin-right: 10px;
@@ -313,6 +320,7 @@
         background-image: url('../../assets/image/wduox.png');
         background-repeat: no-repeat;
         background-position: 0 0;
+        background-size: cover;
     }
 
     .on_check {
@@ -320,6 +328,9 @@
     }
     .dan-check{
         position:relative;
+    }
+    .dan-check:hover{
+        background: #fafafa;
     }
     .radioclass {
         opacity:0;
@@ -341,7 +352,6 @@
         height:100%;
         width:100%;
         z-index:999;
-        overflow-y: hidden;
         .wrap{
             position: fixed;
             top: 10%;
@@ -350,7 +360,6 @@
             height: 80%;
             width: 600px;
             z-index: 999;
-            overflow-y: scroll;
             transform: translateX(-50%);
         }
         .page-title {
@@ -372,57 +381,81 @@
             padding-top: 8px;
             font-size: 12px;
             color: #b2b2b2!important;
+            cursor: pointer;
         }
 
         .postInfo {
             padding: 0 20px 30px 25px;
             margin-bottom: 20px;
-            overflow:scroll;
+            overflow-y:auto;
+        }
+        .postInfo::-webkit-scrollbar{
+            width: 5px;
+            background-color: rgba(0, 0, 0, 0.1);
+            // background-color: #fff;
+        }
+        .postInfo::-webkit-scrollbar-thumb
+        {
+            background-color: #8b8b8b;
+            border-radius: 10px;
+        }
+        .postInfo::-webkit-scrollbar-track{
+            background-color: #F5F5F5;
+           -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
         }
         .from .div {
             margin: 20px 0 20px 0;
         }
         .fl {
-            font-size: 16px;
-            color: #333333;
-            letter-spacing: 0.23px;
-            margin-left: 4px;
+            font-size: 14px;
+            color: #555555;
+            letter-spacing: 0;
+            // margin-left: 4px;
             margin-top: 8px;
+            float: initial;
         }
         .red {
             color: red;
-            float: left;
-            font-size: 16px;
-            padding-right: 10px;
+            font-size: 13px;
         }
         .input {
-            letter-spacing: 0.4px;
+            // letter-spacing: 0.4px;
             padding: 0 14px;
             display: block;
-            width: 80%;
+            width: 540px;
             height: 35px;
+            margin-top: 8px;
             border: 1px solid #dddddd;
-            border-radius: 2px;
-            font-size: 20px;
-            color: #333333;
+            font-size: 14px;
+            color: #303030;
+            letter-spacing: 0;
+            // line-height: 14px;
         }
         .input[placeholder] {
             color: #999999;
+            font-size: 14px;
+            color: #303030;
+            letter-spacing: 0;
+            // line-height: 14px;
         }
         textarea {
+            margin-top: 8px;
             display: block;
-            letter-spacing: 0.4px;
             padding: 12px 15px;
-            width: 80%;
+            width: 540px;
             height: 70px;
             border: 1px solid #dddddd;
-            border-radius: 2px;
             font-size: 16px;
             color: #333333;
         }
         li {
+            // height: 36px;
+            line-height: 36px;
             display: block;
-            margin: 20px 0;
+            position: relative;
+        }
+        li:hover{
+             background-color: #F5F5F5;
         }
         li i {
             font-size: 20px;
@@ -432,10 +465,12 @@
             float: left;
         }
         li label {
-            font-size: 16px;
             display: inline-block;
-            color: #333333;
             width: 80%;
+            font-size: 14px;
+            color: #404040;
+            letter-spacing: 0;
+            line-height: 36px;
         }
         .xuanze {
             overflow: hidden;
@@ -456,7 +491,7 @@
                 line-height: 40px;
                 font-size: 16px;
                 color: #FFFFFF;
-                padding: 0 20px;
+                padding: 0 48px;
                 background: #20A0FF;
                 display: inline-block;
                 float: right;

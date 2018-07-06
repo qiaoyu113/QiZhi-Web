@@ -48,12 +48,12 @@
         .icon-pinpai{color: #999999;font-size: 15px;display: inline-block;transform:rotateY(180deg);-ms-transform:rotateY(180deg); 	/* IE 9 */-moz-transform:rotateY(180deg); 	/* Firefox */-webkit-transform:rotateY(180deg); /* Safari 和 Chrome */-o-transform:rotateY(180deg); }
         .bg_list{width:100%;clear: both;margin: 0;padding: 0;overflow:hidden;margin-bottom: 10px;}
         .bg_list:hover{background-color:#fafafa;}
-        .bg_list_left{width:320px;height:160px;margin:10px 0 0px;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
-        .bg_list_left,.bg_list_right{float: left;}
+        .bg_list_left{width:320px;height:160px;margin:10px auto 0px;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+        // .bg_list_left,.bg_list_right{float: left;}
         .bg_list_left img{width:100%;height:100%;}
         .bg_list_left a{width:100%;height:100%;display:block;}
         .bg_list_left a:hover img{opacity:.9;}
-        .bg_list_right{width: 100%;}
+        .bg_list_right{padding:0 20px;}
         // .devheight{min-height:108px;}
         .bg_list_right_title{ margin-top:15px;line-height:24px;font-size:16px; color:#555;cursor: pointer;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;}
         .bg_list_right_title a:hover{color:#303030;text-decoration:underline;}

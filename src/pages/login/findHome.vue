@@ -25,6 +25,7 @@
                 <el-form-item>
                     <el-button @click="submitForm('ruleForm2')">完成</el-button>
                 </el-form-item>
+                <router-link class="" style="font-size: 14px;color: #20A0FF;" :to="{name:'login'}">返回登录</router-link>
               </el-form>
           </div>
       </div>

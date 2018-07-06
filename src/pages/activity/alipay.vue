@@ -8,7 +8,7 @@
     export default {
         props: [],
         data(){
-            common.pageTitle('支付宝付款')
+            // common.pageTitle('支付宝付款')
             return {
                 alipay:''
             }

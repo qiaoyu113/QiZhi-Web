@@ -17,10 +17,10 @@
 <script>
 import qs from 'qs'
 import { BaiduMap } from 'vue-baidu-map'
-import { BmlMarkerClusterer ,BmNavigation, BmMarker} from 'vue-baidu-map'
+import { BmlMarkerClusterer,BmMarker} from 'vue-baidu-map'
 import jsonp from 'jsonp'
 export default {
-    components: { BaiduMap, BmlMarkerClusterer ,BmNavigation,BmMarker},
+    components: { BaiduMap, BmlMarkerClusterer ,BmMarker},
     props: ['address'],
     data() {
         return {

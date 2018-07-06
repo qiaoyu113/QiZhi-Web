@@ -77,6 +77,8 @@
                         </template>
                     </el-table-column>
                     <el-table-column
+                            align="center"
+                            prop="ticketName"
                             label="票种"
                             width="160">
                     </el-table-column>
@@ -280,15 +282,60 @@
                 vipTotal:'',
                 lives:'',//直播数据
                 livesId:'',//直播的Id
-                actList:'',
+                actList:{},
                 shopId:'',
                 currVip:'',
+                ActorderId:'',
             }
         },
         mounted () {
             this.getInfo();
+            window.scrollTo(0,0);
         },
         methods: {
+            goOrder(){
+                this.$router.push({name:'purchase'})
+            },
+            coded: function(item) {
+                const that = this;
+                if(item.code === 200){
+                    that.ActorderId = item.datas;
+                    window.localStorage.setItem('orderId',that.ActorderId)
+                    let total =that.actList.ticketPrice * that.actList.ticketNum
+                    if(total*1 === 0){
+                        that.$router.push({name:'purchase'})
+                    }else{
+                        that.$router.push({name:'payment',params:{id:that.ActorderId,type:that.subType}})
+                    }
+                    // that.$router.replace({name:'createOrder',params:{type:'2',comNo:item.datas}})
+                } else if (item.code === 517107){ //您有一个待支付订单,请先处理(datas会有待支付订单号) ===携带订单编号，跳转到订单页
+                    that.$confirm(item.message, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        that.goOrder()
+                    }).catch(() => {
+
+                    });
+                } else if (item.code === 517109){ //您有一个待审核订单,请先处理(datas会有待审核订单号)  ===携带审核订单号，跳转到审核页面
+
+                    that.$confirm(item.message, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        that.goOrder()
+                    }).catch(() => {
+
+                    });
+                } else { //当前票种不可售,请选择其它票种 === 刷新活动详情页
+                    commonService.autoCloseModal(that,item.message,1)
+                    setTimeout(function(){
+                        that.$router.go(0)
+                    },2000)
+                }
+            },
             getInfo () {
                 let that = this;
                 let type = that.type;
@@ -321,16 +368,24 @@
                 }
                 //活动购买
                 if(that.subType == '2'){
-                    indexService.getOrder(that.$route.params.comNo).then(function(res){
-                        console.log(res);
-                        if(res.data.success){
-                            that.actList = res.data.datas.orderDetails[0];
-//                            that.actList.ticketPrice = that.money(that.actList.ticketPrice);
-//                            that.actList.actStartTime = common.getFormatOfDate(that.actList.actStartTime,'yyyy-MM-dd h:m:s')
-                        }else{
-                            that.$router.back(-1);
-                        }
-                    })
+                    console.log(9999999999999,that.$route.query.activityPoster)
+                    that.actList.activityPoster = that.$route.query.activityPoster
+                    that.actList.actName = that.$route.query.name
+                    that.actList.ticketName = that.$route.query.ticketName
+                    that.actList.address = that.$route.query.address
+                    that.actList.ticketNum = that.$route.query.ticketNum
+                    that.actList.ticketPrice = that.$route.query.ticketPrice
+//                     indexService.getOrder(that.$route.params.comNo).then(function(res){
+//                         console.log(res);
+//                         if(res.data.success){
+//                             that.actList = res.data.datas.orderDetails[0];
+//                             console.log('99999999999',that.actList)
+// //                            that.actList.ticketPrice = that.money(that.actList.ticketPrice);
+// //                            that.actList.actStartTime = common.getFormatOfDate(that.actList.actStartTime,'yyyy-MM-dd h:m:s')
+//                         }else{
+//                             that.$router.back(-1);
+//                         }
+//                     })
                 }
                 //Vp购买
                 if(that.subType == '3'){
@@ -386,15 +441,12 @@
             //活动支付按钮
             activityPay(actid,ticId,num,key){
                 let that = this;
-                let orderId = that.$route.params.comNo;
-                window.localStorage.setItem('orderId',orderId)
-                let total =that.actList.ticketPrice * that.actList.ticketNum
-                if(total*1 === 0){
-//                            console.log('这里是免费的')
-                    that.$router.push({name:'purchase'})
-                }else{
-                    that.$router.push({name:'payment',params:{id:orderId,type:that.subType}})
-                }
+                indexService.createOrder({actId:that.$route.query.actId,key:that.$route.query.key}).then(function(res){
+                    that.coded(res.data);
+                    // console.log(res.data.datas)
+                    
+                })
+                
             },
             //vip支付
             vipPay1(){

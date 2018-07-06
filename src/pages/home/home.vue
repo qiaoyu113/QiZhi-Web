@@ -64,7 +64,7 @@
             </div>
             <div v-show="phoneRead" class="phone">
                 <div class="top">
-                    <span>扫描二维码在手机上继续阅读本文</span> 
+                    <span>扫描二维码查看手机版</span> 
                     <i class="iconfont icon-guanbi2" @click="clickPhone" style="color:#333"></i>
                 </div>
                 <canvas class="canvas" id="canvas1"></canvas>

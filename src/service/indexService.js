@@ -99,6 +99,10 @@ export const indexService = {
     getActList: function(params){
         return axios.get('/activities'+ this.getParam(params))
     },
+    //获取参加活动人的头像
+    getApplyPeople: function(params){
+        return axios.get('/activities/people'+ this.getParam(params))
+    },
     // 活动
     getColumns: function(params){
         return axios.get('/columns'+ this.getParam(params))

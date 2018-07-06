@@ -85,6 +85,7 @@ const modifyPass = (resolve) => {require(['./pages/login/modifyPass.vue'],resolv
 const wxlogin = (resolve) => {require(['./pages/login/wxlogin.vue'],resolve)} //第三方授权微信跳转页
 const bindQrcode = (resolve) => {require(['./pages/login/bindQrcode.vue'],resolve)}
 const bindwxlogin = (resolve) => {require(['./pages/login/bindwxlogin.vue'],resolve)}
+const agreement = (resolve) => {require(['./pages/login/agreement.vue'],resolve)}
 // 404错误页面
 const error = (resolve) => {require(['./pages/error.vue'],resolve)}
 
@@ -151,6 +152,7 @@ const routers = [
     {name: 'wxlogin', path:'/wxlogin',component: wxlogin}, // 微信跳转页
     {name: 'bindQrcode', path:'/bindQrcode',component: bindQrcode}, // 绑定微信二维码页面
     {name: 'bindwxlogin', path:'/bindwxlogin',component: bindwxlogin}, // 绑定微信页面
+    {name: 'agreement', path:'/agreement',component: agreement}, // 条款页面
 ]
 
 const router = new VueRouter({

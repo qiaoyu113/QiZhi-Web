@@ -47,7 +47,7 @@
                 <div class="activity-message-bottom-right-4">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/renwu.png" alt=""></div>
                     <div class="activity-message-bottom-right-4-right" v-if="detail.actApplyNum || detail.peoUpperLimit">
-                        <p class="right-4-p1" v-if="detail.actApplyNum!= 0"><span>{{detail.actApplyNum}}</span>人已报名</p>
+                        <p class="right-4-p1" v-if="detail.actApplyNum!= 0 && detail.showUsers==1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名</p>
                         <p class="right-4-p2" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
                     </div>
                     <div class="activity-message-bottom-right-4-right2">
@@ -60,13 +60,15 @@
                     <div class="activity-message-bottom-right-5-right">
                         <div>
                             <el-radio-group v-model="radio1" @change="chooseTicket(radio1)">
-                                <el-radio :label="item.id" border  class="wxz" v-for="(item,index) in tickets" :key="index">
+                                <el-radio :label="item.id" border  class="wxz" v-for="(item,index) in tickets" :key="item.id">
                                     <span class="pricename">{{item.name}}</span> 
                                     <span v-if="item.price!=0" class="price">￥ {{item.price/100}}</span>
                                     <span v-if="item.price==0" class="price">免费票</span>
                                  </el-radio>
-                                 <el-radio disabled :label="item.id" border class="wxz nofree disable" v-for="(item,index) in notickets" :key="index">
-                                    <span class="pricename">{{item.name}}</span> <span v-if="item.price!=0" class="price">￥ {{item.price/100}}</span>
+                                 <el-radio disabled :label="item1.id" border class="wxz nofree disable" v-for="(item1,index1) in notickets" :key="index1">
+                                    <span class="pricename">{{item1.name}}</span> 
+                                    <span v-if="item1.price!=0" class="price">￥ {{item1.price/100}}</span>
+                                    <span v-if="item1.price==0" class="price">免费票</span>
                                  </el-radio>
                             </el-radio-group>
                         </div>
@@ -111,17 +113,19 @@
         
     </div>
       <add-info v-if="showAddInfo"  :postInfo="signInfo"></add-info>
-      <div class="baoming">
+      <div class="zhezhao" v-if="showPeople"></div>
+      <div class="baoming" v-if="showPeople">
           <div class="top">
               <span>已报名的人</span>
-              <i class="iconfont icon-guanbi"></i>
+              <i class="iconfont icon-guanbi" @click="showPeoList"></i>
           </div>
           <div class="bottom">
-              <div>
-                  <img src="" alt="">
-                  <span class="name">13526492830</span>
-                  <span class="time">09-14-2016</span>
+              <div class="hang" v-for="(item,index) in peopleList" :key="item.id">
+                  <img :src="item.headImg | picTurn" alt="">
+                  <span class="name">{{item.nickName}}</span>
+                  <span class="time">{{item.createTime | stampFormate}}</span>
               </div>
+              <load-more v-if="peopleList.length!=0" :page="page.num" :total="page.totalPage" :status="loadStatus" @loadMore="loadmore"></load-more>
           </div>
       </div>
     <!--活动提问标题-->
@@ -316,16 +320,27 @@ import addInfo from './addInfo.vue'
           showAddInfo:false,
           signInfo:'',
           isFollowed:false,
+          loadStatus:0,
+          peopleList:[],
+          page: { // 分页
+            num: 1,
+            size:10,
+            totalCount: 0,
+            totalPage:0
+        },
+        showPeople:false,
       }
     },
     components: {share,'add-info':addInfo},
     mounted () {
         //获取分享信息
         this.$refs.myShare.title = this.detail.activityTitle;
+        this.title = this.detail.activityTitle;
         this.$refs.myShare.desc = this.detail.activityAddress;
         this.$refs.myShare.pics = this.$store.state.picHead + this.detail.activityPoster;
         this.getTickets() //订单信息
         this.codelDetail() //手机二维码
+        this.getPeople()
         let that = this;
         if(localStorage.token && localStorage.token!='undefined'){
             this.saveIs()
@@ -339,8 +354,45 @@ import addInfo from './addInfo.vue'
         window.scrollTo(0,0);
     },
     methods: {
+        showPeoList(){
+            this.showPeople = !this.showPeople
+        },
+        loadmore(i){
+            //loadstatus为加载状态，每次收到接口数据后要修改该状态
+            let that = this
+            that.loadStatus = 1
+            that.page.num = i
+            that.getPeople()
+        },
+        getPeople(){
+            const that = this
+            indexService.getApplyPeople({
+                id:that.$route.params.id,
+                pageNo:that.page.num,
+                pageSize:that.page.size
+            }).then(function (res) {
+                let tabInfo = res.data.datas;
+                that.page.totalPage = tabInfo.totalPage
+                that.page.totalCount = tabInfo.totalCount == null ? 0 : parseInt(tabInfo.totalCount);
+                let newArr = tabInfo.datas;
+                for(let i=0;i<newArr.length;i++){
+                    that.peopleList.push(newArr[i]);
+                }
+                if(res.data.datas.pageNo>=res.data.datas.totalCount){
+                    that.loadStatus = 2
+                }else {
+                     that.loadStatus = 0
+                }
+                
+            });
+        },
         enterMap: function () {
             const that = this
+            
+            let url = 'http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress
+            console.log(url)
+            // window.open('http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress);
+            // http://localhost:9012/place?place=%E5%94%90%E5%B1%B1%E5%B8%82%E5%94%90%E5%B1%B1%E5%B8%82%E5%A4%A7%E5%8F%94%E5%A4%A7%E5%A9%B6%E5%90%A6
             that.$router.push({
                 name: 'activityPlace',
                 query: {place: that.detail.city + that.detail.dist + that.detail.activityAddress}
@@ -433,20 +485,17 @@ import addInfo from './addInfo.vue'
         checkTickets(){
             const that = this
             //接口未弄好
-            indexService.checkTicket({actId:that.$route.params.id,ticketId:that.radio1,num:that.num1}).then(function (res) {
-                //如果可购买
-                /*if(){
-                    //下单
-                    that.key = '' //获取key
-                    that.putTicket()
-                } else {
-                    //提示后刷新页面
-                    that.getDetails()
-                    that.getTickets()
-                }*/
-                that.coded(res.data)
-                console.log('检查片',res.data.datas)
-            });
+            if(that.radio1!=''){
+                indexService.checkTicket({actId:that.$route.params.id,ticketId:that.radio1,num:that.num1}).then(function (res) {
+                    that.coded(res.data)
+                    console.log('检查片',res.data.datas)
+                });
+            } else {
+                that.$message({
+                    type: 'info',
+                    message: '请选择票种'
+                });
+            }
         },
         putTicket(){
             const that = this
@@ -475,7 +524,7 @@ import addInfo from './addInfo.vue'
             let oldTicket
             oldTicket = res.data.datas
             for(var i=0;i<oldTicket.length;i++){
-                if(oldTicket[i].leftNum == '0'){
+                if(oldTicket[i].leftNum <= '0' || oldTicket[i].status == '0'){
                     that.notickets.push(oldTicket[i])
                 }else{
                     that.tickets.push(oldTicket[i])
@@ -489,6 +538,9 @@ import addInfo from './addInfo.vue'
                 that.$store.state.homeStore.actDetail = res.data.datas;
             });
         },
+        goOrder(){
+            this.$router.push({name:'purchase'})
+        },
       handleChange(value) {
         console.log(value);
       },
@@ -497,7 +549,6 @@ import addInfo from './addInfo.vue'
             const that = this;
             if(item.code === 200){
                 that.showAddInfo=true;
-
             } else if (item.code === 517107){ //您有一个待支付订单,请先处理(datas会有待支付订单号) ===携带订单编号，跳转到订单页
                 that.$confirm('您有一个待支付订单,请先处理!', '提示', {
                     confirmButtonText: '确定',
@@ -579,7 +630,7 @@ import addInfo from './addInfo.vue'
     .icon-shouji1{line-height: initial !important;color:#D8D8D8;}
     .el-input-number--mini{width: 110px;}
     .posicon{position: absolute;left: 0px;line-height: initial;}
-    .activity-message-bottom{min-height:580px;display:table;}
+    .activity-message-bottom{}
     .activity-message-bottom-left{position: relative;;width:452px;float:left;display: table-cell;vertical-align: middle;margin-top:25px;}
     .activity-message-bottom-left .imgHead{width: 100%;height: 226px;overflow: hidden;position: relative;}
     .activity-message-bottom-left img{width:100%;position: absolute;top: 50%;transform: translateY(-50%);}
@@ -597,7 +648,7 @@ import addInfo from './addInfo.vue'
     }
     .activity-message-bottom-left .p2 span{display: block;width:16px;height:20px;float:left;}
     .activity-message-bottom-left .p2 .erweima{position:absolute;top:13px;background:#fff;left:-58px;box-sizing: border-box;padding:14px;}
-    .activity-message-bottom-right{margin-left:30px;width:650px;right:0;overflow: hidden;min-height:400px;float:left;}
+    .activity-message-bottom-right{padding-bottom:30px;margin-left:30px;width:650px;right:0;overflow: hidden;min-height:400px;float:left;}
     .activity-message-bottom-right-1{font-size:0;background:#FFFEF3;width:656px;height:51px;line-height:51px;font-size:14px;color:#999999;position:relative;margin-top:25px;}
     .activity-message-bottom-right-1 .title{float:left;}
     .activity-message-bottom-right-1 .gs-name{margin-top:14px;font-size:15px;color:#20A0FF;line-height:24px;text-align:left;float:left;/*position:absolute;top: 14px;left: 55px;*/}
@@ -622,11 +673,11 @@ import addInfo from './addInfo.vue'
     .activity-message-bottom-right-3-right{width:601px;float:left;padding-left:20px;font-size:15px;color:#555555;line-height:50px;text-align:left;}
     .activity-message-bottom-right-3-right span{display: block;float:right;width:8px;height:14px;margin-top:18px;margin-left:40px;}
     .activity-message-bottom-right-3-right:hover{cursor: pointer;}
-    .activity-message-bottom-right-3-right a{display: block;float: left;max-width: 553px;overflow: hidden;height:50px;white-space:nowrap;text-overflow:ellipsis;}
+    .activity-message-bottom-right-3-right a{color:#555;display: block;float: left;max-width: 553px;overflow: hidden;height:50px;white-space:nowrap;text-overflow:ellipsis;}
     .activity-message-bottom-right-4{background:#ffffff;box-shadow:inset 0px -1px 0px 0px #f5f5f5;width:656px;height:50px;}
     .activity-message-bottom-right-4-left{width:16px;height:16px;float:left;margin-top:18px;}
     .activity-message-bottom-right-4-right{float:left;padding-left:20px;}
-    .activity-message-bottom-right-4-right .right-4-p1{float:left;font-size:15px;color:#555555;text-align:left;line-height:56px;}
+    .activity-message-bottom-right-4-right .right-4-p1{cursor: pointer;float:left;font-size:15px;color:#555555;text-align:left;line-height:56px;}
     .activity-message-bottom-right-4-right .right-4-p2{float:left;font-size:13px;color:#999999;text-align:left;line-height:57px;margin-left:8px;}
     .activity-message-bottom-right-4-right2{float:right;margin-right:18px;}
     .activity-message-bottom-right-4-right2 .right-4-img{z-index:0;float:right;width:90px;height:35px;margin-top:10px;position:relative;}
@@ -696,19 +747,22 @@ import addInfo from './addInfo.vue'
         .nofree{
             .pricename{
                 position: absolute;
-                top: 0px;
+                top: -7px;
                 transform: translateX(-50%);
                 left: 50%;
+                color:#555;
             }
         }
         .disable{
-            .pricename{color:#999 !important;}
+            .pricename{color:#BBBBBB !important;}
+            .price{color:#BBBBBB !important;}
         }
         .pricename{
             position: absolute;
             top: -7px;
             transform: translateX(-50%);
             left: 50%;
+            color:#555;
         }
         .el-radio__label{
             position: relative;
@@ -775,11 +829,28 @@ import addInfo from './addInfo.vue'
         }
       }
   }
+  .zhezhao{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.35);
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    overflow-y: hidden;
+  }    
     .baoming{
         width: 600px;
         background: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        box-shadow: 0 2px 4px 0 rgba(187,187,187,0.50);
+        position: fixed;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        z-index:150;
         .top{
-            padding: 0 16px;
+            padding: 0 20px;
             height: 43px;
             line-height: 43px;
             box-shadow: inset 0 -1px 0 0 #DDDDDD;
@@ -787,12 +858,53 @@ import addInfo from './addInfo.vue'
                 font-size: 16px;
                 color: #303030;
             }
-            i{
-                color: #B2B2B2;
+            .icon-guanbi{
+                color: #B2B2B2 !important;
                 font-size: 16px;
                 float: right;
-                margin-top: 14px;
+                margin-top: 10px;
+                cursor: pointer;
             }
+        }
+        .bottom{
+            width: 100%;
+            height: 450px;
+            overflow-y: auto;
+            .hang{
+                height: 50px;
+                box-shadow: inset 0 -1px 0 0 #F5F5F5;
+                img{
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 50%;
+                    margin-left: 20px;
+                    line-height: 50px;
+                    float: left;
+                    margin-top: 8px;
+                }
+                .name{
+                    font-size: 14px;
+                    color: #303030;
+                    margin-left: 6px;
+                    float: left;
+                    margin-top: 16px;
+                }
+                .time{
+                    margin-top: 16px;
+                    font-size: 14px;
+                    color: #999999;
+                    margin-right: 20px;
+                    float: right;
+                }
+            }
+        }
+        .bottom::-webkit-scrollbar{
+            width: 2px;
+            background-color: rgba(0, 0, 0, 0.34);
+        }
+        .bottom::-webkit-scrollbar-track{
+            background-color: #F5F5F5;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.22);
         }
     }
     .gray-box{

@@ -27,12 +27,14 @@
                 <el-form-item>
                     <el-button @click="nextStep('ruleForm2')">注册并登录</el-button>
                 </el-form-item>
-                <el-form-item class="zidong" prop="checked">
-                    <el-checkbox-group v-model="ruleForm2.checked">
+                <!-- <el-form-item class="zidong" prop="checked"> -->
+                    <!-- <el-checkbox-group v-model="ruleForm2.checked">
                         <el-checkbox name="checked" label="1">我已注册并同意</el-checkbox>
-                    </el-checkbox-group>
-                    <router-link class="argumentItem" to="">《运联通服务协议》</router-link>
-                </el-form-item>
+                    </el-checkbox-group> -->
+                    <span style="color:#999;margin-top:-10px;float: left;">注册即表示同意</span>
+                    <router-link class="argumentItem" :to="{name:'agreement'}">《运联通服务协议》</router-link>
+                    <router-link class="argumentItem" style="float:right;" :to="{name:'login'}">返回登录</router-link>
+                <!-- </el-form-item> -->
               </el-form>
           </div>
           </div>
@@ -97,7 +99,7 @@ import {loginService} from '../../service/loginService'
             optioncitys:[],
             options: null,
             title:'注册页面',
-            checked: true, //用户协议是否选中
+            // checked: true, //用户协议是否选中
             name:'',
             job:'',
             newjob: '',
@@ -119,13 +121,13 @@ import {loginService} from '../../service/loginService'
                 password: '',
                 type:1,
                 password1:"",
-                checked:['1'],
+                // checked:['1'],
                 platform:"",
             },
             rules2: {
-                checked: [
-                    { type: 'array', required: true, message: '请同意服务协议', trigger: 'change' }
-                ],
+                // checked: [
+                //     { type: 'array', required: true, message: '请同意服务协议', trigger: 'change' }
+                // ],
                 smsCode: [
                     { validator: validatePassa, trigger: 'blur' },
                 ],
@@ -157,11 +159,11 @@ import {loginService} from '../../service/loginService'
         methods: {
             changeCheck:function(){
                 const that = this
-                if(!that.ruleForm1.checked.length){
-                    document.getElementsByClassName('el-button')[0].style.background = "#666"
-                } else{
-                    document.getElementsByClassName('el-button')[0].style.background = "#B9002D"
-                }
+                // if(!that.ruleForm1.checked.length){
+                //     document.getElementsByClassName('el-button')[0].style.background = "#666"
+                // } else{
+                //     document.getElementsByClassName('el-button')[0].style.background = "#B9002D"
+                // }
             },
             getgaptchas:function(){
                 const captchaBox = document.getElementById('captcha-box');
@@ -262,13 +264,6 @@ import {loginService} from '../../service/loginService'
                                 title: '注册成功',
                                 type: 'success'
                             })
-                            that.$store.state.loginStore.redisKey = res.data.datas
-                            that.ruleForm1.redisKey = that.$store.state.loginStore.redisKey
-                            clearInterval(that.$store.state.loginStore.timer)
-                            that.count = 0
-                            document.getElementsByClassName('geetest_holder')[0].style.display = "none"
-                            that.step = 2
-                            that.$store.state.loginStore.registerStep = that.step
                             localStorage.token = res.data.datas;
                             if(localStorage.redirectUrl && localStorage.redirectUrl!="undefined"){
                                 let url = localStorage.redirectUrl
@@ -335,7 +330,8 @@ import {loginService} from '../../service/loginService'
             height: 20px;
             color: #6699FF;
             line-height: 20px;
-            margin-top: 5px;
+            margin-top: -12px;
+            font-size: 12px;
         }
         .center2{
             padding: 0 0 50px 0 !important;

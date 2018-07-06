@@ -168,7 +168,7 @@ import {loginService} from '../../service/loginService'
                 } else {
                     let seccode2 = that.seccode1.split('|')
                     seccode2 = seccode2.join(',')
-                    loginService.getValidateMess({phone: that.ruleForm2.phone, type: 3,challenge:that.challenge1,validate:that.validate1,seccode:seccode2}).then(function (res) {
+                    loginService.getValidateMess({phone: that.ruleForm2.phone, type: 2,challenge:that.challenge1,validate:that.validate1,seccode:seccode2}).then(function (res) {
                         if(res.data.success){  // 返回正确
                             // document.getElementById('yes').style.display = 'block';
                             let count = 0;
@@ -207,7 +207,7 @@ import {loginService} from '../../service/loginService'
                 const that = this;
                 that.$refs[formName].validate((valid) => {
                     if (valid) {
-                        loginService.phoneLogin({phone:that.ruleForm2.phone,smsCode:that.ruleForm2.smsCode,type:3,platform:that.ruleForm2.platform}).then(function (res) {
+                        loginService.bindPhoneLogin({phone:that.ruleForm2.phone,smsCode:that.ruleForm2.smsCode,type:2,platform:that.ruleForm2.platform}).then(function (res) {
                             if(res.data.success){
                                 that.$notify({
                                     title: '登录成功',
