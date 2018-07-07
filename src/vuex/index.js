@@ -13,21 +13,23 @@ import payStore from './modules/payStore'
 const store = new Vuex.Store({
     // 定义状态
     state: {
-        // apiUrl:'https://mini.wetuc.com', //正式版
+        //正式版
+        apiUrl:'https://mini.wetuc.com', 
+        picHead:'http://resource.wetuc.com/',// 资源地址
+        redirect_uri:'http://wetuc.com/wxlogin', //微信指向页面
+        appId:'wx7160f239f04c65da',
+        url:'http://wetuc.com',
+
         // picHead:'http://test.resource.vjuzhen.com/',// 测试版
+        // redirect_uri:'http://wetuc.dtfind.com/wxlogin', 
+        // apiUrl:'https://mini.dtfind.com',
+        // appId:'wxd5dd1b24ea1e7c02',
+        // url:'http://wetuc.dtfind.com',
 
-
-        picHead:'http://test.resource.vjuzhen.com/',// 测试版
-        // picHead:'http://resource.wetuc.com/', // 正式版
-        description:'运联description',
-        keyWords:'运联keyWords',
-        apiUrl:'https://mini.dtfind.com', //测试版
-        
-        // apiUrl:'http://wj.tunnel.qydev.com', //测试版
         logoUrl:'/src/assets/image/logo.png', //王俊测试
         fromPath:['home'],
-        appId:'wxd5dd1b24ea1e7c02', // 测试appId
-        // appId:'', // 正式appId
+        description:'运联description',
+        keyWords:'运联keyWords',
 
     },
     mutations:{
