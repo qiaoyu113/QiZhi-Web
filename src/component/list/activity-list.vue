@@ -4,26 +4,29 @@
 -->
 <template>
     <div class="sy-list sy dicContent" id="activity">
-        <div class="bg_list">
-            <div class="bg_list_left">
-                <router-link :to="{name:'passage',params:{id:item.id}}">
-                    <img :src="item.poster| picTurn">
-                </router-link>
-            </div>
-            <div class="bg_list_right">
-                <div class="devheight">
-                    <div class="bg_list_right_title">
-                        {{item.title}}
-                    </div>
-                    <div class="bg_list_right_detail">
-                        <div class="textList">时间: 2018-10-22</div>
-                        <div class="textList">地点: 北京</div>
-                        <div class="textList">票价: <span>￥100</span></div>
+        <router-link :to="{name:'activityDetail',params:{id:item.id}}">
+            <div class="bg_list">
+                <div class="bg_list_left">
+                    <img :src="item.activityPoster| picTurn">
+                </div>
+                <div class="bg_list_right">
+                    <div class="devheight">
+                        <div class="bg_list_right_title">
+                            {{item.activityTitle}}
+                        </div>
+                        <div class="bg_list_right_detail">
+                            <div class="textList">时间: {{item.actStartTime | dateFormate}}</div>
+                            <div class="textList">地点: {{item.prov}}{{item.city}}{{item.dist}}</div>
+                            <div class="textList">票价:
+                                <span v-if="item.minTicketPrice == item.maxTicketPrice && item.maxTicketPrice != 0">￥{{item.maxTicketPrice/100}}</span>
+                                <span v-if="item.minTicketPrice == item.maxTicketPrice && item.maxTicketPrice == 0">免费</span>
+                                <span v-if="item.minTicketPrice < item.maxTicketPrice">￥{{item.minTicketPrice/100}} - {{item.maxTicketPrice/100}}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        </router-link>
     </div>
 </template>
 <script type="text/ecmascript-6">

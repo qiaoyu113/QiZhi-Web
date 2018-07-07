@@ -238,6 +238,11 @@
     methods: {
         getHotNewsa(){
             let that = this;
+            let id = that.$route.params.id
+            console.log(id)
+            if(id){
+                that.newDetail.createUserId = id
+            }
             indexService.getArticles({pageNo:1,pageSize:5,adminId:that.newDetail.createUserId,queryType:1}).then(function (res) {
                 console.log(res.data.datas)
                 that.hotArticleLists = res.data.datas.datas
