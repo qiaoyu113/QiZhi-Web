@@ -5,16 +5,42 @@
     	<!-- <div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">付费读</p></div> -->
     </div>
     <div class="box1" v-if="titlep==1">
-        <div class="row clearfix" v-for="list in data">
+       
+        <div class="rowbox"  v-for="list in data">
+          <div class="rowtype">
+              <p class="paymentp" v-if="list.status ==1">待付款</p>
+              <p class="paymentp" v-if="list.status ==2">待审核</p>
+              <p class="paymentp" v-if="list.status ==3">已付款</p>
+              <p class="paymentp" v-if="list.status ==4">已取消</p>
+              <p class="paymentp" v-if="list.status ==5">交易关闭</p>
+              <p class="paymentp" v-if="list.status ==6">退款待审核</p>
+              <p class="paymentp" v-if="list.status ==7">退款中</p>
+              <p class="paymentp" v-if="list.status ==8">退款失败</p>
+              <p class="paymentp" v-if="list.status ==9">审核通过</p>
+              <p class="paymentp" v-if="list.status ==10">审核不通过</p>
+              <p class="paymentp" v-if="list.status ==11">退款申请中</p>
+              <p class="paymentp" v-if="list.status ==12">退款拒绝</p>
+              <p class="paymentp" v-if="list.status ==13">撤销申请</p>
+              <p class="paymentp" v-if="list.status ==14">支付超时</p>
+              <p class="paymentp" v-if="list.status ==15">退款成功</p>
+              <p class="paymentp" v-if="list.status ==16">待领取</p>
+              <p class="paymentp" v-if="list.status ==17">待发货</p>
+              <p class="paymentp" v-if="list.status ==18">已发货</p>
+              <p class="paymentp" v-if="list.status ==19">交易完成</p>
+          </div>
+          <div class="rownumber">
+              <p>下单时间: {{list.createTime | stampFormate2}} | 订单编号: {{list.orderNo}}</p>
+          </div>
+        <div class="row clearfix">
         	 <div class="rowl"><img :src="picHead + list.orderDetails[0].activityPoster"/></div>
         	 <div class="rowr">
-        	 	 <p class="h3">{{list.orderDetails[0].actName}}</p>
-        	
+        	 	 <p class="h3" @click="goactivity(list.orderTypeId)">{{list.orderDetails[0].actName}}</p>
         	 	 <p class="time">开始时间 : {{list.orderDetails[0].actStartTime | stampFormate2}}</p>
-        	 	 <p class="place clearfix">活动地点 : {{list.orderDetails[0].address}}<span>票价 : <i>￥{{list.orderDetails[0].ticketPrice | money}}</i></span></p>
-
+        	 	 <p class="place">活动地点 : {{list.orderDetails[0].address}}</p>
+             <p class="place">票价 : <span>￥{{list.orderDetails[0].ticketPrice | money}}</span></p>
+             <p class="place">票数 : {{list.orderDetails[0].ticketName}}*{{list.orderDetails[0].ticketNum}}张</p>
         	 </div>
-        	 <div class="roworder">
+        <!-- 	 <div class="roworder">
         	 	  <div class="top clearfix"><p class="topl">{{list.orderDetails[0].ticketNum}}张</p><p class="topr">共<span>￥{{list.amount | money}}</span></p></div>
         	 	  <p class="paymentp" v-if="list.status ==1">待付款</p>
               <p class="paymentp" v-if="list.status ==2">待审核</p>
@@ -35,14 +61,15 @@
               <p class="paymentp" v-if="list.status ==17">待发货</p>
               <p class="paymentp" v-if="list.status ==18">已发货</p>
               <p class="paymentp" v-if="list.status ==19">交易完成</p>
-          
              <div class="ticket touming" v-if="list.status !=3 && list.status !=9">查看电子票</div>
-             <div class="ticket" v-if="list.status ==3 || list.status ==9" @click="goactivity(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
+             <div class="ticket" v-if="list.status ==3 || list.status ==9" @click="goticket(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
 
-        	 </div>
+        	 </div> -->
            <div class="floftdiv">
+             <div class="cancelorder" v-if="list.status==1" @click="opencancel(list.orderNo)">取消订单</div>
            <div class="cancelorder cancelorderbak" v-if="list.status==1" @click="gopayment(list.orderNo,list.orderDetails[0].ticketPrice)">去付款</div>
-           <div class="cancelorder" v-if="list.status==1" @click="putOrdersIdCancel(list.orderNo)">取消订单</div>
+            <div class="cancelorder cancelorderbak" v-if="list.status ==3 || list.status ==9 || list.status ==19" @click="goticket(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
+
            <div class="cancelorder" v-if="list.status==3" @click="open3(list.orderNo)">申请退款</div>
            <!-- <div class="cancelorder fei" v-if="list.status==5">交易关闭</div> -->
            <!-- <div class="cancelorder fei" v-if="list.status==2">待审核</div> -->
@@ -50,8 +77,9 @@
            <!-- <div class="cancelorder fei" v-if="list.status==6">退款审核</div> -->
            <!-- <div class="cancelorder fei" v-if="list.status==7">退款中</div> -->
            <!-- <div class="cancelorder fei" v-if="list.status==8">退款失败</div> -->
-
+           <div class="cancelordermoney" v-if="list.status==1">需支付: <span>￥{{list.amount | money}}</span></div>
            </div>
+        </div>
         </div>
         <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
     </div>
@@ -111,9 +139,10 @@ import {modularService} from '../../service/modularService'
     	titleindex:function(index){
               this.titlep=index
     	},
-      goactivity:function(id,actId){
+      goticket:function(id,actId){
 
-         this.$router.push({path:"/ticket",query:{id:id,actId:actId}}) 
+         // this.$router.push({path:"/ticket",query:{id:id,actId:actId}}) 
+            window.open(window.location. origin + '/ticket?id='+id+'&actId='+actId)
       },
       gopayment:function(orderNo,money){
           // console.log(orderNo)
@@ -123,13 +152,16 @@ import {modularService} from '../../service/modularService'
           if(money !=0){
             this.$router.push({name:'payment',params:{id:orderNo,type:2}})
           }
-          
+      },
+       //活动详情页
+      goactivity:function(id){
+       this.$router.push({path:"/activity/"+id}) 
+
       },
       //获取我的已购
       getOrdersUser (){
         let that = this;
         modularService.getOrdersUser({pageNo: that.page.num, pageSize:that.page.size,orderType:2}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                   //      that.data=res.data.datas.datas
                   //     that.inde=res.data.datas.totalPage * 10
@@ -138,9 +170,13 @@ import {modularService} from '../../service/modularService'
                     that.page.totalPage = res.data.datas.totalPage
                     that.total=res.data.datas.total
                     that.page.totalCount = res.data.datas.totalCount == null ? 0 : parseInt(res.data.datas.totalCount);
-              for(let i=0;i<newArr.length;i++){
+                    if(newArr!=null){
+                      for(let i=0;i<newArr.length;i++){
                         that.data.push(newArr[i]);
                     }
+                    }
+              
+                    console.log(that.data)
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {
@@ -156,6 +192,20 @@ import {modularService} from '../../service/modularService'
                 that.page.num = i
                 that.getOrdersUser()
             },
+        opencancel(id) {
+        this.$confirm('是否确定取消订单？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(({ value }) => {
+          this.putOrdersIdCancel(id)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });       
+        });
+      },
       //取消订单
       putOrdersIdCancel (id){
         let that = this;
@@ -239,8 +289,24 @@ import {modularService} from '../../service/modularService'
   	}
   	.box1{
   		 width: 100%;
+       .rowbox{
+         .rowtype{
+           margin-top: 25px;
+           color: #20A0FF;
+           font-size: 16px;
+           line-height: 21px;
+         }
+         .rownumber{
+            margin-top: 5px;
+            p{
+               font-size: 14px;
+               color: #666;
+               line-height: 20px;
+            }
+         }
+       }
   		 .row{
-  		 	 padding: 25px 0 76px;
+  		 	 padding: 25px 0 25px;
   		 	 background: #FFFFFF;
              box-shadow: inset 0 -1px 0 0 #DDDDDD;
   		 	 // border-bottom: 1px solid 
@@ -260,7 +326,6 @@ import {modularService} from '../../service/modularService'
             text-align: center;
             color:#20a0ff;
             cursor: pointer;
-
          }
          .fei{
             border:1px solid #999;
@@ -270,6 +335,21 @@ import {modularService} from '../../service/modularService'
          .cancelorderbak{
             background: #20A0FF;
             color: #fff;
+         }
+         .cancelordermoney{
+            float: right;  
+            margin-left: 10px;
+            margin-top: 10px;
+            // border: 1px solid #20A0FF;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: center;
+            color:#999;
+            span{
+               font-size: 16px;
+               color: #20a0ff;
+            }
+            
          }
           }
          
@@ -305,11 +385,17 @@ import {modularService} from '../../service/modularService'
   		 	 	 .h3{
   		 	 	 	 font-weight: 700;
   		 	 	 	 font-size: 16px;
+              width: 320px;
+              line-height: 40px;
   		 	 	 	 color: #303030;
   		 	 	 	 line-height: 40px;
+             overflow: hidden;
+             text-overflow:ellipsis;
+             white-space:nowrap;
+             cursor: pointer;
   		 	 	 }
   		 	 	 .time{
-  		 	 	 	 margin-top: 22px;
+  		 	 	 	 margin-top: 5px;
   		 	 	 	 font-size: 14px;
   		 	 	 	 color: #999;
   		 	 	 	 line-height: 19px;
@@ -320,12 +406,12 @@ import {modularService} from '../../service/modularService'
   		 	 	 	 line-height: 19px;
   		 	 	 	 margin-top: 10px;
              width: 320px;
+             height: 19px;
+             overflow: hidden;
+             text-overflow:ellipsis;
+             white-space:nowrap;
   		 	 	 	 span{
-               float: right;
-  		 	 	 	 	 margin-left: 10px;
-  		 	 	 	 	 i{
   		 	 	 	 	 	 color: #20A0FF;
-  		 	 	 	 	 }
   		 	 	 	 }
   		 	 	 }
   		 	 }

@@ -2,7 +2,7 @@
   <div class="" id="notice" v-set-title="title">
     
     <div class="title clearfix">
-    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">通知<i v-if="tz==true"></i></p></div>
+    	<div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">通知<i v-if="tz==true"></i></p></div>
     	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">私信<i v-if="sx==true"></i></p></div>
     	<!-- <div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">日程消息</p></div> -->
     	<!-- <div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">更新消息</p></div> -->
@@ -26,7 +26,7 @@ import {modularService} from '../../service/modularService'
     data () {
       return {
         title:'消息通知',
-        titlep:2,
+        titlep:3,
         page:{
            num:1,
            size:10,
@@ -56,7 +56,7 @@ import {modularService} from '../../service/modularService'
       getInnerletter (){
         let that = this;
         modularService.getInnerletter({pageNo: that.page.num, pageSize:that.page.size,type:this.titlep}).then(function (res) {
-             // console.log(res)
+             console.log(res)
                   if(res.data.code==200){
                       //  that.data=res.data.datas.datas
                       // that.inde=res.data.datas.totalPage * 10
@@ -85,13 +85,12 @@ import {modularService} from '../../service/modularService'
       getInnerletterIsunread(){
         let that=this;
         modularService.getInnerletterIsunread().then(function(res){
-            console.log(res)
+            // console.log(res)
           if(res.data.success){
             // let yule = res.data.datas.user.numItem.unreadMsgNum
-            that.tz=res.data.datas[1]
-            that.sx=res.data.datas[2]
+            that.tz=res.data.datas[2]
+            that.sx=res.data.datas[1]
             // console.log()
-
              console.log(that.tz)
              console.log(that.sx)
           }else{
@@ -166,16 +165,17 @@ import {modularService} from '../../service/modularService'
   			 padding: 0 30px;
   			 background: #FFFFFF;
              box-shadow: inset 0 -1px 0 0 #DDDDDD;
-             height: 60px;
+             // height: 60px;
              .boxrowl{
              	 float: left;
              	 width: 670px;
-             	 line-height: 60px;
-             	 height: 60px;
+             	 line-height: 24px;
+               padding: 18px 0;
+             	 // height: 60px;
              	 color: #333;
-             	 overflow: hidden;
-             	 text-overflow:ellipsis;
-                 white-space:nowrap;
+             	 // overflow: hidden;
+             	 // text-overflow:ellipsis;
+               //   white-space:nowrap;
              }
              .boxrowr{
              	 float: right;

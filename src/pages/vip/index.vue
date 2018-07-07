@@ -4,7 +4,7 @@
           <div class="top">
              <div class="con">
                  <div class="tabbtn clearfix">
-                     <div class="tabbtnl">会员中心</div>
+                     <!-- <div class="tabbtnl">会员中心</div> -->
                      <!-- <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div> -->
                  </div>
                  <div class="personal clearfix" v-if="personal==1">
@@ -13,8 +13,10 @@
                         <div class="name clearfix">
                            <p>{{data.nickName}}</p><img src="../../assets/image/viptit.png" v-if="myVip==true"/>
                         </div>
-                        <!-- <p class="branch">我的积分<span>208</span>分</p> -->
-                        <!-- <p class="time" v-if="data.myVip.vip==true">积分有效期<span>{{data.myVip.endTime | stampFormate}}</span>积分规则》</p> -->
+                        <!-- <p class="branch">过期时间<span>208</span>分</p> -->
+                        <p class="time" v-if="myVip==true">有效期<span>{{data.myVip.endTime | stampFormate}}</span></p>
+                        <p class="time" v-if="myVip!=true">您还不是VIP</p>
+
 
                     </div>
                  </div>

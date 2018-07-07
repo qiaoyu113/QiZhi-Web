@@ -11,8 +11,8 @@
                    <div class="authortitr" v-if="concernstatus==2"><p>活动 {{author.addActivityNum==null?'0':author.addActivityNum}} </p></div>
 
                 </div>
-                <div class="authorbtn" @click="postFollow(author.id)" v-if="isFollow==false">+ 关注</div>
-                <div class="authorbtn" @click="open2(author.id)" v-if="isFollow==true">已关注</div>
+                <div class="authorbtn2" @click="postFollow(author.id)" v-if="isFollow=='false' || isFollow==false">+ 关注</div>
+                <div class="authorbtn1" @click="open2(author.id)" v-if="isFollow=='true' || isFollow==true">已关注</div>
             </div>
             <div class="division clearfix">
               <div class="divisionl" v-if="concernstatus==2">最新发表的活动</div>
@@ -20,17 +20,22 @@
               <div class="divisionr"></div>
             </div>
             <div class="surface">
-                <div class="row clearfix" v-for="list in data" v-if="concernstatus==2">
+                <div class="row clearfix" v-for="list in data" v-if="concernstatus==2" @click="goactivity(list.id)">
                      <div class="rowl">
                         <img :src="picHead + list.activityPoster" />
                      </div>
                      <div class="rowr">
-                         <p class="top">{{list.activityTitle}}</p>
-                         <p class="con">{{list.activityDetails}}</p>
-                         <p class="tim">{{list.actStartTime | stampFormate}}</p>
+                         <p class="top texttop">{{list.activityTitle}}</p>
+                         <!-- <p class="con">{{list.activityDetails}}</p> -->
+                         <p class="text">时间：{{list.actStartTime| stampFormate2}}--{{list.actEndTime | stampFormate2}}</p>
+                         <p class="text">地点：{{list.prov}}{{list.city}}{{list.dist}}{{list.activityAddress}}</p>
+                         <p class="text" v-if="list.minTicketPrice!=list.maxTicketPrice">票价：<span>￥{{list.minTicketPrice | money}}--{{list.maxTicketPrice | money}}</span></p>
+                         <p class="text" v-if="list.minTicketPrice==list.maxTicketPrice">票价：<span>￥{{list.minTicketPrice | money}}</span></p>
+
+                         <!-- <p class="tim">{{list.actStartTime | stampFormate}}</p> -->
                      </div>
                 </div>
-                  <div class="row clearfix" v-for="list in data" v-if="concernstatus==3">
+                  <div class="row clearfix" v-for="list in data" v-if="concernstatus==3" @click="goarticle(list.id)">
                      <div class="rowl">
                         <img :src="picHead + list.authorHeadImg" />
                      </div>
@@ -40,8 +45,12 @@
                          <p class="tim">{{list.createDate | stampFormate}}</p>
                      </div>
                 </div>
-
-
+                <div class="nocontent" v-if="(data==null || data=='') && concernstatus==3">
+                   该作者暂未发布文章
+                </div>
+                 <div class="nocontent" v-if="(data==null || data=='') && concernstatus==2">
+                   该主办方暂未发布活动
+                </div>
                 <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
               
             </div>
@@ -67,8 +76,8 @@
         total:1,
         concernstatus:3,
         author:'',
-          id:this.$route.query.id,//id
-          isFollow:this.$route.query.isFollow, //是否关注
+        id:this.$route.query.id,//id
+        isFollow:this.$route.query.isFollow, //是否关注
 
       }
     },
@@ -77,13 +86,32 @@
             picHead() {
                 return this.$store.state.picHead
             },
+            // isFollow(){
+            //    return this.$route.query.isFollow
+            // }
         },
     mounted () {
       window.scrollTo(0,0);
        this.getMyFollowMain()
+     // console.log()
+       // this.isFollows()
     },
     methods: {
-      
+      isFollows:function(){
+
+         this.isFollow=this.$route.query.isFollow
+         console.log(this.isFollow)
+      },
+      //活动详情页
+      goactivity:function(id){
+       this.$router.push({path:"/activity/"+id}) 
+
+      },
+      //文章详情页
+      goarticle:function(id){
+       this.$router.push({path:"/article/"+id}) 
+
+      },
       //获取社群号信息
       getMyFollowMain (){
         let that = this;
@@ -122,6 +150,7 @@
                         that.data.push(newArr[i]);
                     }
                      }
+                     console.log(that.data)
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {
@@ -146,6 +175,7 @@
                         that.data.push(newArr[i]);
                     }
                      }
+
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {
@@ -165,10 +195,8 @@
                        // that.getAllAdminUser()
                         that.$message.success('关注成功');
                         that.isFollow=true
+                   that.$router.push({path:"/concern/detail",query:{id:that.id,isFollow:that.isFollow}}) 
                       //  that.data=res.data.datas.datas
-
-              
-                 
                   }
         });
       },
@@ -179,6 +207,8 @@
                   if(res.data.code==200){
                      that.$message.success('取消关注成功');
                      that.isFollow=false
+                   that.$router.push({path:"/concern/detail",query:{id:that.id,isFollow:that.isFollow}}) 
+                    
                  
                   }
         });
@@ -302,6 +332,36 @@
                 font-size: 12px;
                 line-height: 32px;
           }
+          .authorbtn1{
+                   width: 82px;
+                   height: 34px;
+                   margin: 0 auto;
+                   border: 1px solid #20A0FF;
+                   background: #fff;
+                   line-height: 34px;
+                   border-radius: 17px;
+                   font-size: 14px;
+                   color: #20A0FF;
+                   margin-top: 18px;
+                   text-align: center;
+                   cursor: pointer;
+
+             }
+             .authorbtn2{
+                   width: 82px;
+                   height: 34px;
+                   margin: 0 auto;
+                   border: 1px solid #20A0FF;
+                   // background-image: linear-gradient(-90deg, #508DFF 0%, #389BFF 34%, #26C5FE 89%, #3BB8FE 100%);
+                   background-image: linear-gradient(-90deg, #3BB8FE 0%, #26C5FE 34%, #389BFF 89%, #508DFF 100%);
+                   border-radius: 17px;
+                   line-height: 34px;
+                   font-size: 14px;
+                   color: #fff;
+                   margin-top: 18px;
+                   text-align: center;
+                   cursor: pointer;
+             }
        }
        .division{
            margin-top: 30px;
@@ -357,6 +417,18 @@
                   -webkit-line-clamp: 2;
 
                  }
+                 .text{
+                    font-size: 16px;
+                    line-height: 24px;
+                    color:#84898F;
+                    margin-top: 6px;
+                    span{
+                       color:#389BFF ;
+                    }
+                 }
+                 .texttop{
+                   margin-bottom: 15px;
+                 }
                  .tim{
                    margin-top: 25px;
                    color: #999;
@@ -364,6 +436,12 @@
                    line-height: 17px;
                  }
               }
+           }
+           .nocontent{
+               text-align: center;
+               color: #999;
+               margin-top: 60px;
+               font-size: 24px;
            }
 
        }

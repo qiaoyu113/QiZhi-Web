@@ -3,23 +3,25 @@
       <!--暂无-->
      <div class="searchbox">
           <div class="searchbtn clearfix">
-             <div class="searchbtnl"><input type="text" v-model="findText" placeholder="搜索你想知道的"/></div>
+             <div class="searchbtnl"><input type="text" v-model="findText" placeholder="搜索你想知道的" @keyup.enter="find()"/></div>
              <div class="searchbtnr" @click="find()"><i class="el-icon-search"></i> 搜索</div>
           </div>
          <div class="searchList">
              <li :class="check == i ? 'check':''" v-for="(item,i) in searchList" @click="btnSearchList(i)">{{item.name}}</li>
          </div>
      </div>
-      <div :class="check == 3 || check == 4 ? 'searchResult2' : 'searchResult'">
+      <!--<div :class="check == 3 || check == 4 ? 'searchResult2' : 'searchResult'">-->
+      <div :class="check == 2 || check == 3 ? 'searchResult2' : 'searchResult'">
           <div class="none" v-if="articleList.length == 0" >暂无相关内容</div>
           <!--文章-->
           <home-list v-if="check == 0" v-for="(item,index) in articleList" :item="item" :key="index"></home-list>
           <!--活动-->
           <activityList v-if="check == 1" v-for="(item,index) in articleList" :item="item" :key="index"></activityList>
           <!--付费读-->
-          <readList v-if="check == 2" v-for="(item,index) in articleList" :item="item" :key="index"></readList>
+          <!--<readList v-if="check == 2" v-for="(item,index) in articleList" :item="item" :key="index"></readList>-->
           <!--作者-->
-          <authorList v-if="check == 3 || check == 4" v-for="(item,index) in articleList" :item="item" :key="index"></authorList>
+          <!--<authorList v-if="check == 3 || check == 4" v-for="(item,index) in articleList" :item="item" :key="index"></authorList>-->
+          <authorList v-if="check == 2 || check == 3" v-for="(item,index) in articleList" :item="item" :key="index"></authorList>
           <!--分页-->
           <div class="v_paging">
               <el-pagination
@@ -52,10 +54,10 @@
                     name:'活动',
                     key:''
                 },
-                {
-                    name:'付费读',
-                    key:''
-                },
+//                {
+//                    name:'付费读',
+//                    key:''
+//                },
                 {
                     name:'作者',
                     key:''
@@ -82,7 +84,29 @@
 
         },
         mounted () {
-            this.article()
+            let that = this;
+            let type = that.$route.query.type
+            if(type){
+                that.check = type;
+                that.articleList = [];
+                that.page.num = 1;
+                if(type == 0){
+                    that.article()
+                }else if(type == 1){
+                    that.active()
+                }else if(type == 2){
+//                    that.articlePay()
+                    that.author(1)
+                }else if(type == 3){
+//                    that.author(1)
+                    that.author(2)
+                }else if(type == 4){
+                    that.author(2)
+                }
+            }else{
+                that.article()
+            }
+
         },
         methods: {
             //搜索
@@ -104,6 +128,7 @@
             btnSearchList:function(i){
                 let that = this;
                 that.check = i;
+                that.$router.replace({name:'search',query:{type:i}})
                 that.articleList = [];
                 that.page.num = 1;
                 if(i == 0){
@@ -111,9 +136,11 @@
                 }else if(i == 1){
                     that.active()
                 }else if(i == 2){
-                    that.articlePay()
-                }else if(i == 3){
+//                    that.articlePay()
                     that.author(1)
+                }else if(i == 3){
+//                    that.author(1)
+                    that.author(2)
                 }else if(i == 4){
                     that.author(2)
                 }
@@ -225,6 +252,7 @@
                background: #389bff;
                color: #fff;
                font-size: 16px;
+                cursor: pointer;
             }
         }
           .searchList{

@@ -26,7 +26,7 @@
      
     </div>
        <!--分页-->
-    <div class="v_paging">
+    <div class="v_paging" v-if="inde>10">
         <el-pagination
             background
            layout="prev, pager, next, jumper"
@@ -110,7 +110,7 @@
                   if(res.data.code==200){
                        that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
+                     
               
                  
                   }
