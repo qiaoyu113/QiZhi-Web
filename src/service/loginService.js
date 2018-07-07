@@ -72,6 +72,9 @@ export const loginService = {
     bindPhone: function (params) { //绑定手机号
         return axios.put('/users' + this.getParam(params));
     },
+    bindWechart: function (params) { //绑定手机号
+        return axios.put('/users' + this.getParam(params));
+    },
     bindRegister:function (params){ //完善第三方登录注册信息
         return axios.post('/users/third' + this.getParam(params));
     },

@@ -1,8 +1,9 @@
 <template>
-  <div id="register" class="register" v-set-title="title">
+  <div id="login1" class="login" v-set-title="title">
       <div class="center">
-          <div class="left" v-if="step==1">
-              <p class="title">绑定手机号</p>
+          <div class="left">
+              <z-logo></z-logo>
+              <!--<img src="../../assets/image/common/logo.png" alt="" class="logoa">-->
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="" prop="phone">
                     <el-input type="phone" v-model="ruleForm2.phone" auto-complete="off" placeholder="手机号"></el-input>
@@ -10,45 +11,40 @@
                 <!--滑动验证-->
                 <div id="captcha-box"></div>
                 <!-- 短信验证 -->
-                <el-form-item class="item" label="" prop="sms">
-                    <el-input type="phone" class="form-ipt validatePhone" v-model="ruleForm2.smsCode" auto-complete="off" placeholder="短信验证码"></el-input>
+                <div class="item">
+                    <el-form-item label="" prop="smsCode">
+                        <el-input type="smsCode" class="form-ipt validatePhone" v-model="ruleForm2.smsCode" auto-complete="off" placeholder="4位短信验证码"></el-input>
+                    </el-form-item>
+                    <!--<input type="number" class="form-ipt validatePhone" placeholder="4位短信验证码" v-model="ruleForm2.smsCode">-->
                     <span class="validateFromPhone font1" v-if="isFlag" @click="getFromPhone" style="cursor:pointer;"><i class="mid-line"></i>获取验证码</span>
                     <span class="validateFromPhone validateWaiting" v-else><i class="mid-line"></i>(<span id="countDown">90</span>s)重新获取</span>
-                </el-form-item>
+                </div>
                 <el-form-item>
-                    <el-button @click="nextStep('ruleForm2')">下一步</el-button>
+                    <el-button @click="submitForm('ruleForm2')">注册并绑定</el-button>
                 </el-form-item>
               </el-form>
-          </div>
-          <div class="left" v-if="step==2">
-              <p class="title" style="margin-top:70px;">完善信息</p>
-              <el-form :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm1" label-width="100px" class="demo-ruleForm">
-                <el-input v-model="ruleForm1.name" placeholder="请输入你的名称" class="nameinput"></el-input>
-                <el-select v-model="ruleForm1.job" placeholder="请选择你的职业">
-                    <el-option :label="item" v-for="(item,index) in jobs" :key="index" :value="item"></el-option>
-                </el-select>
-                <el-select v-model="ruleForm1.unitType" placeholder="请选择你的单位类型">
-                    <el-option :label="item" v-for="(item,index) in companys" :key="index" :value="item"></el-option>
-                </el-select>
-                <el-form-item>
-                    <el-button @click="submitForm()" id="agree">确认并登录</el-button>
-                </el-form-item>
-                <el-form-item class="zidong" prop="checked">
-                    <el-checkbox-group v-model="ruleForm1.checked">
-                        <el-checkbox name="checked" @change="changeCheck()">我已阅读并同意</el-checkbox>
-                    </el-checkbox-group>
-                    <a class="argumentItem" @click="isAgree">《用户服务协议》</a>
-                </el-form-item>
-              </el-form>
-            <!-- <div class="moreSolve">
-                <router-link :to="{name:'phone'}" class="solves solves1"></router-link>
-                <router-link :to="{name:'login'}" class="solves solves2"></router-link>
-            </div> -->
-          </div>
-          <div class="right">
-              <div class="ceng"></div>
-              <!--<img src="../../assets/image/common/logo.png" alt="" class="rightpic">-->
-              <p>合通机器人是中国首个综合性线上 /线下AI商务交易支持服务云平台</p>
+              <div class="zidong">
+                  <el-checkbox v-model="checked">下次自动登录</el-checkbox>
+                  <div class="forline"><router-link :to="{name:'find'}">忘记密码</router-link>&nbsp;&nbsp;|&nbsp;&nbsp;<router-link :to="{name:'register'}">注册</router-link></div>
+            </div>
+            <div class="moreSolve">
+                <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                    <i class="iconfont icon-weixin"></i>
+                    <p style="margin-top:7px;">微信登录</p>
+                </router-link>
+                <!-- <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                    <i class="iconfont icon-qq"></i>
+                    <p style="margin-top:7px;">QQ登录</p>
+                </router-link>
+                <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                    <i class="iconfont icon-sina"></i>
+                    <p style="margin-top:6px;">微博登录</p>
+                </router-link> -->
+                <router-link :to="{name:'login'}" class="solves solvesw" >
+                    <i class="iconfont icon-mima"></i>
+                    <p style="margin-top:11px;">密码登录</p>
+                </router-link>
+            </div>
           </div>
       </div>
   </div>
@@ -57,7 +53,7 @@
 <script>
 import {commonService} from '../../service/commonService'
 import {validate} from '../../assets/js/validate'
-import {appService} from '../../service/appService'
+import {loginCommon} from '../../assets/js/common/loginCommon'
 import {loginService} from '../../service/loginService'
     export default {
       components: {},
@@ -72,39 +68,18 @@ import {loginService} from '../../service/loginService'
                 callback();
             }
         };
-        let validatePass = (rule, value, callback) => {
-            var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+        let validatePassa = (rule, value, callback) => {
+            var pass=/^[0-9]{4}$/
            if (value === '') {
-                callback(new Error('请输入密码'));
+                callback(new Error('请填写验证码'))
             } else if(!pass.test(value)) {
-                callback(new Error('数字和密码组合,且不少于6位'));
+                callback(new Error('验证码不正确'))
             }else {
                 callback();
             }
         };
         return{
-            title:'绑定微信页',
-            jobs:[
-                "生活 | 服务业",
-                "人力 | 行政 | 管理",
-                "销售 | 客服 | 采购 | 淘宝",
-                "酒店",
-                "市场 | 媒介 | 广告 | 设计",
-                "生产 | 物流 | 质控 | 汽车",
-                "网络 | 通信 | 电子",
-                "法律 | 教育 | 翻译 | 出版",
-                "财会 | 金融 | 保险",
-                "医疗 | 制药 | 环保",
-                "建筑 | 物业 | 其他 "
-            ],
-            companys:["金融|银行|保险 ","IT|互联网|通信|电子 ","政府|非赢利机构 ","法律服务|管理咨询|中介服务 ","房产|建筑建设|物业 ","广告|传媒|印刷出版 ","消费零售|贸易 ","教育科研 ","交通物流 ","加工制造|仪表设备 ","医药生物|医疗保健 ","酒店旅游 ","能源矿产|石油化工 ","其他"],
-            checked: true, //用户协议是否选中
-            name:'',
-            job:'',
-            newjob: '',
-            unitType:'',
-            step:this.$store.state.loginStore.registerStep,
-            count: 0,
+            title:'绑定手机号',
             challenge1:"",
             validate1:"",
             seccode1:"",
@@ -114,44 +89,22 @@ import {loginService} from '../../service/loginService'
             kaptchaKey: '', // 服务器端验证码
             baseCode: '',//验证码图片
             platform: 'WXH5',
-            geetesst: false,
+            checked:true,
             ruleForm2: {
+                platform:'WXH5',
+                infoKey:'', //第三方登录infoKey
+                redisKey:'',
+                loginType:'WEIXIN', //登录类型/QQ/WEIXIN/WEIBO
+                geetesst: false,
                 phone:'',
                 smsCode:"",
-                type:2,
-                platfrom:'',
-            },
-            ruleForm1:{
-                loginType:'WEIXIN', //登录类型/QQ/WEIXIN/WEIBO
-                name:'',
-                job:'',
-                unitType:'',
-                platform:'',
-                redisKey:'',
-                infoKey:'', //第三方登录infoKey
-                checked:true
             },
             rules2: {
-                sms: [
-                    { message: '请输入短信验证码', trigger: 'blur' },
+                smsCode: [
+                    { validator: validatePassa, trigger: 'blur' }
                 ],
                 phone: [
                     { validator: validatePhone, trigger: 'blur' }
-                ]
-            },
-            rules1: {
-                checked:[
-                    { required: true, type: 'array', message: '请同意服务协议', trigger: 'change' }
-                ],
-                name: [
-                    { required: true, message: '请输入你的名称', trigger: 'blur' },
-                    { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
-                ],
-                job: [
-                    { required: true, message: '请选择你的职业', trigger: 'change' }
-                ],
-                unitType: [
-                    { required: true, message: '请选择你的单位类型', trigger: 'change' }
                 ]
             }
         }
@@ -160,20 +113,12 @@ import {loginService} from '../../service/loginService'
         updated() {
         },
         mounted (){
-            const that = this
-            that.getPlatform() //初始化Platform
-            that.getgaptchas() //初始化滑块
-            // console.log(this.$store.state.loginStore.thirdInfo,'thirdInfo')
+            this.getPlatform() //初始化Platform
+            this.getgaptchas() //初始化滑块
+            document.body.scrollTop = 0;
+            this.ruleForm2.infoKey = this.$store.state.loginStore.thirdInfo
         },
         methods: {
-            changeCheck:function(){
-                const that = this
-                if(!that.ruleForm1.checked){
-                    document.getElementsByClassName('el-button')[0].style.background = "#666"
-                } else{
-                    document.getElementsByClassName('el-button')[0].style.background = "#B9002D"
-                }
-            },
             getgaptchas:function(){
                 const captchaBox = document.getElementById('captcha-box');
                 const that = this
@@ -193,33 +138,15 @@ import {loginService} from '../../service/loginService'
                             that.challenge1 = result.geetest_challenge
                             that.validate1 = result.geetest_validate
                             that.seccode1 = result.geetest_seccode
-                            that.geetesst = true;
+                            that.ruleForm2.geetesst = true;
                         })
                     })
                 })
             },
             getPlatform:function(){
                 const that = this
-                that.ruleForm2.platfrom = appService.getPlatForm();
-                that.ruleForm1.platform = appService.getPlatForm();
-                that.$store.state.loginStore.platform = that.ruleForm1.platform;
+                that.ruleForm2.platform = loginCommon.getPlatForm();
             },
-            isAgree () {
-                let that = this
-                that.agreeMe = {
-                text: 'aa',
-                type: 1
-                };
-            },
-            // 极验的验证(只需要系统验证)
-            // getGaptchas:function(){
-            //     const that = this
-            //     loginService.postGaptchas({challenge:that.challenge1,validate:that.validate1,seccode:that.seccode1}).then(function(res){
-            //         if(res.data.message == 'success'){
-            //             that.getFromPhone()
-            //         }
-            //     })
-            // },
             getFromPhone () {
                 let that = this;
                 let obj = document.getElementById('kap');
@@ -236,7 +163,7 @@ import {loginService} from '../../service/loginService'
                         type: 'warning'
                     })
                     return
-                } else if (that.geetesst == false){
+                } else if (that.ruleForm2.geetesst == false){
                     that.$notify({
                         title: '请重新拖动滑块',
                         type: 'warning'
@@ -245,23 +172,25 @@ import {loginService} from '../../service/loginService'
                 } else {
                     let seccode2 = that.seccode1.split('|')
                     seccode2 = seccode2.join(',')
-                    commonService.getValidateMess({phone: that.ruleForm2.phone, type: 2,challenge:that.challenge1,validate:that.validate1,seccode:seccode2}).then(function (res) {
+                    loginService.getValidateMess({phone: that.ruleForm2.phone, type: 2,challenge:that.challenge1,validate:that.validate1,seccode:seccode2}).then(function (res) {
                         if(res.data.success){  // 返回正确
+                            // document.getElementById('yes').style.display = 'block';
+                            let count = 0;
                             that.isFlag = 0; //显示倒计时
                             if(that.isFlag) {
                                 clearInterval(that.$store.state.loginStore.timer);
                             } else {
                             that.$store.state.loginStore.timer = setInterval(function () {
-                            that.count = parseInt(document.getElementById('countDown').innerHTML) - 1;
-                                if(that.count > 0) {
-                                    document.getElementById('countDown').innerHTML = that.count;
-                                }else{
-                                    clearInterval(that.$store.state.loginStore.timer);
-                                    that.isFlag = 1;
-                                    var removeObj = document.getElementsByClassName('geetest_holder')[0];
-                                    removeObj.parentNode.removeChild(removeObj);
-                                    that.getgaptchas()
-                                }
+                            count = parseInt(document.getElementById('countDown').innerHTML) - 1;
+                            if(count > 0) {
+                                document.getElementById('countDown').innerHTML = count;
+                            }else{
+                                clearInterval(that.$store.state.loginStore.timer);
+                                that.isFlag = 1;
+                                var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                                removeObj.parentNode.removeChild(removeObj);
+                                that.getgaptchas()
+                            }
                             },1000);
                             }
                         }else { //返回错误
@@ -278,95 +207,38 @@ import {loginService} from '../../service/loginService'
                     });
                 }
             },
-            nextStep() {
+            submitForm(formName) {
                 const that = this;
-                that.$store.state.loginStore.phone = that.ruleForm2.phone //手机号
-                that.ruleForm2.infoKey = that.$store.state.loginStore.thirdInfo
-                loginService.bindPhone(that.ruleForm2).then(function (res) {
-                    if(res.data.code == 210100){
-                        that.$notify({
-                            title: '登录成功',
-                            type: 'success'
-                        })
-                        localStorage.token = res.data.datas;
-                        let JWT = res.data.datas.split('.');
-                        let info = JWT[1];
-                            loginService.packageUserInfo(info);
-                        // 清空倒计时
-                        if(that.$store.state.loginStore.timer > 0){
-                            clearInterval(that.$store.state.loginStore.timer)
-                        }
-                        that.goToTarget('');//跳转到来的页面验证码过期，请重新输入
-                    }else if (res.data.code == 210104) {
-                        that.$notify({
-                            title: '请完善个人信息',
-                            type: 'success'
-                        })
-                        that.$store.state.loginStore.redisKey = res.data.datas.redisKey
-                        // console.log(res.data.datas.infoKey)
-                        that.$store.state.loginStore.infoKey = res.data.datas.infoKey
-                        that.ruleForm1.redisKey = that.$store.state.loginStore.redisKey
-                        that.ruleForm1.infoKey = that.$store.state.loginStore.infoKey
-
-                        clearInterval(that.$store.state.loginStore.timer)
-                        that.count = 0
-                        document.getElementsByClassName('geetest_holder')[0].style.display = "none"
-                        that.step = 2
-                        that.$store.state.loginStore.registerStep = that.step
+                that.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        loginService.bindWechart({infoKey:that.ruleForm2.infoKey,phone:that.ruleForm2.phone,smsCode:that.ruleForm2.smsCode,type:2,platform:that.ruleForm2.platform}).then(function (res) {
+                            if(res.data.success){
+                                that.$notify({
+                                    title: '登录成功',
+                                    type: 'success'
+                                })
+                                localStorage.token = res.data.datas;
+                                if(localStorage.redirectUrl == "undefined"){
+                                    that.$router.replace({name: 'home'});
+                                }else if (localStorage.redirectUrl && localStorage.redirectUrl!="undefined" && localStorage.redirectUrl.indexOf('login')==-1 && localStorage.redirectUrl.indexOf('set')==-1){
+                                    let url = localStorage.redirectUrl
+                                    localStorage.removeItem('redirectUrl')
+                                    window.location.href = url;
+                                }else{
+                                    that.$router.replace({name: 'home'});
+                                }
+                            }else{
+                                that.$notify({
+                                    title: res.data.message,
+                                    type: 'warning'
+                                })
+                            }
+                        });
+                    } else {
+                        return false;
                     }
-                })
-            },
-            submitForm() {
-                const that = this;
-                if(that.ruleForm1.checked == false){
-                    
-                } else{
-                    that.lastStep()
-                }
-            },
-            lastStep:function(){
-                const that = this;
-                that.$store.state.loginStore.name = that.ruleForm1.name; 
-                that.$store.state.loginStore.job = that.ruleForm1.job; 
-                that.$store.state.loginStore.unitType = that.ruleForm1.unitType; 
-                loginService.bindRegister(that.ruleForm1).then(function (res) {
-                    if(res.data.success){
-                        that.$notify({
-                            title: '登录成功',
-                            type: 'success'
-                        })
-                        localStorage.token = res.data.datas;
-                        let JWT = res.data.datas.split('.');
-                        let info = JWT[1];
-                            loginService.packageUserInfo(info);
-                        // 清空倒计时
-                        if(that.$store.state.loginStore.timer > 0){
-                            clearInterval(that.$store.state.loginStore.timer)
-                        }
-                        that.goToTarget('');//跳转到来的页面验证码过期，请重新输入
-                    }else{
-                    
-                    }
-                })
-            },
-            goToTarget (path) { //返回登录
-                let that = this
-                if(typeof path != 'undefined' && path.trim().length > 0){
-                this.$router.replace({name: path})
-                }
-                else{
-                    if(that.$store.state.toolBox.redirect_uri && that.$store.state.toolBox.redirect_uri.name){
-                        let name = that.$store.state.toolBox.redirect_uri.name, params = that.$store.state.toolBox.redirect_uri.params;
-                        that.$router.replace({name: name, params: params})
-                        that.$store.state.toolBox.redirect_uri = {}
-                    }else if(localStorage.redirectUrl && localStorage.redirectUrl!="undefined"){
-                        let url = localStorage.redirectUrl
-                        localStorage.removeItem('redirectUrl')
-                        window.location.href = url
-                    }else{
-                        that.$router.replace({name: 'home'})
-                    }
-                }
+                });
+                
             }
         }
         
@@ -374,64 +246,58 @@ import {loginService} from '../../service/loginService'
 </script>
 
 <style lang="less">
-@import "../../assets/css/login.less";
-    #register{
-        width: 100%;
+// @import "../../assets/css/login.less";
+    #login1{
+         width: 100%;
         height:750px;
-        /*background-image: url(../../assets/image/common/login2.jpg);*/
+        background-image: url(../../assets/image/loginback.png);
         background-repeat: no-repeat;
         background-size:cover;
+        background-position: center;
         position: relative;
-        #countDown{
-            color: #666;
+        .iconfont {
+            font-size:32px;
+        }
+        .icon-mima{
+            font-size: 25px;
+            margin-top: 4px;
+            display: inline-block;
+            color: #20A0FF;
+        }
+        .icon-weixin{
+            color:#82D349;
+        }
+        .icon-qq{
+            color: #20A0FF;
+        }
+        .icon-sina{
+            color:#F3595C;
         }
         .center{
-            width: 800px;
-            height: 500px;
+            width: 400px;
+            height: 580px;
             position: absolute;
             top:50%;
             left: 50%;
             transform: translate(-50%,-50%);
-            background: #FFFFFF;
-            box-shadow: 0 2px 40px 0 rgba(105,102,102,0.40);
+             border: 1px solid #EEEEEE;
+            // background: #FFFFFF;
+            // box-shadow: 0 2px 40px 0 rgba(105,102,102,0.40);
+            box-shadow: 0 2px 20px 0 rgba(203,203,203,0.4);
             border-radius: 10px;
             overflow: hidden;
             .left{
                 width: 288px;
-                height: 500px;
+                height: 100%;
                 padding: 0px 56px;
                 float: left;
                 text-align: center;
-                .title{
-                    width: 100%;
-                    text-align: center;
-                    font-size: 18px;
-                    color: #333333;
-                    margin-top: 45px;
-                    margin-bottom: 25px;
-                }
-                
-                .item{
-                    .el-form-item__content{
-                        height: 40px;
-                        .validatePhone{
-                            font-size: 14px;
-                            width: 60%;
-                            color: #999999;
-                            background: transparent;
-                            height: 30px;
-                            border: none;
-                            outline: none;
-                            margin-top: 0px;
-                        }
-                        .el-input__inner{
-                            background: #F9F9F9;
-                            border: none;
-                            border-radius: 0px;
-                            color: #999999;
-                            height: 42px;
-                        }
-                    }
+                .logo{
+                    height: 41px;
+                    width: auto;
+                    margin-top: 60px;
+                    margin-bottom: 50px;
+                    // margin: 80px 140px 35px 140px;
                 }
                 .geetest_holder.geetest_wind{
                     height: 42px;
@@ -451,6 +317,31 @@ import {loginService} from '../../service/loginService'
                     background: #F9F9F9;
                     border: 1px solid #EEEEEE;
                     margin-bottom: 20px;
+                    .el-form-item{
+                        width: 150px;
+                        height: 100%;
+                        display: inline;
+                        float: left;
+                    }
+                    .el-form-item__content{
+                        width: 150px;
+                        display: inline-block;
+                    }
+                    .validatePhone {
+                        height:100% !important;
+                        margin-top:0px !important;
+                        margin-left:0px !important;
+                    }
+                    .el-input__inner{
+                        border:none !important;
+                    }
+                    .validateFromPhone{
+                        font-size: 14px;
+                        color: #20A0FF;
+                        display: inline-block;
+                        height: 100%;
+                        line-height: 40px;
+                    }
                 }
                 .form-ipt.validatePhone{
                     font-size: 14px;
@@ -464,18 +355,16 @@ import {loginService} from '../../service/loginService'
                 }
                 .validateFromPhone.font1{
                     font-size: 14px;
-                    color: #B9002D;
-                    margin-left: 20px;
-                }
-                .el-select{
-                    width: 100%;
-                    margin-bottom: 20px;
-                }
-                .nameinput{
-                    margin-bottom: 20px;
+                    color: #20A0FF;
                 }
                 input::-webkit-input-placeholder{
                     color: #999999 !important;
+                }
+                .logoa{
+                    height: 48.5px;
+                    width: auto;
+                    margin-top: 40px;
+                    margin-bottom: 35px;
                 }
                 .el-form-item__content{
                     margin-left: 0px !important;
@@ -490,12 +379,14 @@ import {loginService} from '../../service/loginService'
                 .el-button{
                     width: 100%;
                     border-radius: 0px;
-                    background: #B9002D;
+                    background: #20A0FF;
                     font-size: 14px;
                     color: #FFFFFF;
                     border: none
                 }
-                // .el-checkbox__input.is-checked+.el-checkbox__label
+                #countDown{
+                    color: #6699FF;
+                }
                 .zidong{
                     font-size: 12px;
                     color: #666666;
@@ -503,12 +394,6 @@ import {loginService} from '../../service/loginService'
                     height: 20px;
                     line-height: 20px;
                     margin-top: -15px;
-                    .argumentItem{
-                        font-size: 12px;
-                        color: #519DEB;
-                        line-height: 17px;
-                        margin-left: -85px;
-                    }
                     .el-checkbox{
                         float: left;
                         font-size: 12px;
@@ -521,16 +406,6 @@ import {loginService} from '../../service/loginService'
                     .el-checkbox__input.is-checked{
                         float: left;
                         margin-top: 2px;
-                    }
-                    .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-                        background-color: #B9002D;
-                        border-color: #B9002D;
-                    }
-                    .el-checkbox__input.is-focus .el-checkbox__inner{
-                        border-color: #B9002D;
-                    }
-                    .el-checkbox__inner:hover{
-                        border-color: #B9002D;
                     }
                     .forline{
                         float: right;
@@ -545,7 +420,8 @@ import {loginService} from '../../service/loginService'
                 .moreSolve{
                     width: 100%;
                     height: fit-content;
-                    margin-top: 50px;
+                    margin-top: 80px;
+                    display: flex;
                     .solves{
                         width: 40px;
                         height: 40px;
@@ -554,57 +430,21 @@ import {loginService} from '../../service/loginService'
                         display: inline-block;
                         cursor: pointer;
                     }
-                    .solves1{
-                        margin-right: 50px;
-                        /*background-image: url(../../assets/image/common/weixin.png);*/
+                    .solves{
+                        width: 40px;
+                        height: 40px;
+                        background-repeat: no-repeat;
+                        background-size:cover;
+                        display: inline-block;
+                        cursor: pointer;
+                        flex: 1;
+                        p{
+                            font-size: 9.9px;
+                            color: #666666;
+                            letter-spacing: 0;
+                            line-height: 10.8px;
+                        }
                     }
-                    .solves1:hover{
-                        margin-right: 50px;
-                        /*background-image: url(../../assets/image/common/weixin1.png);*/
-                    }
-                    .solves2{
-                        /*background-image: url(../../assets/image/common/pass.png);*/
-                    }
-                    .solves2:hover{
-                        /*background-image: url(../../assets/image/common/pass1.png);*/
-                    }
-                }
-            }
-            .right{
-                width: 400px;
-                height: 500px;
-                float: left;
-                /*background-image: url(../../assets/image/common/login1.jpg);*/
-                background-repeat: no-repeat;
-                // background-size:cover;
-                position: relative;
-                .ceng{
-                    position: absolute;
-                    top:0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 1;
-                    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 3%, #000000 151%);
-                }
-                .rightpic{
-                    width: 90px;
-                    height: auto;
-                    position: absolute;
-                    top:20px;
-                    right: 20px;
-                }
-                // background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 3%, #000000 94%);
-                p{
-                    width: 306px;
-                    z-index: 2;
-                    position: absolute;
-                    bottom:40px;
-                    left: 32px;
-                    font-size: 16px;
-                    color: #FFFFFF;
-                    line-height: 30px;
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.50);
                 }
             }
         }

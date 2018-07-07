@@ -517,7 +517,7 @@
                 let canvas1 = document.getElementById('canvas1');
                 // let aliUrl = 'http://www.test.front.docqbot.com/'+ that.lan+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId
                 let aliUrl = 'http://'+location.host+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId;
-                console.log(aliUrl);
+                console.log('支付宝',aliUrl);
                 QRCode.toCanvas(canvas1, aliUrl, (error) => {
                     if (error) {
                     } else {

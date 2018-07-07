@@ -13,14 +13,21 @@ import payStore from './modules/payStore'
 const store = new Vuex.Store({
     // 定义状态
     state: {
+        // apiUrl:'https://mini.wetuc.com', //正式版
+        // picHead:'http://test.resource.vjuzhen.com/',// 测试版
+
+
         picHead:'http://test.resource.vjuzhen.com/',// 测试版
         // picHead:'http://resource.wetuc.com/', // 正式版
         description:'运联description',
         keyWords:'运联keyWords',
         apiUrl:'https://mini.dtfind.com', //测试版
+        
         // apiUrl:'http://wj.tunnel.qydev.com', //测试版
         logoUrl:'/src/assets/image/logo.png', //王俊测试
         fromPath:['home'],
+        appId:'wxd5dd1b24ea1e7c02', // 测试appId
+        // appId:'', // 正式appId
 
     },
     mutations:{

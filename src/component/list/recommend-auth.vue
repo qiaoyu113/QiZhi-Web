@@ -9,7 +9,7 @@
             <img v-if="item.hostLogo==null || item.hostLogo==''" src="../../assets/image/default_photo.png">
         </router-link>
         <router-link :to="{name:'concernDetail',query:{id:item.id,isFollow:item.isFollow}}" class="recommendauth_list_center float-left">
-            <p class="title">{{item.hostName}}</p>
+            <p class="title">{{item.hostCompany}}</p>
             <div class="detail">{{item.hostDesc}}</div>
         </router-link>
         <div class="recommendauth_list_right float-right">
@@ -87,10 +87,10 @@ import {modularService} from '../../service/modularService'
 /*作者推荐*/
 .sm_list{background:#fafafa;}
 .recommendauth_list{
-    background:#fafafa;width:360px;height:110px;position: relative;display: block;
+    background:#fafafa;width:360px;height:110px;position: relative;display: block;overflow: hidden;
     .authorbtn1{
         cursor: pointer;
-        margin: 15px auto 0px;
+        margin: 0px auto 0px;
         width: 73px;
         height: 32px;
         border: 1px solid;
@@ -146,7 +146,10 @@ import {modularService} from '../../service/modularService'
 .recommendauth_list_left{margin: 21px 0 17px 22px}
 .recommendauth_list_left img{box-shadow:0px 5px 4px 0px rgba(0,0,0,0.06);width:68px;height:68px;border-radius:100%;}
 .recommendauth_list_center{margin-left: 20px;margin-top: 25px}
-.recommendauth_list_center .title{font-size:16px;color:#666666;text-align:left;}
+.recommendauth_list_center .title{font-size:16px;color:#666666;text-align:left;width:140px;overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
 .recommendauth_list_center .detail{font-size:13px;color:#999999;line-height:22px;text-align:left;width: 140px;height: 44px;overflow: hidden;margin-top: 5px;}
 .recommendauth_list_right{margin-right: 22px;margin-top: 39px;cursor: pointer}
 .recommendauth_list_right .care{background:#ffffff;border:1px solid #389bff;border-radius:27px;width:71px;height:30px;line-height: 30px;text-align: center;font-size:12px;color:#389bff;}

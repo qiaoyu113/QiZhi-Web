@@ -1,14 +1,10 @@
 /**
- * Created by LXH on 2017/11/1.
+ * Created by LXH on 2017/10/30.登录注册页面的公用方法
  */
-import axios from './axios.js'
-import store from '../vuex/'
-import qs from 'qs'
-import {validate} from '../assets/js/validate'
-import {utility} from '../assets/js/utility/utility'
+import {validate} from '../common/validate'
+import {utility} from '../utility/utility'
 
-export const commonService = {
-    api: {},
+export const loginCommon = {
     /* 页面头部名称 */
     pageTitle: function (str) {
         document.title = str
@@ -103,6 +99,23 @@ export const commonService = {
         return {
             isFlag: flag
         }
+        /*if(obj.className === 'validateFromPhone'){
+            obj.className = 'validateFromPhone validateWaiting'
+            obj.innerHTML = '(<span id="countDown">60</span>s)重新获取';
+            //var timer,isLoginOn = flag;
+            var count = 0;
+            timer = setInterval(function () {
+                count = parseInt(document.getElementById('countDown').innerHTML) - 1;
+                if(count > 0) {
+                    document.getElementById('countDown').innerHTML = count;
+                }
+                else{
+                    clearInterval(timer);
+                    obj.innerHTML = '获取验证码';
+                    obj.className = 'validateFromPhone'
+                }
+            },1000);
+        }*/
     },
     /* 表单验证 */
     formValidate (isPhone, isPwd, isName, isJob, isCompany,params) {
@@ -153,6 +166,17 @@ export const commonService = {
                 return '请选择公司类型';
             }
         }
+        // if(isPic){ //是否验证图片验证码
+        //     if(!validate.isEmpty(params.kaptchaValue)){
+        //         return "请输入图片验证码";
+        //     }
+        // }
+        // if(isSms){ //是否验证短信验证码
+        //     if(!validate.isEmpty(params.smsValue)){
+        //         return "请输入短信验证码";
+        //     }
+        // }
+        
     },
     getPlatForm () {
         let isWx = utility.is_weixin().isWX;
@@ -169,136 +193,6 @@ export const commonService = {
         }else{
             return 'web';
         }
-    },
-    /* 验证类弹框n秒后自动关闭 */
-    showLoginModal: function (obj) {
-        let that = obj
-        that.$store.state.msg = {
-            text: '请登录后使用',
-            type: 1
-        };
-        setTimeout(function () {
-            that.$store.state.msg.type = 0;
-        },1000)
-    },
-    /* 验证类弹框n秒后自动关闭 */
-    autoCloseModal: function (obj, mess, typeNo) {
-        let that = obj
-        that.$message({
-            type: 'info',
-            message: mess
-        });
-    },
-    /* 根据code获取授权地址 */
-    getInfoByCode: function(that, url, code,path) {
-        axios.get(url,{code: code}).then(function (res) {
-            var infoId = res.data.serinfoid;
-            var WGT = res.data.WGT;
-            if(!infoId){
-                that.$router.push(path)
-            }else if(!WGT){
-                that.$router.push(window.fromPath)
-            }
-        });
-    },
-    /* 转换时间戳为时间 */
-    getFormatOfDate: function (date, format) {
-        var that = new Date(date*1);
-        var date = {
-            "M+": that.getMonth() + 1,
-            "d+": that.getDate(),
-            "h+": that.getHours(),
-            "m+": that.getMinutes(),
-            "s+": that.getSeconds(),
-            "q+": Math.floor((that.getMonth() + 3) / 3),
-            "S+": that.getMilliseconds()
-        };
-        if (/(y+)/i.test(format)) {
-            format = format.replace(RegExp.$1, (that.getFullYear() + '').substr(4 - RegExp.$1.length));
-        }
-        for (var k in date) {
-            if (new RegExp("(" + k + ")").test(format)) {
-                format = format.replace(RegExp.$1, RegExp.$1.length == 1
-                    ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
-            }
-        }
-        return format;
-    },
-    /* 价格转换分为元 */
-    getFormatOfPrice: function (fen) {
-        var yuan;
-        yuan = parseFloat(parseInt(fen)/100).toFixed(2);
-        return yuan;
-    },
-    getTimer: function (timesamp) {  /* 倒计时 */
-        var ts = (new Date(timesamp*1)) - (new Date());//计算剩余的毫秒数
-        var dd = parseInt(ts / 1000 / 60 / 60 / 24, 10);//计算剩余的天数
-        var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
-        var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
-        var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
-        dd = this.checkTime(dd);
-        hh = this.checkTime(hh);
-        mm = this.checkTime(mm);
-        ss = this.checkTime(ss);
-        return {
-            dd: dd,
-            hh: hh,
-            mm: mm,
-            ss: ss
-        }
-    },
-    checkTime: function (i){
-        if (i < 10) {
-            i = "0" + i;
-        }
-        return i;
-    },
-    getRedirectPath: function(that) { //获得来的路径
-        let token = localStorage.token;
-        localStorage.redirectUrl = window.location.href
-        if(typeof token != 'undefined' && token.trim().length > 0){ //情况一：存在token
-            return 1;
-        }else { //情况二：不存在token
-            that.$store.state.toolBox.redirect_uri.name = that.$route.name;
-            that.$store.state.toolBox.redirect_uri.params = that.$route.params;
-            return 0;
-        }
-    },
-    /*  上传base64图片  */
-    myImage:function(params){
-        return axios.post('/files/base64',qs.stringify(params));
-    },
-    /*  上传base64图片  */
-    mycenter:function(){
-        return axios.post('/user');
-    },
-    /* 获取个人中心 */
-    myCenter: function () {
-        return axios.get('/users/center')
-    },
-     /* 通用：获取验证码 */
-     getValidateImg: function (params) {
-        return axios.get('/kaptchas' + this.getParam(params))
-    },
-    /* 通用：验证验证码的对错 */
-    postValidateImg: function (params) {
-        return axios.post('/kaptchas',qs.stringify(params))
-    },
-    /* 通用：获取短信验证码 */
-    getValidateMess: function (params) {
-        return axios.get('/sms' + this.getParam(params))
-    },
-    getOauth: function (params) {
-        return axios.get('/tokens/oauth' + this.getParam(params))
-    },
-    getParam: function(param){
-        let url = '';
-        for(let key in param){
-            if(param[key] !== null){
-                url ? url += '&'+key+'='+param[key] : url += key+'='+param[key]
-            }
-        }
-        return url ? '?'+url : ''
     }
 }
-export default {commonService}
+// export default loginCommon

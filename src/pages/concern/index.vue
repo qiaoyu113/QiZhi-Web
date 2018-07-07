@@ -6,7 +6,7 @@
       <div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">活动主办方</p></div>
     </div>
     <div class="author">推荐作者</div>
-    <div class="authorapply">申请成为作者</div>
+    <div class="authorapply" @click="enterSponsor()">申请成为作者</div>
     <div class="box clearfix">
        <div class="row" v-for="list in data" @click="goconcernDetail(list.id,list.isFollow)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
@@ -64,6 +64,9 @@
     },
     methods: {
       // 
+      enterSponsor:function(){
+        this.$router.push({name:'sponsor'})
+      },
       goconcernDetail:function(id,isFollow){
         // console.log(id)
         // return false
@@ -196,6 +199,7 @@
             text-align: center;
          }
          .authorapply{
+           cursor: pointer;
             margin-top: 6px;
             font-size: 12px;
             line-height: 16px;

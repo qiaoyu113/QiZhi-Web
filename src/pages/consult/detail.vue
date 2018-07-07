@@ -53,7 +53,9 @@
           <!-- 热门文章 -->
           <div>
               <div class="author">
-               <img class="authorimg" :src="picHead + author.hostLogo">
+                  <router-link :to="{name:'concernDetail',query:{id:author.id,isFollow:isFollow}}">
+                      <img class="authorimg":src="picHead + author.hostLogo">
+                  </router-link>
                 <div class="authorname">{{author.hostCompany}}</div>
                 <div class="authorcon">{{author.hostDesc}}</div>
                 <div class="authorbtn" @click="postFollow(author.id)" v-if="isFollow==false && id!='1'"><i class="iconfont icon-jiahao"></i> 关注</div>
@@ -236,6 +238,7 @@
         console.log(this.$store.state.homeStore.article)
     },
     methods: {
+        // {name:'concernDetail',query:{id:item.id,isFollow:item.isFollow}
         getHotNewsa(){
             let that = this;
             indexService.getArticles({pageNo:1,pageSize:5,adminId:that.newDetail.createUserId,queryType:1}).then(function (res) {

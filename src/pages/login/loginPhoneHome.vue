@@ -32,14 +32,14 @@
                     <i class="iconfont icon-weixin"></i>
                     <p style="margin-top:7px;">微信登录</p>
                 </router-link>
-                <router-link :to="{name:'qrcode'}" class="solves solvesw">
+                <!-- <router-link :to="{name:'qrcode'}" class="solves solvesw">
                     <i class="iconfont icon-qq"></i>
                     <p style="margin-top:7px;">QQ登录</p>
                 </router-link>
                 <router-link :to="{name:'qrcode'}" class="solves solvesw">
                     <i class="iconfont icon-sina"></i>
                     <p style="margin-top:6px;">微博登录</p>
-                </router-link>
+                </router-link> -->
                 <router-link :to="{name:'login'}" class="solves solvesw" >
                     <i class="iconfont icon-mima"></i>
                     <p style="margin-top:11px;">密码登录</p>

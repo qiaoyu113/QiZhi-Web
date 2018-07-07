@@ -66,6 +66,7 @@ const code = (resolve) => {require(['./pages/personal/code.vue'],resolve)}
 const notice = (resolve) => {require(['./pages/personal/notice.vue'],resolve)}
 const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
 const ticket = (resolve) => {require(['./pages/personal/ticket.vue'],resolve)}
+const sponsor = (resolve) => {require(['./pages/personal/sponsor.vue'],resolve)}
 
 
 const alipay = (resolve) => {require(['./pages/activity/alipay.vue'],resolve)} //支付宝支付
@@ -122,6 +123,8 @@ const routers = [
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
      //电子票
     {name: 'ticket',path:'/ticket',component: ticket},
+    // 申请成为主办方
+    {name: 'sponsor',path:'/sponsor',component: sponsor},
 
     //个人中心
     // {name: 'personal',path:'/personal',component: personal},

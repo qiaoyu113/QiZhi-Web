@@ -177,6 +177,22 @@ export const indexService = {
     mySinglePro:function(params){
         return axios.get('/users/getBought'+ this.getParam(params))
     },
+    /* 申请主办方 */
+    postApplyadmin:function(params){
+        return axios.post('/applyadmin',qs.stringify(params));
+    },
+    /* 查看名称是否可用 */
+    getNamecheck:function(params){
+        return axios.get('/namecheck' + this.getParam(params));
+    },
+    /* 查看账号是否可用 */
+    getAccountcheck:function(params){
+        return axios.get('/accountcheck' + this.getParam(params));
+    },
+    /* 是否已经申请主办方 */
+    getIsApplyAdmin:function(params){
+        return axios.get('/isApplyAdmin' + this.getParam(params));
+    },
 
     getParam: function(param){
         let url = '';

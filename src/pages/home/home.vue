@@ -93,8 +93,7 @@
         },
         data() {
             return{
-                title:'运联-首页',
-                // bannerData:[],
+                title:'运联传媒',
                 newsData:[],
                 hotNews:[],
                 adminUsers:[],
@@ -185,7 +184,7 @@
         mounted: function () {
             this.codelDetail()
             window.scrollTo(0,0);
-            console.log('333333',this.hotActivity)
+            console.log('333333',this.hotAuthors)
         },
         methods: {
             codelDetail:function(){
