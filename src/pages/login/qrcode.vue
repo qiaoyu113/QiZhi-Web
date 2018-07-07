@@ -19,11 +19,9 @@
         mounted (){
           var obj = new WxLogin({
             id: "login_container",
-            appid: "wxd5dd1b24ea1e7c02", //测试
-            // appid: "wx7160f239f04c65da", //正式
+            appid: this.$store.state.appid, //测试
             scope: "snsapi_login",
-            redirect_uri: encodeURIComponent('http://wetuc.dtfind.com/wxlogin'),
-            // redirect_uri: encodeURIComponent('http://front.docqbot.com/wxlogin'),
+            redirect_uri: encodeURIComponent(this.$store.state.redirect_uri),
             state: Math.ceil(Math.random()*1000),
             style: "black",
             href: ""});
