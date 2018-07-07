@@ -2,29 +2,26 @@
   <div class="" id="follow" v-set-title="title">
     
     <div class="title clearfix">
-    	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">作者</p></div>
-    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">主办方</p></div>
+      <div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">作者</p></div>
+      <div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">主办方</p></div>
     </div>
     <div class="box clearfix">
        <div class="row" v-for="list in data" @click="goconcernDetail(list.id,true)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
-       	   <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
-       	   <div class="rowtitle">{{list.hostCompany}}</div>
-       	   <div class="rowcon">{{list.hostDesc}}</div>
-       	   <div class="rowlabel clearfix">
-       	   	 <div class="rowlabell"><p>粉丝 {{list.subNumw}} </p></div>
-       	   	 <div class="rowlabelr"><p> 文章 110 </p></div>
-       	   </div>
-       	   <div class="rowbtn2" @click="open2(list.id)">取消关注</div>
+           <div class="rowimg"><img :src="picHead + list.hostLogo" /></div>
+           <div class="rowtitle">{{list.hostCompany}}</div>
+           <div class="rowcon">{{list.hostDesc}}</div>
+           <div class="rowlabel clearfix">
+             <div class="rowlabell"><p>粉丝 {{list.subNumw==null?'0':list.subNumw}} </p></div>
+             <div class="rowlabelr"><p> 文章 {{list.addArticleNum==null?'0':list.addArticleNum}} </p></div>
+           </div>
+           <div class="rowbtn2" @click="open2(list.id)">取消关注</div>
            </div>
        </div>
       
-
-     
-     
     </div>
        <!--分页-->
-    <div class="v_paging">
+    <div class="v_paging" v-if="inde>10">
         <el-pagination
             background
            layout="prev, pager, next, jumper"
@@ -60,18 +57,18 @@
            this.getMyFollow()
     },
     methods: {
-    	titleindex:function(index){
+      titleindex:function(index){
               this.titlep=index
               this.page.num=1
               this.getMyFollow()
-    	},
+      },
       goconcernDetail:function(id,isFollow){
         // console.log(id)
         // return false
           this.$router.push({path:"/concern/detail",query:{id:id,isFollow:isFollow}}) 
           // this.$router.replace({name:'concernDetail'})
       },
-    	 //分页
+       //分页
       handleCurrentChange(val){
           this.page.num=val
           this.getMyFollow()
@@ -125,58 +122,58 @@
 </script>
 <style lang="less">
   #follow{
-  	.title{
-  		 height: 60px;
-  		 background: #FFFFFF;
-  		 width: 100%;
+    .title{
+       height: 60px;
+       background: #FFFFFF;
+       width: 100%;
          border: 1px solid #EEEEEE;
          border-radius: 6px;
          .titleli{
-         	 float: left;
-         	 padding: 0 30px;
-         	 p{
-         	 	font-size: 18px;
-         	 	color: #999;
-         	 	line-height: 58px;
-         	 	cursor: pointer;
-         	 	
-         	 	// box-sizing: border-box;
-         	 	// box-sizing: content-box;
-         	 }
-         	 .v_p{
-         	 	 line-height: 58px;
-         	 	 border-bottom: 2px solid #000;
-         	 }
+           float: left;
+           padding: 0 30px;
+           p{
+            font-size: 18px;
+            color: #999;
+            line-height: 58px;
+            cursor: pointer;
+            
+            // box-sizing: border-box;
+            // box-sizing: content-box;
+           }
+           .v_p{
+             line-height: 58px;
+             border-bottom: 2px solid #000;
+           }
          }
-  	}
-  	.box{
-  		padding: 5px 0 40px;
-  		.row{
-  			 float: left;
-  			 width: 277px;
-  			 height: 314px;
-  			 // padding:26px 16px 0;
-  			 margin-top: 20px;
-  			 margin-right: 20px;
-  			 // background-image: url("../../assets/image/hot.png");
+    }
+    .box{
+      padding: 5px 0 40px;
+      .row{
+         float: left;
+         width: 277px;
+         height: 314px;
+         // padding:26px 16px 0;
+         margin-top: 20px;
+         margin-right: 20px;
+         // background-image: url("../../assets/image/hot.png");
          background-size: 100% 100%;
          border-radius: 2px;
          cursor: pointer;
              .rowimg{
               // padding-top: 26px;
               // padding-top:26px;
-             	width: 60px;
-             	height: 60px;
-             	margin: 26px auto 0;
-             	border-radius: 50%;
-             	overflow: hidden;
+              width: 60px;
+              height: 60px;
+              margin: 26px auto 0;
+              border-radius: 50%;
+              overflow: hidden;
                 img{
-                	 width: 100%;
-                	 height: 100%;
+                   width: 100%;
+                   height: 100%;
                 }
              }
              .rowtitle{
-             	   
+                 
                  font-size: 16px;
                  color: #333333;
                  line-height: 18px;
@@ -185,7 +182,7 @@
              }
              .rowcon{
                padding: 0 16px;
-             	   font-size: 14px;
+                 font-size: 14px;
                  color: #999999;
                  margin-top: 11px;
                  line-height: 21px;
@@ -193,34 +190,34 @@
                  overflow: hidden;
              }
              .rowlabel{
-             	 margin-top: 35px;
-             	 width: 100%;
-             	 // height: 19px;
-             	 .rowlabell{
-             	 	 width: 50%;
-             	 	 float: left;
-             	 	 border-right: 1px solid #7F7F7F;
-             	 	 box-sizing: border-box;
-             	 	height: 14px;
-             	 	 p{
-             	 	   text-align: right;
-             	 	   padding: 0 8px;
-             	 	   font-size: 14px;
-             	 	   line-height: 14px;
+               margin-top: 35px;
+               width: 100%;
+               // height: 19px;
+               .rowlabell{
+                 width: 50%;
+                 float: left;
+                 border-right: 1px solid #7F7F7F;
+                 box-sizing: border-box;
+                height: 14px;
+                 p{
+                   text-align: right;
+                   padding: 0 8px;
+                   font-size: 14px;
+                   line-height: 14px;
                        color: #7F7F7F;
-             	 	 } 
-             	 }
-             	 .rowlabelr{
-             	 	width: 50%;
-             	 	 float: left;
-             	 	  p{
-             	 	   text-align: left;
-             	 	   padding: 0 8px;
-             	 	   font-size: 14px;
-             	 	   line-height: 14px;
+                 } 
+               }
+               .rowlabelr{
+                width: 50%;
+                 float: left;
+                  p{
+                   text-align: left;
+                   padding: 0 8px;
+                   font-size: 14px;
+                   line-height: 14px;
                        color: #7F7F7F;
-             	 	 }
-             	 }
+                 }
+               }
              }
              .rowbtn{
                    // width: 100px;
@@ -276,16 +273,16 @@
                box-shadow: 0 5px 4px 0 rgba(202,202,202,0.10);
                 border-radius: 2px;
             }
-  		}
+      }
       .row:hover .rowbackimg{
 
            background: rgba(221,243,255,0.7);
       }
-  		.row:nth-child(3n+3){
-  			 margin-right: 0;
-  		}
-  	}
-  	    
+      .row:nth-child(3n+3){
+         margin-right: 0;
+      }
+    }
+        
       
      }
 </style>

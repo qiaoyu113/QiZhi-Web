@@ -18,12 +18,12 @@
             <div class="boxr4">名称：<span>{{orderDetails.activityTitle}}</span></div>
             <div class="boxr5">时间：<span>{{orderDetails.actStartTime | stampFormate2}}</span></div>
             <div class="boxr6 clearfix"><div class="box6l">地点:</div><div class="box6r">{{orderDetails.prov}}{{orderDetails.city}}{{orderDetails.dist}}{{orderDetails.activityAddress}}</div></div>
-            <div class="boxr7">状态：<span v-if="list.ticket.status==1">待使用</span>
-                                     <span v-if="list.ticket.status==2">已使用</span>
-                                     <span v-if="list.ticket.status==3">已过期</span>
-                                     <span v-if="list.ticket.status==4">退票中</span>
-                                     <span v-if="list.ticket.status==5">已退票</span>
-                                     <span v-if="list.ticket.status==6">不同意退票</span>
+            <div class="boxr7">状态：<span v-if="list.status==1">待使用</span>
+                                     <span v-if="list.status==2">已使用</span>
+                                     <span v-if="list.status==3">已过期</span>
+                                     <span v-if="list.status==4">退票中</span>
+                                     <span v-if="list.status==5">已退票</span>
+                                     <span v-if="list.status==6">不同意退票</span>
                                     </div>
             <div class="boxr8">票种：<span>{{list.ticket.name}}</span></div>
             <div class="boxr8 boxr9">票价：<span>¥{{list.ticket.price | money}}</span></div>
@@ -126,7 +126,7 @@ var QRCode = require('qrcode')
         });
       },
     
-    	 //获取我的消息
+       //获取我的消息
       getMyticketsOrderNoid (){
         let that = this;
         let id = that.$route.query.id
@@ -376,7 +376,7 @@ var QRCode = require('qrcode')
 
 
      }
-  	    
+        
       
      
      }
