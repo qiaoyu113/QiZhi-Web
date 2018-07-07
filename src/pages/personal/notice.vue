@@ -2,16 +2,17 @@
   <div class="" id="notice" v-set-title="title">
     
     <div class="title clearfix">
-    	<div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">通知<i v-if="tz==true"></i></p></div>
+    	<div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">通知<i v-if="tz==true"></i></p></div>
     	<div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">私信<i v-if="sx==true"></i></p></div>
     	<!-- <div class="titleli"><p :class="titlep==3?'v_p':''" @click="titleindex(3)">日程消息</p></div> -->
     	<!-- <div class="titleli"><p :class="titlep==4?'v_p':''" @click="titleindex(4)">更新消息</p></div> -->
     </div>
     <div class="box">
     	<div class="boxrow clearfix" v-for="list in data" @click="postInnerletter(list.id)">
-        <p class="boxrowl" :class="list.readStatus!=false ? 'ash':''">{{list.content}}</p>
+        <p class="boxrowl" :class="list.readStatus!=false ? 'ash':''" @click="gohome(list.modelType,list.modelTypeId)">{{list.content}}</p>
     	  <p class="boxrowr" :class="list.readStatus!=false ? 'ash':''">{{list.sendTime | stampFormate2}}</p>
     	</div>
+
     
       <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
 
@@ -26,7 +27,7 @@ import {modularService} from '../../service/modularService'
     data () {
       return {
         title:'消息通知',
-        titlep:3,
+        titlep:2,
         page:{
            num:1,
            size:10,
@@ -52,15 +53,20 @@ import {modularService} from '../../service/modularService'
               this.data=[]
               this.getInnerletter()
     	},
+      gohome:function(ty,id){
+           if(ty==2){
+              this.$router.push({path:"/activity/"+id}) 
+           }else if(ty==1){
+               this.$router.push({path:"/article/"+id}) 
+           }
+      },
     	 //获取我的消息
       getInnerletter (){
         let that = this;
         modularService.getInnerletter({pageNo: that.page.num, pageSize:that.page.size,type:this.titlep}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                       //  that.data=res.data.datas.datas
                       // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
                       let newArr=res.data.datas.datas
                     that.page.totalPage = res.data.datas.totalPage
                     that.total=res.data.datas.total
@@ -70,6 +76,7 @@ import {modularService} from '../../service/modularService'
                         that.data.push(newArr[i]);
                     }
                      }
+                     console.log(that.data)
              
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
@@ -85,14 +92,10 @@ import {modularService} from '../../service/modularService'
       getInnerletterIsunread(){
         let that=this;
         modularService.getInnerletterIsunread().then(function(res){
-            // console.log(res)
           if(res.data.success){
             // let yule = res.data.datas.user.numItem.unreadMsgNum
             that.tz=res.data.datas[2]
             that.sx=res.data.datas[1]
-            // console.log()
-             console.log(that.tz)
-             console.log(that.sx)
           }else{
 
              }
@@ -101,9 +104,7 @@ import {modularService} from '../../service/modularService'
       //消息已读
       postInnerletter (id){
         let that = this;
-        console.log(id)
         modularService.postInnerletter({letterIds:id}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                        
                  
@@ -173,6 +174,7 @@ import {modularService} from '../../service/modularService'
                padding: 18px 0;
              	 // height: 60px;
              	 color: #333;
+               cursor: pointer;
              	 // overflow: hidden;
              	 // text-overflow:ellipsis;
                //   white-space:nowrap;

@@ -59,7 +59,6 @@
                   let User = res.data.datas
                   that.name = User.user
                   that.myVip = that.name.myVip.vip
-                  console.log(res)
               })
         }
       

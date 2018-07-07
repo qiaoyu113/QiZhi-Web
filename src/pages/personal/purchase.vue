@@ -32,7 +32,7 @@
               <p>下单时间: {{list.createTime | stampFormate2}} | 订单编号: {{list.orderNo}}</p>
           </div>
         <div class="row clearfix">
-        	 <div class="rowl"><img :src="picHead + list.orderDetails[0].activityPoster"/></div>
+        	 <div class="rowl" @click="goactivity(list.orderTypeId)"><img :src="picHead + list.orderDetails[0].activityPoster"/></div>
         	 <div class="rowr">
         	 	 <p class="h3" @click="goactivity(list.orderTypeId)">{{list.orderDetails[0].actName}}</p>
         	 	 <p class="time">开始时间 : {{list.orderDetails[0].actStartTime | stampFormate2}}</p>
@@ -145,8 +145,6 @@ import {modularService} from '../../service/modularService'
             window.open(window.location. origin + '/ticket?id='+id+'&actId='+actId)
       },
       gopayment:function(orderNo,money){
-          // console.log(orderNo)
-          // return false
 
           // this.$router.push({name:'payment',params:{orderNo:orderNo,type:2,money:money}})
           if(money !=0){
@@ -165,7 +163,6 @@ import {modularService} from '../../service/modularService'
                   if(res.data.code==200){
                   //      that.data=res.data.datas.datas
                   //     that.inde=res.data.datas.totalPage * 10
-                  //     // console.log(that.inde)
                    let newArr=res.data.datas.datas
                     that.page.totalPage = res.data.datas.totalPage
                     that.total=res.data.datas.total
@@ -175,8 +172,7 @@ import {modularService} from '../../service/modularService'
                         that.data.push(newArr[i]);
                     }
                     }
-              
-                    console.log(that.data)
+
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {
@@ -373,6 +369,7 @@ import {modularService} from '../../service/modularService'
   		 	 	 img{
   		 	 	 	 width: 100%;
   		 	 	 	 height: 100%;
+             cursor: pointer;
   		 	 	 }
   		 	 }
   		 	 .rowr{

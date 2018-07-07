@@ -1,12 +1,12 @@
 <template>
-  <div class="" id="concern" v-set-title="title">
+  <div class="" id="concern">
     
     <div class="title clearfix">
       <div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">认证作者</p></div>
       <div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">活动主办方</p></div>
     </div>
     <div class="author">推荐作者</div>
-    <div class="authorapply">申请成为作者</div>
+    <div class="authorapply" @click="enterSponsor()">申请成为<span v-if="titlep==1">作者</span><span v-if="titlep==2">主办方</span></div>
     <div class="box clearfix">
        <div class="row" v-for="list in data" @click="goconcernDetail(list.id,list.isFollow)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
           <div class="rowbackimg">
@@ -30,6 +30,7 @@
         <el-pagination
             background
            layout="prev, pager, next, jumper"
+           :current-page.sync="currentPage1"
            @current-change="handleCurrentChange"
            :total="inde">
     </el-pagination>
@@ -43,8 +44,9 @@
     props: [],
     data () {
       return {
-        title:'消息通知',
+        title:'关注',
         titlep:1,
+        currentPage1:1,
         inde:10,
         page:{
            num:1,
@@ -53,16 +55,46 @@
         data:'',
       }
     },
+    // asyncData({store,route}){
+    //     function getType(){
+    //         return modularService.getAllAdminUser({pageNo: 1, pageSize:8,adminType:1,type:true}).then(function (res) {
+    //             store.state.homeStore.data = res.data.datas.datas
+    //             store.state.homeStore.inde = res.data.datas.totalPage * 10
+    //         });
+    //     }
+    //     return Promise.all([
+    //         getType()
+    //     ])
+    // },
     computed: {
             picHead() {
                 return this.$store.state.picHead
             },
+            // data() {
+            //    return this.$store.state.homeStore.data 
+
+            // },
+            //  inde() {
+            //    return this.$store.state.homeStore.inde
+
+            // },
         },
+    // 添加以下代码
+    metaInfo () {
+        const title = this.title
+        return {
+            title
+        }
+    },
     mounted () {
       window.scrollTo(0,0);
       this.getAllAdminUser()
     },
     methods: {
+      
+       enterSponsor:function(){
+        this.$router.push({name:'sponsor'})
+      },
       // 
       goconcernDetail:function(id,isFollow){
         // console.log(id)
@@ -73,6 +105,7 @@
       titleindex:function(index){
               this.titlep=index
               this.page.num=1
+              this.currentPage1=1
               this.getAllAdminUser()
       },
        //分页
@@ -103,13 +136,9 @@
       getAllAdminUser (){
         let that = this;
         modularService.getAllAdminUser({pageNo: that.page.num, pageSize:that.page.size,adminType:that.titlep,type:true}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
-                       that.data=res.data.datas.datas
+                      that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10
-                     
-              
-                 
                   }
         });
       },
@@ -125,8 +154,6 @@
                       //  that.data=res.data.datas.datas
                       // that.inde=res.data.datas.totalPage * 10
                       // console.log(that.inde)
-              
-                 
                   }
         });
       },
@@ -201,6 +228,7 @@
             line-height: 16px;
             color: #20a0ff;
             text-align: center;
+            cursor: pointer;
          }
     .box{
       // padding: 5px 0 40px;

@@ -12,19 +12,16 @@
        	   <div class="rowtitle">{{list.hostCompany}}</div>
        	   <div class="rowcon">{{list.hostDesc}}</div>
        	   <div class="rowlabel clearfix">
-       	   	 <div class="rowlabell"><p>粉丝 {{list.subNumw}} </p></div>
-       	   	 <div class="rowlabelr"><p> 文章 110 </p></div>
+       	   	 <div class="rowlabell"><p>粉丝 {{list.subNumw==null?'0':list.subNumw}} </p></div>
+       	   	 <div class="rowlabelr"><p> 文章 {{list.addArticleNum==null?'0':list.addArticleNum}} </p></div>
        	   </div>
        	   <div class="rowbtn2" @click="open2(list.id)">取消关注</div>
            </div>
        </div>
       
-
-     
-     
     </div>
        <!--分页-->
-    <div class="v_paging">
+    <div class="v_paging" v-if="inde>10">
         <el-pagination
             background
            layout="prev, pager, next, jumper"
