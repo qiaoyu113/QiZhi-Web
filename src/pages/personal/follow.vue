@@ -161,6 +161,7 @@
   			 // background-image: url("../../assets/image/hot.png");
          background-size: 100% 100%;
          border-radius: 2px;
+         cursor: pointer;
              .rowimg{
               // padding-top: 26px;
               // padding-top:26px;

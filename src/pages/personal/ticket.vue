@@ -26,7 +26,7 @@
                                      <span v-if="list.ticket.status==6">不同意退票</span>
                                     </div>
             <div class="boxr8">票种：<span>{{list.ticket.name}}</span></div>
-            <div class="boxr8 boxr9">票价：<span>¥{{list.ticket.price}}</span></div>
+            <div class="boxr8 boxr9">票价：<span>¥{{list.ticket.price | money}}</span></div>
            </div>
             <div class="index clearfix" :style="{marginLeft:(335-data.length*36) / 2 +'px'}">
                <div class="indexli" v-for="(ti,index) in data" :class="index==ticindex?'lu':''"></div>
@@ -133,7 +133,7 @@ var QRCode = require('qrcode')
         modularService.getMyticketsOrderNoid(id).then(function (res) {
                   if(res.data.code==200){
                       that.data=res.data.datas
-                       
+                       console.log(that.data)
                        for(let i=0;i<that.data.length;i++){
                          that.ticketUrl[i]="http://wetuc.dtfind.com/d/" + that.data[i].ticketUrl
                      // console.log(that.ticketUrl)
