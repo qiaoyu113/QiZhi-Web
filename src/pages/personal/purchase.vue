@@ -68,9 +68,10 @@
            <div class="floftdiv">
              <div class="cancelorder" v-if="list.status==1" @click="opencancel(list.orderNo)">取消订单</div>
            <div class="cancelorder cancelorderbak" v-if="list.status==1" @click="gopayment(list.orderNo,list.orderDetails[0].ticketPrice)">去付款</div>
-            <div class="cancelorder cancelorderbak" v-if="list.status ==3 || list.status ==9 || list.status ==19" @click="goticket(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
+           <div class="cancelorder" v-if="list.status==3 || list.status==12" @click="open3(list.orderNo)">申请退款</div>
+            <div class="cancelorder cancelorderbak" v-if="list.status ==3 || list.status ==9 || list.status ==19 || list.status ==12" @click="goticket(list.orderNo,list.orderDetails[0].actId)">查看电子票</div>
 
-           <div class="cancelorder" v-if="list.status==3" @click="open3(list.orderNo)">申请退款</div>
+           
            <!-- <div class="cancelorder fei" v-if="list.status==5">交易关闭</div> -->
            <!-- <div class="cancelorder fei" v-if="list.status==2">待审核</div> -->
            <!-- <div class="cancelorder fei" v-if="list.status==4">已取消</div> -->
