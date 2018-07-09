@@ -83,12 +83,19 @@
     import recommendAuth from '../../component/list/recommend-auth.vue'
     import actList from '../../component/list/act-homelist.vue'
     export default {
-        name: 'app',
+        name: 'home',
         // 添加以下代码
         metaInfo () {
+            // console.log(this);
             const title = this.title
+            const desc = this.$store.state.description
+            const keyword = this.$store.state.keyWords
             return {
-                title
+                title,
+                meta: [
+                    { vmid: 'description', name: 'description', content: desc },
+                    { vmid: 'keyWords', name: 'keyWords', content: keyword},
+                ]
             }
         },
         data() {
@@ -116,6 +123,7 @@
             store.state.homeStore.page = {pageNo:1,pageSize:20,queryType:1}
             function getarticleList(){
                 return indexService.getArticles(store.state.homeStore.page).then(function (res) {
+                    // console.log(res.data.datas.datas);
                     store.state.homeStore.articleList = res.data.datas.datas
                     store.state.homeStore.page.total = res.data.datas.totalPage
                     store.state.homeStore.page.pageNo = 1
@@ -128,7 +136,9 @@
             }
             function getHotNews(){
                 return indexService.hotArticles({pageNo:1,pageSize:5,}).then(function (res) {
-                    store.state.homeStore.hotArticleList = res.data.datas.datas;
+                    if(res && res.data && res.data.datas){
+                        store.state.homeStore.hotArticleList = res.data.datas.datas;
+                    }
                 });
             }
             
@@ -140,11 +150,13 @@
             function getbanners(){
                 return indexService.listImgs({type:0}).then(function(res){
                     store.state.homeStore.bannerData = res.data.datas
+                    // console.log(res.data.datas,222222);
                 })
             }
             function getActivities(){
                 return indexService.getActList({pageNo:1,pageSize:5,sortKey:'publishTime'}).then(function (res) {
                     store.state.homeStore.hotActivity = res.data.datas.datas;
+                    // console.log(res.data.datas.datas,333333);
                 });
             }
             if(route.name == 'home'){
