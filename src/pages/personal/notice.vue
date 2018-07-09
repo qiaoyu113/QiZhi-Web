@@ -76,7 +76,7 @@ import {modularService} from '../../service/modularService'
                         that.data.push(newArr[i]);
                     }
                      }
-                     console.log(that.data)
+
              
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2

@@ -85,7 +85,6 @@
         let that = this;
         if(that.titlep == 1){
            modularService.postArticlesIdCollect(list.typeId,{type:0}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                      that.page.num=1
                      that.data=[]
@@ -95,7 +94,6 @@
          }else if(that.titlep == 3){
            
            modularService.postActivitiesIdCollect(list.typeId,{type:0}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                      that.page.num=1
                      that.data=[]
@@ -113,7 +111,6 @@
       getUsersCollects (){
         let that = this;
         modularService.getUsersCollect({pageNo: that.page.num, pageSize:that.page.size,type:that.titlep}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                      let newArr=res.data.datas.datas
                     that.page.totalPage = res.data.datas.totalPage
