@@ -350,7 +350,7 @@ import addInfo from './addInfo.vue'
             })
 
         }
-        console.log(this.detail)
+        // console.log(this.detail)
         window.scrollTo(0,0);
     },
     methods: {
@@ -390,7 +390,7 @@ import addInfo from './addInfo.vue'
             const that = this
             
             let url = 'http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress
-            console.log(url)
+            // console.log(url)
             // window.open('http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress);
             // http://localhost:9012/place?place=%E5%94%90%E5%B1%B1%E5%B8%82%E5%94%90%E5%B1%B1%E5%B8%82%E5%A4%A7%E5%8F%94%E5%A4%A7%E5%A9%B6%E5%90%A6
             that.$router.push({
@@ -488,7 +488,7 @@ import addInfo from './addInfo.vue'
             if(that.radio1!=''){
                 indexService.checkTicket({actId:that.$route.params.id,ticketId:that.radio1,num:that.num1}).then(function (res) {
                     that.coded(res.data)
-                    console.log('检查片',res.data.datas)
+                    // console.log('检查片',res.data.datas)
                 });
             } else {
                 that.$message({
@@ -515,12 +515,12 @@ import addInfo from './addInfo.vue'
                 }
             }
             that.singleTicket = that.tickets[that.newIndex]
-            console.log('徐哈',that.newIndex)
+            // console.log('徐哈',that.newIndex)
       },
       getTickets(){
         const that = this
         indexService.getTicketDetail({actId:that.$route.params.id,}).then(function (res) {
-            console.log('票务',res.data.datas);
+            // console.log('票务',res.data.datas);
             let oldTicket
             oldTicket = res.data.datas
             for(var i=0;i<oldTicket.length;i++){
@@ -542,7 +542,7 @@ import addInfo from './addInfo.vue'
             this.$router.push({name:'purchase'})
         },
       handleChange(value) {
-        console.log(value);
+        // console.log(value);
       },
       // 判断code值
         coded: function(item) {

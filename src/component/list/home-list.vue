@@ -22,10 +22,11 @@
                 <div class="bg_list_right_bottom">
                     <div class="float-left indust_label" v-if="item.tag.length!=0">
                         <!-- <i class="iconfont icon-pinpai"></i> -->
-                        <router-link :to="{name:'keywords',params:{id:tagg[index]}}" v-for="(tagg,index) in item.tagId" :key="index">{{item.tag[index]}}</router-link>
+                        <!-- <router-link :to="{name:'keywords',params:{id:tagg[index]}}" v-for="(tagg,index) in item.tagId" :key="index">{{item.tag[index]}}</router-link> -->
+                        <router-link to="" style="cursor:auto;" v-for="(tagg,index) in item.tagId" :key="index">{{item.tag[index]}}</router-link>
                     </div>
                     <div class="author_info float-right">
-                        <span class="author"><router-link :to="{name:'concernDetail',params:{id:item.createUserId}}">{{item.originAuthor}}</router-link></span>
+                        <span class="author"><router-link :to="{name:'concernDetail',query:{id:item.createUserId}}">{{item.originAuthor}}</router-link></span>
                         <span class="time">∙ {{item.createDate | dateFormate}}</span>
                     </div>
                 </div>

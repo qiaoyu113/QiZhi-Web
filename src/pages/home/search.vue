@@ -22,15 +22,15 @@
           <!--作者-->
           <!--<authorList v-if="check == 3 || check == 4" v-for="(item,index) in articleList" :item="item" :key="index"></authorList>-->
           <authorList v-if="check == 2 || check == 3" v-for="(item,index) in articleList" :item="item" :key="index"></authorList>
-          <!--分页-->
-          <div class="v_paging">
-              <el-pagination
-                      background
-                      layout="prev, pager, next, jumper"
-                      @current-change="handleCurrentChange"
-                      :total="page.num * 10">
-              </el-pagination>
-          </div>
+      </div>
+      <!--分页-->
+      <div class="v_paging">
+          <el-pagination
+                  background
+                  layout="prev, pager, next, jumper"
+                  @current-change="handleCurrentChange"
+                  :total="page.num * 10">
+          </el-pagination>
       </div>
   </div>
 </template>
@@ -198,7 +198,7 @@
                     adminType:num,
                     pageNo:that.page.num,
                     pageSize:that.page.size,
-                    query:that.findText
+                    hostCompany:that.findText
                 }).then(function (res) {
                     let tabInfo = res.data.datas.datas;
                     that.articleList = tabInfo

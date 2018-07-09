@@ -21,7 +21,11 @@
         <div class="layer">
            <i></i>
            <ul>
-             <li @click="gopersonal">个人中心</li>
+             <li><router-link :to="{name:'purchase'}">我的购买</router-link> </li>
+             <!-- <li><router-link :to="{name:''}">我的推广</router-link> </li> -->
+             <!-- <li><router-link :to="{name:'integral'}">我的积分</router-link> </li> -->
+             <!-- <li><router-link :to="{name:'code'}">兑换码</router-link> </li> -->
+             <li><router-link :to="{name:'setup'}">账号设置</router-link> </li>
              <li class="no-border" @click="signout">退出</li>
            </ul>
         </div>
@@ -103,7 +107,7 @@
                   localStorage.token = undefined
                   sessionStorage.removeItem('token');
                   that.$router.go(0)
-                  console.log(res)
+                  // console.log(res)
               })
             
           },
@@ -202,22 +206,20 @@
       margin:0 auto;
       width: 90%;
       width: 1200px;
-      // min-width:1200px;
-      // max-width:1400px;
       height: 100%;
       position: relative;
       .layer{
-         display: none;
+        display: none;
         position: absolute;
         right: 0;
-        top: 44px;
+        top: 50px;
         background: #fff;
-        width: 80px;
+        width: 120px;
        
         border:1px solid #e0e0e0;
         i{
-          width: 10px;
-          height: 10px;
+          width: 6px;
+          height: 6px;
           position: absolute;
           left: 50%;
           top: -5px;
@@ -239,13 +241,23 @@
            display: block;
            li{
              width: 100%;
-             height: 45px;
-             line-height: 45px;
+             height: 40px;
+             line-height: 40px;
              text-align: center;
              font-size: 15px;
              color: #7f7f7f;
              border-bottom: 1px solid #e0e0e0;
              cursor: pointer;
+             a{
+               font-size: 15px;
+                color: #7F7F7F;
+             }
+           }
+           li:hover{
+             color: #389BFF;
+             a{
+                color: #389BFF;
+             }
            }
            .no-border{
               border-bottom: none;

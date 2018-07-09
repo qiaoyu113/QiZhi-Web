@@ -15,7 +15,7 @@
       </div>
       <ul>
           <li class="title">关于</li>
-          <li><a href="">关于我们</a></li>
+          <li><router-link :to="{name:'about'}">关于我们</router-link> </li>
           <li><a href="">加入我们</a></li>
           <li><a href="">合作伙伴</a></li>
       </ul>

@@ -196,7 +196,6 @@ import {modularService} from '../../service/modularService'
            let that =this
            // let token = sessionStorage.getItem('token');
            let token =localStorage.token
-           console.log(token)
            if(token == '' || token == null || token == 'undefined'){
                that.personal=2
            }else{
@@ -209,12 +208,12 @@ import {modularService} from '../../service/modularService'
       getUserCenter (){
         let that = this;
         modularService.getUserCenter().then(function (res) {
-             console.log(res)
+
                   if(res.data.code==200){
-                    console.log(res.data.datas.user)
+
                        that.data=res.data.datas.user
                       // that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
+
               
                  
                   }

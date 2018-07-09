@@ -51,7 +51,7 @@
         },
         getQrcodeUrl:function (item) {
             const that = this
-            console.log('orderNo',that.orderNo,'channelId',item)
+            // console.log('orderNo',that.orderNo,'channelId',item)
             appService.getErweima({
                 orderNo: that.orderNo,
                 channelId: item, // 微信h5支付 ALIPAY_PC WX_NATIVE

@@ -73,7 +73,7 @@
                 <span class="validateFromPhone font1" v-if="isFlag" @click="getFromPhone" style="cursor:pointer;"><i class="mid-line"></i>获取验证码</span>
                 <span class="validateFromPhone validateWaiting" v-else><i class="mid-line"></i>(<span id="countDown">90</span>s)重新发送</span>
             </el-form-item>
-            <p style="font-size: 14px;color: #666666;margin-left:166px;">提交即表示同意<router-link :to="{name:'agreement'}" style="color:#20A0FF;">《运联服务协议》</router-link> </p>
+            <p style="font-size: 14px;color: #666666;margin-left:166px;">提交即表示同意<span @click="enterAgree()" style="color:#20A0FF;">《运联通服务协议》</span> </p>
             <el-form-item>
                 <el-button class="submitButton" @click="submitForm('ruleForm1')">提交审核</el-button>
             </el-form-item>
@@ -259,6 +259,9 @@ import {validate} from '../../assets/js/common/validate'
         });
     },
     methods: {
+        enterAgree(){
+            window.open('http://'+location.host+'/agreement')
+        },
         checkAccount () {
             const that = this
             

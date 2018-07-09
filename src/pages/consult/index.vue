@@ -141,7 +141,7 @@
         document.body.scrollTop = 0;
         this.classId = this.$route.params.id
         this.clicktab(this.$route.params.id)
-        console.log(this.articleTypes)
+        // console.log(this.articleTypes)
     },
     methods: {
         clicktab :function(id, event){

@@ -63,7 +63,6 @@
               this.getMyFollow()
       },
       goconcernDetail:function(id,isFollow){
-        // console.log(id)
         // return false
           this.$router.push({path:"/concern/detail",query:{id:id,isFollow:isFollow}}) 
           // this.$router.replace({name:'concernDetail'})
@@ -96,19 +95,16 @@
       getMyFollow (){
         let that = this;
         modularService.getMyFollow({pageNo: that.page.num, pageSize:that.page.size,adminType:that.titlep,type:true}).then(function (res) {
-             console.log(res)
-             console.log(1)
+
                   if(res.data.code==200){
                        that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
                   }
         });
       },
       putCancleFollow(id){
           let that=this
          modularService.putCancleFollow({adminId:id}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                      that.$message.success('取消关注成功');
                      that.getMyFollow()

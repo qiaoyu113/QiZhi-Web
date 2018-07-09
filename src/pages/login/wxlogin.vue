@@ -2,7 +2,7 @@
   <div></div>
 </template>
 <script>
-  import {appService} from '../../service/appService'
+  import {commonService} from '../../service/commonService'
   import {loginService} from '../../service/loginService'
   export default {
     props: [],
@@ -81,8 +81,8 @@
           location.href = redirectUri;//此处ajax发送请求
         } else {
           //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
-          let platform = appService.getPlatForm();
-          let statea = appService.getState();
+          let platform = commonService.getPlatForm();
+          let statea = commonService.getState();
           loginService.getWXByCode({code: code,state: statea,platform: platform}).then(function (res) {
             if(res.data.success){
               // that.$router.push({path: '/register'});

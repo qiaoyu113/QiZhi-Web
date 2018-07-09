@@ -71,7 +71,7 @@ Vue.filter('actDateFormate', function (value) {
     // 返回处理后的值
     let result = ''
     result = tl.getFormatOfDate(value*1, 'MM-dd hh:mm')
-    console.log(result,'result')
+    // console.log(result,'result')
     return result;
 })
 
