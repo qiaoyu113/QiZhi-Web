@@ -14,17 +14,17 @@ const store = new Vuex.Store({
     // 定义状态
     state: {
         //正式版
-        apiUrl:'https://mini.wetuc.com', 
-        picHead:'http://resource.wetuc.com/',// 资源地址
-        redirect_uri:'http://wetuc.com/wxlogin', //微信指向页面
-        appId:'wx7160f239f04c65da',
-        url:'http://wetuc.com',
+        // apiUrl:'https://mini.wetuc.com', 
+        // picHead:'http://resource.wetuc.com/',// 资源地址
+        // redirect_uri:'http://wetuc.com/wxlogin', //微信指向页面
+        // appId:'wx7160f239f04c65da',
+        // url:'http://wetuc.com',
 
-        // picHead:'http://test.resource.vjuzhen.com/',// 测试版
-        // redirect_uri:'http://wetuc.dtfind.com/wxlogin', 
-        // apiUrl:'https://mini.dtfind.com',
-        // appId:'wxd5dd1b24ea1e7c02',
-        // url:'http://wetuc.dtfind.com',
+        picHead:'http://test.resource.vjuzhen.com/',// 测试版
+        redirect_uri:'http://wetuc.dtfind.com/wxlogin', 
+        apiUrl:'https://mini.dtfind.com',
+        appId:'wxd5dd1b24ea1e7c02',
+        url:'http://wetuc.dtfind.com',
 
         logoUrl:'/src/assets/image/logo.png', //王俊测试
         fromPath:['home'],

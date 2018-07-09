@@ -211,7 +211,7 @@ import {loginService} from '../../service/loginService'
                 const that = this;
                 that.$refs[formName].validate((valid) => {
                     if (valid) {
-                        loginService.bindWechart({infoKey:that.ruleForm2.infoKey,phone:that.ruleForm2.phone,smsCode:that.ruleForm2.smsCode,type:2,platform:that.ruleForm2.platform}).then(function (res) {
+                        loginService.bindWechart({infoKey:that.ruleForm2.infoKey,phone:that.ruleForm2.phone,smsCode:that.ruleForm2.smsCode,type:2,platfrom:that.ruleForm2.platform}).then(function (res) {
                             if(res.data.success){
                                 that.$notify({
                                     title: '登录成功',
