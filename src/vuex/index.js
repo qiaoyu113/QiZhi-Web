@@ -20,9 +20,9 @@ const store = new Vuex.Store({
         // appId:'wx7160f239f04c65da',
         // url:'http://wetuc.com',
 
+        apiUrl:'https://mini.dtfind.com',
         picHead:'http://test.resource.vjuzhen.com/',// 测试版
         redirect_uri:'http://wetuc.dtfind.com/wxlogin', 
-        apiUrl:'https://mini.dtfind.com',
         appId:'wxd5dd1b24ea1e7c02',
         url:'http://wetuc.dtfind.com',
 

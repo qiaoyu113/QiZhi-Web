@@ -18,7 +18,7 @@ export default {
     mounted: function() {
         document.title = "活动地点"
         const that = this;
-       console.log('已传页面的值', that.place)
+    //    console.log('已传页面的值', that.place)
 
     },
     methods: {

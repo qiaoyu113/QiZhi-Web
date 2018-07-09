@@ -86,7 +86,7 @@
    //                 console.log('code:',code);
    
                           commonService.postWxbind({code: code}).then(function (res) {
-                              console.log(res)
+                            //   console.log(res)
                               if(res.data.message=="success"){
 
                                  that.$router.replace({name:'mycenter'})

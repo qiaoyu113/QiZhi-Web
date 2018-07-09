@@ -33,6 +33,7 @@ Vue.component('loadMore', loadMore)
 const short = (resolve) => {require(['./pages/short.vue'],resolve)}
 const home = (resolve) => {require(['./pages/home/home.vue'],resolve)}
 const search = (resolve) => {require(['./pages/home/search.vue'],resolve)}
+const about = (resolve) => {require(['./pages/login/aboutUs.vue'],resolve)}
 // 咨询
 const news = (resolve) => {require(['./pages/consult/index.vue'],resolve)}
 const passage = (resolve) => {require(['./pages/consult/detail.vue'],resolve)}
@@ -95,9 +96,10 @@ const routers = [
     {path: '/d/:shortId', component: short},
     {name: 'home',path:'/',component: home, meta: {keepAlive: true}},
     {name: 'search',path:'/search',component: search},
+    {name: 'about',path:'/about',component: about},
     {name: 'err',path:'/s/404',component: error}, //错误跳到404页面
     // 资讯
-    {name: 'news',path:'/news/:id',component: news},
+    {name: 'news',path:'/index/:id',component: news},
     {name: 'passage',path:'/article/:id',component: passage},
     {name: 'keywords',path:'/keywords/:id',component: keywords},
     // 关注
@@ -106,13 +108,13 @@ const routers = [
     {name: 'author',path:'/author/:id',component: author},
     
     // 活动
-    {name: 'activity',path:'/activity',component: activity},
+    {name: 'activity',path:'/activities',component: activity},
     {name: 'activityDetail',path:'/activity/:id',component: activityDetail},
     {name: 'createOrder', path:'/order/:type/:comNo',component:createOrder},
     {name: 'payment',path:'/payment/:id/:type',component: payment},
     {name: 'alipay',path:'/alipay',component: alipay},
     {name: 'paySuccess',path:'/paySuccess',component: paySuccess},
-    {name: 'activityPlace',path:'/place',component:activityPlace},
+    {name: 'activityPlace',path:'/activity/place',component:activityPlace},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
@@ -130,18 +132,18 @@ const routers = [
     // {name: 'personal',path:'/personal',component: personal},
     {name: 'personal',path:'/personal',component: personal,redirect:'/personal/purchase',
          children:[
-          {name: 'purchase',path:'/personal/purchase',component: purchase},   //购买
-          {name: 'collection',path:'/personal/collection',component: collection},   //收藏
+          {name: 'purchase',path:'/orders',component: purchase},   //购买
+          {name: 'collection',path:'/collect',component: collection},   //收藏
           {name: 'integral',path:'/personal/integral',component: integral},   //积分
           {name: 'follow',path:'/personal/follow',component: follow},   //关注
           {name: 'code',path:'/personal/code',component: code},   //总换码
-          {name: 'notice',path:'/personal/notice',component: notice},   //通知
-          {name: 'setup',path:'/personal/setup',component: setup},   //设置
+          {name: 'notice',path:'/message',component: notice},   //通知
+          {name: 'setup',path:'/setting',component: setup},   //设置
           ]
            },
 
     // 登录注册模块
-    {name: 'login', path:'/login',component: login}, // 密码登录页
+    {name: 'login', path:'/login/password',component: login}, // 密码登录页
     {name: 'phone', path:'/phone',component: phone}, // 手机号验证码登录页面
     {name: 'register', path:'/register',component: register}, // 注册页面
     {name: 'find', path:'/find',component: find}, // 找回密码页面

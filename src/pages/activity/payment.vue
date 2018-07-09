@@ -1,5 +1,6 @@
 <template>
   <div id="payment" v-set-title="title">
+    <div class="payment_b">
     <div class="center">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ name: 'singlePro',params:{id:this.$route.params.id} }">活动</el-breadcrumb-item>
@@ -45,6 +46,7 @@
         <p class="title">付款失败</p>
         <p class="des">付款失败，请点击按钮重新付款，如有问题联系客服</p>
         <div @click="close()">关闭</div>
+    </div>
     </div>
   </div>
 </template>
@@ -114,7 +116,7 @@
         let that = this;
         that.orderNo = String(that.$route.params.id);
         that.orderType = this.$route.params.type;
-        console.log(that.orderType);
+        // console.log(that.orderType);
         if(!that.orderNo){
             that.orderNo = window.localStorage.getItem("payOrderNo");
         }
@@ -129,7 +131,7 @@
                     //1.待支付。2.待审核。3.已付款。4.已取消。5.交易关闭。6.退款待审核。7退款中。
                     //8.退款失败。9.已通过退款申请。10.审核不通过。11.退款申请中。12.退款被拒绝。
                     //13.撤销退款申请。14.订单支付超时。15.退款成功。16.待领取。17.待发货。18.已发货。19.交易完成。
-                    console.log(state)
+                    // console.log(state)
                     if(state.status === 1){//待支付
                         that.statePay = '1';
                         let nowDate = new Date().getTime();
@@ -301,7 +303,7 @@
                 }
             })
         }else if(that.orderType == '2'){//活动
-            console.log(1);
+            // console.log(1);
             indexService.orderItem(that.orderNo).then(function (res) {
                 that.refund = res.data.datas.refund;
                 if(res.data.success){
@@ -500,7 +502,7 @@
         },
         getQrcodeUrl:function (item) {
             const that = this
-            console.log(that.orderNo);
+            // console.log(that.orderNo);
             // console.log(String(that.$route.params.id));
             indexService.getErweima({
                 orderNo: String(that.orderNo),
@@ -517,7 +519,7 @@
                 let canvas1 = document.getElementById('canvas1');
                 // let aliUrl = 'http://www.test.front.docqbot.com/'+ that.lan+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId
                 let aliUrl = 'http://'+location.host+'/alipay?orderNo='+that.orderNo+'&channelId='+that.channelId;
-                console.log('支付宝',aliUrl);
+                // console.log('支付宝',aliUrl);
                 QRCode.toCanvas(canvas1, aliUrl, (error) => {
                     if (error) {
                     } else {
@@ -612,11 +614,14 @@
     .boxNo{
         border: 1px solid #CCCCCC;
     }
+    .payment_b{
+        background-color:#f4f4f4;
+    }
   #payment{
     width:100%;
     height:fit-content;
     min-height:750px;
-    background-color:#f4f4f4;
+    
     .center{
       width:1000px;
       margin:0 auto;

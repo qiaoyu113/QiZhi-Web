@@ -48,9 +48,13 @@
         .icon-pinpai{color: #999999;font-size: 15px;display: inline-block;transform:rotateY(180deg);-ms-transform:rotateY(180deg); 	/* IE 9 */-moz-transform:rotateY(180deg); 	/* Firefox */-webkit-transform:rotateY(180deg); /* Safari 和 Chrome */-o-transform:rotateY(180deg); }
         .bg_list{width:100%;clear: both;margin: 0;padding: 0;overflow:hidden;margin-bottom: 10px;}
         .bg_list:hover{background-color:#fafafa;}
-        .bg_list_left{width:320px;height:160px;margin:10px auto 0px;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+        .bg_list_left{    position: relative;width:320px;height:160px;margin:10px auto 0px;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
         // .bg_list_left,.bg_list_right{float: left;}
-        .bg_list_left img{width:100%;height:100%;}
+        .bg_list_left img{    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;}
         .bg_list_left a{width:100%;height:100%;display:block;}
         .bg_list_left a:hover img{opacity:.9;}
         .bg_list_right{padding:0 20px;}

@@ -86,7 +86,7 @@
             getAllAdminUser (){
                 let that = this;
                 modularService.getAllAdminUser({pageNo: that.page.num, pageSize:that.page.size,adminType:that.titlep,type:true}).then(function (res) {
-                    console.log(res)
+                    // console.log(res)
                     if(res.data.code==200){
                         that.data=res.data.datas.datas
                         that.inde=res.data.datas.totalPage * 10
@@ -101,7 +101,7 @@
                 let that = this;
 
                 modularService.postFollow({adminId:id}).then(function (res) {
-                    console.log(res)
+                    // console.log(res)
                     if(res.data.code==200){
                         that.getAllAdminUser()
                         that.$message.success('关注成功');
@@ -131,7 +131,7 @@
             putCancleFollow(id){
                 let that=this
                 modularService.putCancleFollow({adminId:id}).then(function (res) {
-                    console.log(res)
+                    // console.log(res)
                     if(res.data.code==200){
                         that.$message.success('取消关注成功');
                         that.getAllAdminUser()

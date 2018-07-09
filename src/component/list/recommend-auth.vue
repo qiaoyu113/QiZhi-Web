@@ -33,7 +33,7 @@ import {modularService} from '../../service/modularService'
         },
         components: {},
         mounted () {
-            console.log('22222',this.item)
+            // console.log('22222',this.item)
         },
         methods: {
             //关注社群号

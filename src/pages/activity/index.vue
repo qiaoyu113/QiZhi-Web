@@ -164,7 +164,7 @@ import {indexService} from '../../service/indexService'
       }
     },
     mounted () {
-      console.log(this.$store.state.homeStore.totalAct)
+      // console.log(this.$store.state.homeStore.totalAct)
       window.scrollTo(0,0);
       
     },
@@ -175,7 +175,7 @@ import {indexService} from '../../service/indexService'
         this.getarticleList(1)
       },
       getarticleList(num){
-        console.log('时间',this.date1)
+        // console.log('时间',this.date1)
         const that = this
         let start = ''  //开始时间
         let end = ''  //结束时间
@@ -186,7 +186,7 @@ import {indexService} from '../../service/indexService'
         if(that.checked2.length!=0){begin=that.checked2[0]}
         that.$store.state.homeStore.page = {pageNo:num,pageSize:9,sortKey:that.select1,query:that.input1,city:that.radio3,startTime:start,endTime:end,actThemeId:that.radio2,time:that.radio1,actApplyStauts:begin,actCostType:free}
         indexService.getActList(that.$store.state.homeStore.page).then(function (res) {
-          console.log(that.$store.state.homeStore.totalAct)
+          // console.log(that.$store.state.homeStore.totalAct)
           that.$store.state.homeStore.totalAct = res.data.datas
           that.$store.state.homeStore.totalCount = res.data.datas.totalCount*1
           that.$store.state.homeStore.activityList = res.data.datas.datas

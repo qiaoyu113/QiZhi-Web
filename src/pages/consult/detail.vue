@@ -18,7 +18,9 @@
                 <div class="article-associated"></div>
                 <div class="article-keywords" v-if="$store.state.homeStore.article.tag!=null && $store.state.homeStore.article.tag.length!=0">
                     <span class="text" style="margin-right: 10px">关键词：</span>
-                    <span class="label1" v-for="(item,index) in $store.state.homeStore.article.tag" :key="index"><i class="shape iconfont icon-pinpai"></i>{{item}}</span>
+                    <span class="label1" v-for="(item,index) in $store.state.homeStore.article.tag" :key="index">
+                        <!-- <i class="shape iconfont icon-pinpai"></i> -->
+                    {{item}}</span>
                 </div>
                 <div class="line"></div>
                 <div class="article-look">
@@ -113,9 +115,9 @@
     props: [],
     asyncData({store,route}){
         function getNewDetai(){
-            return indexService.getArticleDetail({id:route.params.id,}).then(function (res) {
+            return indexService.getArticleDetail({id:route.params.id}).then(function (res) {
                 store.state.homeStore.article = res.data;
-                store.state.homeStore.adminId = res.data.createUserId;
+                // store.state.homeStore.adminId = res.data.createUserId;
             });
         }
         function getAdminUsers(){
@@ -197,7 +199,7 @@
         document.body.scrollTop = 0
         let _this=this
          _this.title = _this.newDetail.title
-         console.log('社群号',_this.hotArticleList)
+        //  console.log('社群号',_this.hotArticleList)
         //引入百度分享
         _this.$nextTick(function () {
             window._bd_share_config ={
@@ -234,31 +236,21 @@
                 _this.isFollowMain()
             }
         }
-        
-        console.log(this.$store.state.homeStore.article)
     },
     methods: {
-        // {name:'concernDetail',query:{id:item.id,isFollow:item.isFollow}
         getHotNewsa(){
             let that = this;
             let id = that.$route.params.id
-            console.log(id)
-            if(id){
-                that.newDetail.createUserId = id
-            }
             indexService.getArticles({pageNo:1,pageSize:5,adminId:that.newDetail.createUserId,queryType:1}).then(function (res) {
-                console.log(res.data.datas)
                 that.hotArticleLists = res.data.datas.datas
             })
         },
         //是否关注某个主办方
         isFollowMain (){
             let that = this;
-            console.log('9999',that.newDetail.createUserId)
             indexService.isFollowMain({adminId:that.newDetail.createUserId}).then(function (res) {
                 if(res.data.code==200){
                     that.isFollow = res.data.datas
-                    console.log('是否关注',res.data.datas)
                 }
             });
         },
@@ -266,11 +258,10 @@
         getMyFollowMain (){
             let that = this;
             modularService.getMyFollowMain({type:2,adminId:that.newDetail.createUserId}).then(function (res) {
-                console.log(res)
-                    if(res.data.code==200){
-                        that.author=res.data.datas
-                        that.getActivities(that.author.id)
-                    }
+                if(res.data.code==200){
+                    that.author=res.data.datas
+                    that.getActivities(that.author.id)
+                }
             });
         },
         
@@ -278,7 +269,7 @@
         getActivities (id){
             let that = this;
             modularService.getActivities({pageNo:that.page.num,pageSize:that.page.size,sortKey:'sortNumber',adminId:id,queryType:1}).then(function (res) {
-                console.log(res)
+                // console.log(res)
                     if(res.data.code==200){
                         // that.data=res.data.datas.datas
                         // that.inde=res.data.datas.totalPage * 10
@@ -330,7 +321,7 @@
         putCancleFollow(id){
             let that=this
             modularService.putCancleFollow({adminId:id}).then(function (res) {
-                console.log(res)
+                // console.log(res)
                     if(res.data.code==200){
                         that.$message.success('取消关注成功');
                         that.isFollow=false
@@ -401,15 +392,15 @@
                 articleId: that.$route.params.id,
             }).then(function (res) {
                 that.isLike = !that.isLike
-                if(localStorage.token && localStorage.token!='undefined'){
+                // if(localStorage.token && localStorage.token!='undefined'){
                     that.getsaveNum();
-                }
+                // }
             })
         },
         //收藏
         saveClick:function(){
             const that = this;
-            console.log('进入')
+            // console.log('进入')
             if(localStorage.token && localStorage.token!='undefined'){
                 let type2
                 if(that.isSave == true){type2 = 0} else {type2 = 1}
@@ -426,16 +417,16 @@
         },
         getsaveNum:function(){
             const that = this;
-            if(localStorage.token && localStorage.token!='undefined'){
+            // if(localStorage.token && localStorage.token!='undefined'){
                 indexService.getArticleDetail({
                     id: that.$route.params.id,
                 }).then(function (res) {
                     that.$store.state.homeStore.article.thumbsNum  = res.data.thumbsNum
                     that.$store.state.homeStore.article.collectNum  = res.data.collectNum
                 })
-            } else {
+            // } else {
 
-            }
+            // }
         },
         //阅读数+1
         articleRead:function(){
@@ -459,7 +450,7 @@
             }).then(function (res) {
                 that.articleTypes = res.data.datas;
                 for(var i=1;i<that.articleTypes.length;i++){
-                    console.log(that.articleTypes[i].id)
+                    // console.log(that.articleTypes[i].id)
                     if(that.articleTypes[i].id==that.$store.state.homeStore.article.classId){
                         that.canClick = true
                     }
@@ -472,7 +463,7 @@
                 id:that.$route.params.id,
             }).then(function (res) {
                 that.newDetail = res.data;
-                console.log(that.newDetail)
+                // console.log(that.newDetail)
             });
         },
       getAdminUsers(){

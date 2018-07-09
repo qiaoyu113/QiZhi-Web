@@ -85,7 +85,7 @@
         },
         mounted: function() {
             const that = this;
-            console.log(that.postInfo);
+            // console.log(that.postInfo);
             that.getUser();
         },
 
@@ -213,7 +213,7 @@
 //                console.log(applyParams);
                 indexService.postApplyInfo(applyParams).then(function (res) {
                     if(res.data.code == 200){
-                        console.log(res.data.datas)
+                        // console.log(res.data.datas)
                         that.$router.push({name:'createOrder',params:{type:'2',comNo:'1'},query:{actId:that.$parent.detail.id,key:res.data.datas.detailKey,name:res.data.datas.actName,address:res.data.datas.address,ticketName:res.data.datas.ticketName,ticketNum:res.data.datas.ticketNum,activityPoster:res.data.datas.activityPoster,ticketPrice:res.data.datas.ticketPrice}})
                         // indexService.createOrder({actId:that.$parent.detail.id,key:res.data.datas.detailKey}).then(function(res){
                         //     that.coded(res.data);
@@ -335,7 +335,7 @@
     .radioclass {
         opacity:0;
         width: 100%;
-        height: 20px;
+        height: 35px;
         background: #000;
         margin-left: -33px;
         cursor: pointer;

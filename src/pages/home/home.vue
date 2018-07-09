@@ -93,7 +93,7 @@
         },
         data() {
             return{
-                title:'运联传媒',
+                title:'运联网_让世界重新看见物流',
                 newsData:[],
                 hotNews:[],
                 adminUsers:[],
@@ -184,7 +184,7 @@
         mounted: function () {
             this.codelDetail()
             window.scrollTo(0,0);
-            console.log('333333',this.hotAuthors)
+            // console.log('333333',this.hotAuthors)
         },
         methods: {
             codelDetail:function(){

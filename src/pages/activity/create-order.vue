@@ -1,4 +1,5 @@
 <template>
+<div id="dingdan">
     <div class="live-trade-detail">
         <!-- 1支付确认(知识) -->
         <div class="type-block" v-if="subType == '1'">
@@ -240,6 +241,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -368,7 +370,7 @@
                 }
                 //活动购买
                 if(that.subType == '2'){
-                    console.log(9999999999999,that.$route.query.activityPoster)
+                    // console.log(9999999999999,that.$route.query.activityPoster)
                     that.actList.activityPoster = that.$route.query.activityPoster
                     that.actList.actName = that.$route.query.name
                     that.actList.ticketName = that.$route.query.ticketName
@@ -538,7 +540,9 @@
     @font120:3.2rem;/* 120px */
     @font335:8.9333rem;/* 335px */
 
-    body{background:@bodyBgColor;}
+    #dingdan{
+        background: #f4f4f4;
+    }
     .live-trade-detail{
         width: 1200px;
         margin: 60px auto;
