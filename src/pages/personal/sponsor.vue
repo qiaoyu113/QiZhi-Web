@@ -260,7 +260,6 @@ import {validate} from '../../assets/js/common/validate'
     },
     methods: {
         enterAgree(){
-            console.log('http://'+location.host+'/agreement')
             window.open('http://'+location.host+'/agreement')
         },
         checkAccount () {

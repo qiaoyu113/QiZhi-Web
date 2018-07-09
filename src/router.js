@@ -144,9 +144,9 @@ const routers = [
 
     // 登录注册模块
     {name: 'login', path:'/login/password',component: login}, // 密码登录页
-    {name: 'phone', path:'/phone',component: phone}, // 手机号验证码登录页面
+    {name: 'phone', path:'/login',component: phone}, // 手机号验证码登录页面
     {name: 'register', path:'/register',component: register}, // 注册页面
-    {name: 'find', path:'/find',component: find}, // 找回密码页面
+    {name: 'find', path:'/passwords/phone',component: find}, // 找回密码页面
     {name: 'bind', path:'/bind',component: bind}, // 绑定手机号
     {name: 'qrcode', path:'/qrcode',component: qrcode}, // pc
     {name: 'modifyPass',path:'/modifyPass',component: modifyPass}, // 修改密码
