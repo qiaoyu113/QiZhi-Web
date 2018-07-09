@@ -3,7 +3,7 @@
      <div class="personalbox clearfix">
      	 <div class="personalboxl">
      	 	 <div class="headimg">
-     	 	 	 <img :src="picHead + name.headImg" class="headimgimg" />
+     	 	 	 <img :src="picHead + name.headImg" class="headimgimg" :onerror="errorImg01"/>
      	 	 	 <p>{{name.nickName}}
                  
                  <img src="../../assets/image/viptit.png" v-if="myVip==true"/>
@@ -38,6 +38,8 @@
         selectindex:7,
         name:'',
         myVip:'',
+        errorImg01: 'this.src="' + require('../../assets/image/default_photo.png') + '"',
+
       }
     },
     components: {},

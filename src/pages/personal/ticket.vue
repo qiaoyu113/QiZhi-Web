@@ -133,7 +133,7 @@ var QRCode = require('qrcode')
                   if(res.data.code==200){
                       that.data=res.data.datas
                        for(let i=0;i<that.data.length;i++){
-                         that.ticketUrl[i]="http://wetuc.dtfind.com/d/" + that.data[i].ticketUrl
+                         that.ticketUrl[i]=that.$store.state.url+"/d/" + that.data[i].ticketUrl
 
                        setTimeout( () => {
                        that.getQRCode(that.ticketUrl[i])

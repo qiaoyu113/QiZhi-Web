@@ -8,7 +8,7 @@
                      <!-- <div class="tabbtnl bordernone" @click="govipPoints">我的积分</div> -->
                  </div>
                  <div class="personal clearfix" v-if="personal==1">
-                    <div class="img"><img :src="picHead + data.headImg" /></div>
+                    <div class="img"><img :src="picHead + data.headImg" :onerror="errorImg01"/></div>
                     <div class="personalr">
                         <div class="name clearfix">
                            <p>{{data.nickName}}</p><img src="../../assets/image/viptit.png" v-if="myVip==true"/>
@@ -97,6 +97,7 @@ import {modularService} from '../../service/modularService'
         personal:1,
         data:'',
         vipdata:[],
+        errorImg01: 'this.src="' + require('../../assets/image/default_photo.png') + '"',
         myVip:'',
         vip:[{
           "time":"1",

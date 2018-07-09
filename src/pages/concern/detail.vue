@@ -126,11 +126,11 @@
 
                       if(that.concernstatus==2){
                           that.getActivities(that.author.id)
-                          that.text="该作者暂未发布文章"
+                          that.text="该主办方暂未发布活动"
 
                       }else if(that.concernstatus==3){
                            that.getArticles(that.author.id)
-                           that.text="该主办方暂未发布活动"
+                           that.text="该作者暂未发布文章"
                       }
                  
                   }
