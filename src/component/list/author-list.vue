@@ -1,22 +1,37 @@
 <template>
     <div id="author" class="box clearfix">
-        <div class="row">
-            <div class="row" @click="goconcernDetail(item.id,item.isFollow)">
-                <div class="rowbackimg">
-                    <div class="rowimg"><img :src="picHead + item.hostLogo" /></div>
-                    <div class="rowtitle">{{item.hostCompany}}</div>
-                    <div class="rowcon">{{item.hostDesc}}</div>
-                    <div class="rowlabel clearfix">
-                        <div class="rowlabell"><p v-if="item.subNum!=null">粉丝 {{item.subNum}} </p>
-                            <p v-if="item.subNum==null">粉丝 0 </p></div>
-                        <div class="rowlabelr" v-if="titlep==1"><p> 文章 {{item.addArticleNum==null?'0':item.addArticleNum}} </p></div>
-                        <div class="rowlabelr" v-if="titlep==2"><p> 活动 {{item.addActivityNum==null?'0':item.addActivityNum}} </p></div>
-                    </div>
-                    <div class="rowbtn1" @click="open2(item.id)" v-on:click.stop="doThis" v-if="item.isFollow==true">已关注</div>
-                    <div class="rowbtn2" @click="postFollow(item.id)" v-on:click.stop="doThis" v-if="item.isFollow==false"> + 关注</div>
+        <div class="row" @click="goconcernDetail(item.id,item.isFollow)" :style="{backgroundImage: 'url(' + picHead + item.hostLogo + ')'}">
+            <div class="rowbackimg">
+                <div class="rowimg"><img :src="picHead + item.hostLogo" /></div>
+                <div class="rowtitle">{{item.hostCompany}}</div>
+                <div class="rowcon">{{item.hostDesc}}</div>
+                <div class="rowlabel clearfix">
+                    <div class="rowlabell"><p v-if="item.subNum!=null">粉丝 {{item.subNum}} </p>
+                        <p v-if="item.subNum==null">粉丝 0 </p></div>
+                    <div class="rowlabelr" v-if="titlep==1"><p> 文章 {{item.addArticleNum==null?'0':item.addArticleNum}} </p></div>
+                    <div class="rowlabelr" v-if="titlep==2"><p> 活动 {{item.addActivityNum==null?'0':item.addActivityNum}} </p></div>
                 </div>
+                <div class="rowbtn1" @click="open2(item.id)" v-on:click.stop="doThis" v-if="item.isFollow==true">已关注</div>
+                <div class="rowbtn2" @click="postFollow(item.id)" v-on:click.stop="doThis" v-if="item.isFollow==false"> + 关注</div>
             </div>
         </div>
+        <!--<div class="row">-->
+            <!--<div class="row" @click="goconcernDetail(item.id,item.isFollow)">-->
+                <!--<div class="rowbackimg">-->
+                    <!--<div class="rowimg"><img :src="picHead + item.hostLogo" /></div>-->
+                    <!--<div class="rowtitle">{{item.hostCompany}}</div>-->
+                    <!--<div class="rowcon">{{item.hostDesc}}</div>-->
+                    <!--<div class="rowlabel clearfix">-->
+                        <!--<div class="rowlabell"><p v-if="item.subNum!=null">粉丝 {{item.subNum}} </p>-->
+                            <!--<p v-if="item.subNum==null">粉丝 0 </p></div>-->
+                        <!--<div class="rowlabelr" v-if="titlep==1"><p> 文章 {{item.addArticleNum==null?'0':item.addArticleNum}} </p></div>-->
+                        <!--<div class="rowlabelr" v-if="titlep==2"><p> 活动 {{item.addActivityNum==null?'0':item.addActivityNum}} </p></div>-->
+                    <!--</div>-->
+                    <!--<div class="rowbtn1" @click="open2(item.id)" v-on:click.stop="doThis" v-if="item.isFollow==true">已关注</div>-->
+                    <!--<div class="rowbtn2" @click="postFollow(item.id)" v-on:click.stop="doThis" v-if="item.isFollow==false"> + 关注</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </template>
 
@@ -43,7 +58,7 @@
         },
         mounted () {
             window.scrollTo(0,0);
-            this.getAllAdminUser()
+//            this.getAllAdminUser()
         },
         methods: {
             //
@@ -86,13 +101,9 @@
             getAllAdminUser (){
                 let that = this;
                 modularService.getAllAdminUser({pageNo: that.page.num, pageSize:that.page.size,adminType:that.titlep,type:true}).then(function (res) {
-                    console.log(res)
                     if(res.data.code==200){
                         that.data=res.data.datas.datas
                         that.inde=res.data.datas.totalPage * 10
-                        // console.log(that.inde)
-
-
                     }
                 });
             },
@@ -151,8 +162,6 @@
         // padding:26px 16px 0;
         margin-top: 20px;
         margin-right: 20px;
-        background-image: url("../../assets/image/hot.png");
-        background-size: 100% 100%;
         border-radius: 2px;
         .icon-pinpai{color: #999999;font-size: 15px;display: inline-block;transform:rotateY(180deg);-ms-transform:rotateY(180deg); 	/* IE 9 */-moz-transform:rotateY(180deg); 	/* Firefox */-webkit-transform:rotateY(180deg); /* Safari 和 Chrome */-o-transform:rotateY(180deg); }
         .bg_list{width:800px;background:#fff;border-bottom:1px solid #dedede;clear: both;margin: 0;padding: 0;overflow:hidden;}
@@ -317,10 +326,6 @@
         }
         .row:nth-child(4n+4){
             margin-right: 0;
-        }
-        .v_paging{
-            width: 1200px;
-            margin: 35px auto 170px;
         }
     }
 </style>
