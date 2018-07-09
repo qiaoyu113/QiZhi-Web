@@ -8,7 +8,8 @@ const http = require('http');
 const API = require('request');
 
 // const isProd = process.env.NODE_ENV === 'production'
-const isProd = true
+const isProd = false
+// const isProd = true
 
 
 const app = express()
@@ -80,13 +81,24 @@ app.get('*', (req, res) => {
     }
   }
 
-  renderer.renderToStream({ url: req.url ,title:global.title})
+    const context = { url: req.url }
+    renderer.renderToString(context, (error, html) => {
+        if (error) return res.send(error.stack)
+        const bodyOpt = {body: true}
+        const {
+            title, htmlAttrs, bodyAttrs, link, style, script, noscript, meta
+        } = context.meta.inject()
+        html = html.replace(/<title.*?<\/title>/g,title.text())
+        html = html.replace(/<meta.*?name="description".*?>/g, meta.text()+script.text())
+        return res.send(html)
+    })
+  /*renderer.renderToStream({ url: req.url ,title:global.title})
     .on('error', errorHandler)
     .on('end', (res) => {
       console.log(`whole request: ${Date.now() - s}ms`)
         console.log(1, res);
     })
-    .pipe(res)
+    .pipe(res)*/
 })
 
 const port = process.env.PORT || 9200

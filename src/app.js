@@ -33,6 +33,7 @@ Vue.use(ElementUI)
 // Vue.use(Option);
 // Vue.use(CarouselItem);
 
+
 export function createApp () {
     // 同步路由状态(route state)到 store
     sync(store, router)

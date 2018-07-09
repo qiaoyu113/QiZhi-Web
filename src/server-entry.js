@@ -1,10 +1,11 @@
 import { createApp } from './app'
+const { app, router, store } = createApp()
 
 export default context => {
   return new Promise((resolve, reject) => {
-    const { app, router, store } = createApp()
     router.push(context.url)
-    router.onReady(() => {
+    context.meta = app.$meta() // 这行
+      router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       if (!matchedComponents.length) {
         return reject({ code: 404 })
