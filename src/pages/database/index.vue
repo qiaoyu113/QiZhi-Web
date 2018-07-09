@@ -1,5 +1,5 @@
 <template>
-  <div class="" id="database" v-set-title="title">
+  <div class="" id="database">
       <div class="box clearfix">
           <div class="boxl">
               <div class="top"><span>类型筛选</span></div>
@@ -41,16 +41,21 @@
                     <div class="td td4">{{list.downloadCount}}</div>
                     <div class="td td5">{{list.createTime | stampFormate}}</div>
                     <div class="td td6">{{list.adminName}}</div>
-                    <div class="td td7" @click="getDownloadsUrl(list.name,list.url)"><a :href="'https://mini.dtfind.com/downloads/url?urlStr='+ list.url+'&fileName='+list.name+'&form='+list.suffix">下载</a></div>
+                    <div class="td td7" @click="getUserCenter(list.name,list.url,list.suffix,list.form)" >
+                   <!--  <a :href="'https://mini.dtfind.com/downloads/url?urlStr='+ list.url+'&fileName='+list.name+'&form='+list.suffix"> -->
+                    下载
+                    <!-- </a> -->
+                    </div>
                     </div>
 
                 </div>
                 </div>
                     <!--分页-->
-    <div class="v_paging">
+    <div class="v_paging" v-if="inde>10">
         <el-pagination
             background
            layout="prev, pager, next, jumper"
+           :current-page.sync="currentPage1"
            @current-change="handleCurrentChange"
            :total="inde">
     </el-pagination>
@@ -79,14 +84,43 @@
         },
         form:'',
         data:'',
-        form:[],
-        myVip:'',
+        currentPage1:1,
+        myVip:null,
       }
     },
+ 
     components: {},
+     // 添加以下代码
+    metaInfo () {
+        const title = this.title
+        return {
+            title
+        }
+    },
+    asyncData({store,route}){
+        // function getType(){
+        //     return modularService.getDocuments({pageNo: 1, pageSize:10,form:'',type:1}).then(function (res) {
+        //         store.state.homeStore.data = res.data.datas.datas
+        //         store.state.homeStore.inde = res.data.datas.totalPage * 10
+        //     });
+        // }
+        // return Promise.all([
+        //     getType()
+        // ])
+    },
+      computed: {
+            // data() {
+            //    return this.$store.state.homeStore.data 
+
+            // },
+            //  inde() {
+            //    return this.$store.state.homeStore.inde
+
+            // },
+        },
     mounted () {
        this.getDocuments()
-       this.getUserCenter()
+       // this.getUserCenter()
     },
     methods: {
       dian:function(id){
@@ -106,18 +140,22 @@
          }else if(id==7){
               this.form='other'
          }
+         this.page.num=1
+        this.currentPage1=1
          this.getDocuments()
       },
       borderbox:function(id){
         let that=this
-        
-        if(id==2 && that.myVip!=true){
-           that.open()
-        }else{
-           that.box=id
-           that.getDocuments()
-        }
-       
+        that.box=id
+        this.page.num=1
+        this.currentPage1=1
+        this.getDocuments()
+        // if(id==2 && that.myVip!=true){
+        //    that.open()
+        // }else{
+        //    that.box=id
+        //    that.getDocuments()
+        // }
       },
       //提示
       open() {
@@ -140,12 +178,13 @@
           this.getDocuments()
       },
         //获取我的信息
-      getUserCenter (){
+      getUserCenter (name,url,suffix,form){
         let that = this;
         modularService.getUserCenter().then(function (res) {
                   if(res.data.code==200){
                        let data=res.data.datas.user
                        that.myVip=data.myVip.vip
+                       that.getDownloadsUrl (name,url,suffix,form)
                   }
         });
       },
@@ -153,39 +192,42 @@
       getDocuments (){
         let that = this;
         modularService.getDocuments({pageNo: that.page.num, pageSize:that.page.size,form:that.form,type:that.box}).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                        that.data=res.data.datas.datas
-                      that.inde=res.data.datas.totalPage * 10
-                      // console.log(that.inde)
+                       that.inde=res.data.datas.totalPage * 10
                      // if(that.data!=''){
                      //   for(let i=0;i<that.data.length;i++){
                      //      let arr=that.data[i].url.split('.')
                      //     that.form[i]=arr[arr.length-1]
                      //  }
                      // }
-                     // console.log(that.form)
-                    
-                 
                   }
         });
       },
       
       //获取资料库下载地址
-      getDownloadsUrl (name,url){
+      getDownloadsUrl (name,url,suffix,form){
         let that = this;
-        console.log(1)
+        // that.getUserCenter()
+        if(that.myVip!=null){
+          if(that.myVip!=true&&that.box==2){
+            that.open()
 
-        modularService.getDownloadsUrl({form:form,urlStr:url,fileName:name}).then(function (res) {
-             console.log(res)
+          }else {
+    location.href='https://mini.dtfind.com/downloads/url?urlStr='+ url +'&fileName='+ name +'&form='+suffix
+    
+    modularService.getDownloadsUrl({form:form,urlStr:url,fileName:name}).then(function (res) {
                   if(res.data.code==200){
                        // that.data=res.data.datas.datas
                       // that.inde=res.data.datas.totalPage * 10
                       // console.log(that.inde)
-              
-                 
+
                   }
-        });
+               });
+          }
+        }
+        
+        
       },
       
     }

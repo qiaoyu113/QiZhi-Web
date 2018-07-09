@@ -71,7 +71,7 @@
            totalCount: 0,
            totalPage:0,
         },
-        data:[],
+        data:[1],
         loadStatus:0,
         total:1,
         concernstatus:3,
