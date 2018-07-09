@@ -37,7 +37,7 @@
                 </div>
                   <div class="row clearfix" v-for="list in data" v-if="concernstatus==3" @click="goarticle(list.id)">
                      <div class="rowl">
-                        <img :src="picHead + list.authorHeadImg" />
+                        <img :src="picHead + list.poster" />
                      </div>
                      <div class="rowr">
                          <p class="top">{{list.title}}</p>
@@ -46,10 +46,10 @@
                      </div>
                 </div>
                 <div class="nocontent" v-if="(data==null || data=='') && concernstatus==3">
-                   该作者暂未发布文章
+                   {{text}}
                 </div>
                  <div class="nocontent" v-if="(data==null || data=='') && concernstatus==2">
-                   该主办方暂未发布活动
+                   {{text}}
                 </div>
                 <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
               
@@ -71,11 +71,12 @@
            totalCount: 0,
            totalPage:0,
         },
-        data:[1],
+        data:[],
         loadStatus:0,
         total:1,
         concernstatus:3,
         author:'',
+        text:'',
         id:this.$route.query.id,//id
         isFollow:this.$route.query.isFollow, //是否关注
 
@@ -93,14 +94,12 @@
     mounted () {
       window.scrollTo(0,0);
        this.getMyFollowMain()
-     // console.log()
        // this.isFollows()
     },
     methods: {
       isFollows:function(){
 
          this.isFollow=this.$route.query.isFollow
-         console.log(this.isFollow)
       },
       //活动详情页
       goactivity:function(id){
@@ -117,7 +116,6 @@
         let that = this;
         modularService.getMyFollowMain({type:2,adminId:that.id}).then(function (res) {
                   if(res.data.code==200){
-                     console.log(res)
                       that.author=res.data.datas
                       for(let i=0;i<that.author.roles.length;i++){
                          if(that.author.roles[i]==2){
@@ -128,8 +126,11 @@
 
                       if(that.concernstatus==2){
                           that.getActivities(that.author.id)
+                          that.text="该作者暂未发布文章"
+
                       }else if(that.concernstatus==3){
                            that.getArticles(that.author.id)
+                           that.text="该主办方暂未发布活动"
                       }
                  
                   }
@@ -150,7 +151,7 @@
                         that.data.push(newArr[i]);
                     }
                      }
-                     console.log(that.data)
+                  
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {
@@ -175,7 +176,6 @@
                         that.data.push(newArr[i]);
                     }
                      }
-
                     if(res.data.datas.pageNo>=res.data.datas.totalPage){
                         that.loadStatus = 2
                     }else {

@@ -118,7 +118,6 @@ var QRCode = require('qrcode')
         let that = this;
         let actId = that.$route.query.actId
         modularService.getActivitiesId(actId).then(function (res) {
-             // console.log(res)
                   if(res.data.code==200){
                       that.orderDetails=res.data.datas
                       // that.ticketUrl="http://wetuc.dtfind.com/d/" + that.data[0].ticketUrl
@@ -133,10 +132,9 @@ var QRCode = require('qrcode')
         modularService.getMyticketsOrderNoid(id).then(function (res) {
                   if(res.data.code==200){
                       that.data=res.data.datas
-                       console.log(that.data)
                        for(let i=0;i<that.data.length;i++){
                          that.ticketUrl[i]="http://wetuc.dtfind.com/d/" + that.data[i].ticketUrl
-                     // console.log(that.ticketUrl)
+
                        setTimeout( () => {
                        that.getQRCode(that.ticketUrl[i])
                         },0)

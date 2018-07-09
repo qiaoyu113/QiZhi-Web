@@ -216,9 +216,8 @@
       getUserCenter(){
         let that=this;
         modularService.getUserCenter().then(function(res){
-            console.log(res)
+
           if(res.data.success){
-            // console.log(res)
             let obj = res.data.datas.user;
             that.userForm ={
               phone:obj.phone,
@@ -248,7 +247,6 @@
         putPasswordsPassword(){
              let that=this
          modularService.putPasswordsPassword({oldPassword:that.form.oldPassword,newPassword:that.form.newPassword}).then(function(res){
-            console.log(res)
           if(res.data.success){
                 that.$message.success('修改成功');
                 that.$router.push({path:"/login"})
@@ -305,7 +303,6 @@
 
                        this.headerImage = roundedCanvas.toDataURL(); 
             modularService.postBase({base64Img:that.headerImage,width:that.width,height:that.height}).then(function(res){
-                   console.log(res)
                     that.headImg = res.data.datas;
                           // commonService.putUpdate({headImg:img}).then(function(res){
                           //               // that.getUsersprofile()

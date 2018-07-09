@@ -206,7 +206,6 @@ import {modularService} from '../../service/modularService'
       putOrdersIdCancel (id){
         let that = this;
         modularService.putOrdersIdCancel(id).then(function (res) {
-             console.log(res)
                   if(res.data.code==200){
                   that.page.num =1
                   that.data=[]
@@ -242,7 +241,7 @@ import {modularService} from '../../service/modularService'
       putOrdersIdRefundApply (id,value){
         let that = this;
         modularService.putOrdersIdRefundApply(id,{reason:value}).then(function (res) {
-             console.log(res)
+
                   if(res.data.code==200){
                   that.page.num =1
                   that.data=[]
