@@ -20,11 +20,11 @@
         mounted (){
           var obj = new WxLogin({
             id: "login_container",
-            appid: "wx7160f239f04c65da",// 正式appid
-            // appid:'wxd5dd1b24ea1e7c02', //测试
+            // appid: "wx7160f239f04c65da",// 正式appid
+            appid:'wxd5dd1b24ea1e7c02', //测试
             scope: "snsapi_login",
-            redirect_uri: 'http://wetuc.com/wxlogin',
-            // redirect_uri: 'http://wetuc.dtfind.com/bindwxlogin',  //测试
+            // redirect_uri: 'http://wetuc.com/bindwxlogin',
+            redirect_uri: 'http://wetuc.dtfind.com/bindwxlogin',  //测试
             state: Math.ceil(Math.random()*1000),
             style: "black",
             href: ""});

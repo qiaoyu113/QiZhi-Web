@@ -1,13 +1,5 @@
 <template>
   <div class="" id="activity_detail">
-    <!--导航-->
-    <!-- <div class="activity-dh">
-        <span class="layui-breadcrumb">
-          <router-link :to="{name:'home'}">首页</router-link>&nbsp;>&nbsp;
-          <router-link :to="{name:'activity'}">活动</router-link>&nbsp;>&nbsp;{{detail.activityTitle}}
-        </span>
-    </div> -->
-
     <!--活动信息板块-->
     <div class="activity-message">
         <!-- <p class="tuiguang"><i class="iconfont icon-iconfontdaohanggonggao"></i> 推广本活动，赚取积分！</p> -->
