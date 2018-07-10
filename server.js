@@ -8,14 +8,11 @@ const http = require('http');
 const API = require('request');
 
 // const isProd = process.env.NODE_ENV === 'production'
-const isProd = true
-
-
+const isProd = false
 const app = express()
 
 //尽量在其他中间件前使用compression
 app.use(compression());
-
 let renderer
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
@@ -52,11 +49,9 @@ const serve = (path, cache) => express.static(resolve(path), {
 
 
 app.use('/dister', serve('./dister', true))
-app.use(favicon(path.resolve('./src/assets/image/logo.png')))
 app.use('/service-worker.js', serve('./dister/service-worker.js'))
 app.use('/src/assets/js/swiper.min.js', serve('./src/assets/js/swiper.min.js'))
 app.use('/src/assets/image/favicon.ico', serve('./src/assets/image/favicon.ico'))
-// app.use('/src/assets/', serve('./src/assets/'))
 app.use('/MP_verify_XvpMPNigMWz3yqY1.txt', serve('./MP_verify_XvpMPNigMWz3yqY1.txt'))
 
 
@@ -80,28 +75,17 @@ app.get('*', (req, res) => {
     }
   }
 
-    const context = { url: req.url }
-    renderer.renderToString(context, (error, html) => {
-        if (error) return res.send(error.stack)
-        const bodyOpt = {body: true}
-        const {
-            title, htmlAttrs, bodyAttrs, link, style, script, noscript, meta
-        } = context.meta.inject()
-        html = html.replace(/<title.*?<\/title>/g,title.text())
-        html = html.replace(/<meta.*?name="description".*?>/g, meta.text()+script.text())
-        return res.send(html)
-    })
-  /*renderer.renderToStream({ url: req.url ,title:global.title})
+  renderer.renderToStream({ url: req.url ,title:global.title})
     .on('error', errorHandler)
     .on('end', (res) => {
       console.log(`whole request: ${Date.now() - s}ms`)
         console.log(1, res);
     })
-    .pipe(res)*/
+    .pipe(res)
 })
 
-// const port = process.env.PORT || 9200
-const port = process.env.PORT || 9012  //测试
+const port = process.env.PORT || 9200
+// const port = process.env.PORT || 9012  //测试
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`)
 })
