@@ -59,12 +59,14 @@ import {loginService} from '../../service/loginService'
             }
         };
         let validateoldPass = (rule, value, callback) =>{
-            var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+            // var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
             if (value === '') {
                 callback(new Error('请输入密码'));
-            } else if(!pass.test(value)) {
-                callback(new Error('数字和字母组合,且不少于6位'));
-            }else{
+            }
+            //  else if(!pass.test(value)) {
+            //     callback(new Error('数字和字母组合,且不少于6位'));
+            // }
+            else{
                 callback();
             }
         }

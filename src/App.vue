@@ -1,4 +1,4 @@
-e<template>
+<template>
     <div id="app" class="scroll" v-bind="{'minWidth':this.$route.name!='invitelogin'}">
         <navbar v-show="navshow==true"></navbar>
         <router-view class="view"></router-view>
@@ -28,6 +28,9 @@ e<template>
                 // that.hasCommon();
                 // that.loginWay();
                 // that.hasInvite();
+                if(to.name!='qrcode' &&to.name!='qrcode' && to.name!='login' && to.name!='phone' && to.name!='register' && to.name!='find' && to.name!='bind' && to.name!='modifyPass'&& to.name!='wxlogin'&& to.name!='bindQrcode'&& to.name!='bindwxlogin'){
+                    appService.checkLogin()
+                }
                    that.watchticket()
             }
         },

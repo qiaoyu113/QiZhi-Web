@@ -143,8 +143,9 @@
             }
             
             function getAdminUsers(){
-                return indexService.allAdminUser({pageNo:1,pageSize:5,adminType:1,}).then(function (res) {
-                    store.state.homeStore.hotAuthors = res.data.datas.datas;
+                // gethotAuthor
+                return indexService.gethotAuthor({pageNo:1,pageSize:5,adminType:1,}).then(function (res) {
+                    store.state.homeStore.hotAuthors = res.data.datas;
                 });
             }
             function getbanners(){
@@ -154,8 +155,9 @@
                 })
             }
             function getActivities(){
-                return indexService.getActList({pageNo:1,pageSize:5,sortKey:'publishTime'}).then(function (res) {
-                    store.state.homeStore.hotActivity = res.data.datas.datas;
+                // gethotActivity
+                return indexService.gethotActivity({pageNo:1,pageSize:5,sortKey:'publishTime'}).then(function (res) {
+                    store.state.homeStore.hotActivity = res.data.datas;
                     // console.log(res.data.datas.datas,333333);
                 });
             }

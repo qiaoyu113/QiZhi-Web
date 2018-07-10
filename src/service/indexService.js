@@ -11,6 +11,14 @@ export const indexService = {
     listImgs: function(params){
         return axios.get('/banners'+ this.getParam(params))
     },
+    // 热门作者
+    gethotAuthor: function(params){
+        return axios.get('/authors/hot'+ this.getParam(params))
+    },
+    // 热门活动
+    gethotActivity: function(params){
+        return axios.get('/activities/hot'+ this.getParam(params))
+    },
     // 文章列表请求
     getArticles: function(params){
         return axios.get('/articles'+ this.getParam(params))

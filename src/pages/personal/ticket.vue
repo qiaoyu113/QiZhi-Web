@@ -68,7 +68,7 @@ var QRCode = require('qrcode')
         },
     mounted () {
        this.getMyticketsOrderNoid()
-       this.getActivitiesId()
+       // this.getActivitiesId()
     },
     methods: {
          //左
@@ -114,12 +114,14 @@ var QRCode = require('qrcode')
           });
       },
          //获取我的h活动信息
-      getActivitiesId (){
+      getActivitiesId (actId){
         let that = this;
-        let actId = that.$route.query.actId
+        // console.log(actId)
+        // let actId = that.$route.query.actId
         modularService.getActivitiesId(actId).then(function (res) {
                   if(res.data.code==200){
                       that.orderDetails=res.data.datas
+                      // console.log(res)
                       // that.ticketUrl="http://wetuc.dtfind.com/d/" + that.data[0].ticketUrl
                   }
         });
@@ -128,18 +130,19 @@ var QRCode = require('qrcode')
        //获取我的消息
       getMyticketsOrderNoid (){
         let that = this;
-        let id = that.$route.query.id
+        let id = that.$route.params.id
         modularService.getMyticketsOrderNoid(id).then(function (res) {
                   if(res.data.code==200){
                       that.data=res.data.datas
+                       that.getActivitiesId(that.data[0].actId)
                        for(let i=0;i<that.data.length;i++){
                          that.ticketUrl[i]=that.$store.state.url+"/d/" + that.data[i].ticketUrl
-
+     
                        setTimeout( () => {
                        that.getQRCode(that.ticketUrl[i])
                         },0)
                        }
-                     
+                    
                      // that.getQRCode(that.ticketUrl)
                   }
         });

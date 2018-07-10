@@ -216,7 +216,7 @@
        //绑定微信登陆
          gowx(){
            // this.$router.push wxlogin
-           this.$router.push({name:'bindwxlogin'})
+           this.$router.push({name:'bindQrcode'})
          },
       // 获取账号信息
       getUserCenter(){
