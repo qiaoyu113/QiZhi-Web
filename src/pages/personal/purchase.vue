@@ -143,7 +143,7 @@ import {modularService} from '../../service/modularService'
       goticket:function(id,actId){
 
          // this.$router.push({path:"/ticket",query:{id:id,actId:actId}}) 
-            window.open(window.location. origin + '/ticket?id='+id+'&actId='+actId)
+            window.open(window.location. origin + '/ticket/'+id)
       },
       gopayment:function(orderNo,money){
 
