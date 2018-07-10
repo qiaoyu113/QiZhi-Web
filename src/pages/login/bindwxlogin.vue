@@ -69,15 +69,16 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '绑定成功!'
-          });
+          
           loginService.getWXbindNext({plat:'pc',redisInfoKey: this.redisInfoKey}).then(function (res) {
             if(res.data.code == 200){
-              this.$router.push({name:'mySet'});
+            this.$message({
+                type: 'success',
+               message: '绑定成功!'
+              });
+              this.$router.push({name:'setup'});
             } else {
-              this.$router.push({name:'mySet'});
+              this.$router.push({name:'setup'});
             }
           })
         }).catch(() => {
@@ -85,7 +86,7 @@
             type: 'info',
             message: '已取消绑定'
           });
-          this.$router.push({name:'mySet'});          
+          this.$router.push({name:'setup'});          
         });
         // const h = this.$createElement;
         // this.$msgbox({
@@ -146,6 +147,32 @@
           //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
           let platform = appService.getPlatForm();
           let statea = appService.getState();
+
+           indexService.myCenter({
+                }).then(function (res) {
+                    let User = res.data.datas
+                    let unionid = User.baseUser.unionid
+                    if(unionid!=null && unionid!=''){
+                        that.$notify({
+                            title: '提示',
+                            message: '该微信已被绑定,请更换绑定微信',
+                            type: 'warning'
+                        });
+                        that.$router.push({name: 'bindQrcode'});
+                    } else{
+                      // getWXbindNext
+                        loginService.getWXbind({code: code,plat:'pc',platform: platform}).then(function (res) {
+                            if(res.data.code == 212102){
+                              that.redisInfoKey = res.data.datas
+                              that.$nextTick(function(){
+                                that.open2()
+                              })
+                            } else if(res.data.code == 200){
+                              that.$router.push({name: 'setup'});
+                            }
+                        })
+                    }
+                })
           
         }
       }

@@ -124,7 +124,7 @@ const routers = [
     {name: 'vip',path:'/vip',component: vip},
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
      //电子票
-    {name: 'ticket',path:'/ticket',component: ticket},
+    {name: 'ticket',path:'/ticket/:id',component: ticket},
     // 申请成为主办方
     {name: 'sponsor',path:'/sponsor',component: sponsor},
 
