@@ -1,8 +1,8 @@
 e<template>
     <div id="app" class="scroll" v-bind="{'minWidth':this.$route.name!='invitelogin'}">
-        <navbar v-if="show == true && navshow==true"></navbar>
-        <router-view class="view" v-if="show == true"></router-view>
-        <z-footer v-if="show == true && footershow==true"></z-footer>
+        <navbar v-show="navshow==true"></navbar>
+        <router-view class="view"></router-view>
+        <z-footer v-show="footershow==true"></z-footer>
     </div>
 </template>
 
@@ -11,15 +11,6 @@ e<template>
     import {filter} from './mixin/filter'
     export default {
         name: 'app',
-         // 添加以下代码
-        metaInfo () {
-            return {
-                meta: [
-                    { vmid: 'description', name: 'description', content: this.$store.state.description },
-                    { vmid: 'keyWords', name: 'keyWords', content: this.$store.state.keyWords },
-                ]
-            }
-        },
         data() {
             return{
                 nocommon:null,
@@ -49,11 +40,7 @@ e<template>
                        this.navshow =false 
                        this.footershow=false
                      }
-            
 
-            this.$nextTick(function(){
-                this.show = true
-            })
             appService.onBridgeReady()
         },
         methods: {

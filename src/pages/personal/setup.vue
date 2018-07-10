@@ -61,9 +61,9 @@
     <div class="binding">
         <div class="wx clearfix">
              <div class="wxl">绑定微信</div>
-             <div class="wxcon" v-if="unionid==null">未绑定</div>
-             <div class="wxcon" v-if="unionid!=null">已绑定</div>
-             <div class="wxr" v-if="unionid==null">去绑定</div>
+             <div class="wxcon" v-if="unionid==null || unionid==''">未绑定</div>
+             <div class="wxcon" v-if="unionid!=null && unionid!=''">已绑定</div>
+             <div class="wxr" v-if="unionid==null || unionid==''" @click="gowx">去绑定</div>
              <!-- <div class="wxr" v-if="unionid!=null">去解绑</div> -->
         </div>
         <div class="password clearfix">
@@ -108,8 +108,8 @@
       return {
      
         
-         // errorImg01: 'this.src="' + require('../../assets/image/common/default_photo.png') + '"',
-         errorImg01:'',
+         errorImg01: 'this.src="' + require('../../assets/image/default_photo.png') + '"',
+         // errorImg01:'',
          headerImage:'', 
          panel:false, 
          url:'',
@@ -160,6 +160,7 @@
         },
     mounted () {
       // let that = this;
+
       var obj = new WxLogin({
               id: "login_container",
               appid: "wxed782be999f86e0e",
@@ -212,6 +213,11 @@
           }
         });
       },
+       //绑定微信登陆
+         gowx(){
+           // this.$router.push wxlogin
+           this.$router.push({name:'bindwxlogin'})
+         },
       // 获取账号信息
       getUserCenter(){
         let that=this;

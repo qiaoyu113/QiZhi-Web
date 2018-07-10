@@ -3,7 +3,7 @@
 首页大列表组件
 -->
 <template>
-    <div class="sy-list sy dicContent" id="activity">
+    <div class="sy-list sy dicContent" id="activityList">
         <router-link :to="{name:'activityDetail',params:{id:item.id}}">
             <div class="bg_list">
                 <div class="bg_list_left">
@@ -46,7 +46,7 @@
     }
 </script>
 <style lang="less">
-    #activity{
+    #activityList{
         .icon-pinpai{color: #999999;font-size: 15px;display: inline-block;transform:rotateY(180deg);-ms-transform:rotateY(180deg); 	/* IE 9 */-moz-transform:rotateY(180deg); 	/* Firefox */-webkit-transform:rotateY(180deg); /* Safari 和 Chrome */-o-transform:rotateY(180deg); }
         .bg_list{width:800px;background:#fff;border-bottom:1px solid #dedede;clear: both;margin: 0;padding: 0;overflow:hidden;}
         .bg_list:hover{background-color:#fafafa;}
