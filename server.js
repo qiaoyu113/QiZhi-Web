@@ -8,7 +8,7 @@ const http = require('http');
 const API = require('request');
 
 // const isProd = process.env.NODE_ENV === 'production'
-const isProd = false
+const isProd = true
 const app = express()
 
 //尽量在其他中间件前使用compression
@@ -84,8 +84,8 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || 9200
-// const port = process.env.PORT || 9012  //测试
+// const port = process.env.PORT || 9200
+const port = process.env.PORT || 9012  //测试
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`)
 })
