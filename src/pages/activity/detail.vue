@@ -47,8 +47,9 @@
                 <div class="activity-message-bottom-right-4">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/renwu.png" alt=""></div>
                     <div class="activity-message-bottom-right-4-right" v-if="detail.actApplyNum || detail.peoUpperLimit">
-                        <p class="right-4-p1" v-if="detail.actApplyNum!= 0 && detail.showUsers==1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名</p>
-                        <p class="right-4-p2" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
+                        <p class="right-4-p1" v-if="detail.actApplyNum!= 0 && detail.showUsers==1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名/</p>
+                        <!-- <p class="right-4-p1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名/</p> -->
+                        <p class="right-4-p1" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
                     </div>
                     <div class="activity-message-bottom-right-4-right2">
                         <div class="right-4-img2"></div>

@@ -9,15 +9,15 @@
             <router-link :to="{name:'news',params:{id:1}}" v-bind:class="{'li_red':current2}">资讯<span v-if="current2" class="select_line"></span></router-link>
             <router-link :to="{name:'activity'}" v-bind:class="{'li_red':current3}">活动<span v-if="current3" class="select_line"></span></router-link>
             <router-link :to="{name:'concern'}" v-bind:class="{'li_red':current4}">关注<span v-if="current4" class="select_line"></span></router-link>
-            <!-- <router-link :to="{name:'subject'}" v-bind:class="{'li_red':current5}">专题<span v-if="current5" class="select_line"></span></router-link> -->
-            <router-link :to="{name:'database'}" v-bind:class="{'li_red':current6}">资料库<span v-if="current6" class="select_line"></span></router-link>
-            <router-link :to="{name:'vip'}" v-bind:class="{'li_red':current7}">会员中心<span v-if="current7" class="select_line"></span></router-link>
+            <router-link :to="{name:'database'}" v-bind:class="{'li_red':current5}">资料库<span v-if="current5" class="select_line"></span></router-link>
+            <router-link :to="{name:'vip'}" v-bind:class="{'li_red':current6}">会员中心<span v-if="current6" class="select_line"></span></router-link>
         </div>
         <!-- <router-link v-if="!loginFlag" :to="{name:''}" id="vip">会员中心</router-link> -->
         <router-link v-if="!loginFlag" :to="{name:'register'}" id="nav_register">注册</router-link>
         <router-link v-if="!loginFlag" :to="{name:'login'}" id="nav_login">登录</router-link>
        <div class="tokenr clearfix">
         <router-link v-if="loginFlag" class="personname" to="">{{name}}</router-link>
+        <i v-bind:class="{'enterMycenter':loginFlag}" class="iconfont icon-pep" @click="clickIcon()"></i>
         <div class="layer">
            <i></i>
            <ul>
@@ -30,11 +30,9 @@
            </ul>
         </div>
        </div>
-        <i v-bind:class="{'enterMycenter':loginFlag}" class="iconfont icon-pep" @click="clickIcon()"></i>
+        
         <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
         <a href="http://admin.wetuc.com/admin/login" class="fabu">发布</a>
-        
-        
         <!-- <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link> -->
     </div>
   </div>
@@ -81,8 +79,8 @@
         },
         methods: {
           clickIcon(){
-            if(loginFlag){
-              this.$router.push({name:'personal'})
+            if(this.loginFlag){
+              this.$router.push({name:'purchase'})
             } 
           },
           getlogin(){
@@ -107,13 +105,11 @@
                   localStorage.token = undefined
                   sessionStorage.removeItem('token');
                   that.$router.go(0)
-                  // console.log(res)
               })
-            
           },
           currentPage(){
-            let currentUrl = this.$route.path
-            if(currentUrl == '/'){
+            let currentUrl = this.$route.name
+            if(currentUrl == 'home'){
               this.current1 = true
               this.current2=false
               this.current3=false
@@ -121,7 +117,7 @@
               this.current5=false
               this.current6=false
               this.current7=false
-            } else if (currentUrl.indexOf('news') != -1) {
+            } else if (currentUrl == 'news') {
               this.current2 = true
               this.current1 = false
               this.current3=false
@@ -130,7 +126,7 @@
               this.current6=false
               this.current7=false
               
-            } else if (currentUrl.indexOf('activity') != -1) {
+            } else if (currentUrl == 'activity') {
               this.current3 = true
               this.current1 = false
               this.current2=false
@@ -138,7 +134,7 @@
               this.current5=false
               this.current6=false
               this.current7=false
-            } else if (currentUrl.indexOf('concern') != -1) {
+            } else if (currentUrl == 'concern') {
               this.current4 = true
               this.current1 = false
               this.current2=false
@@ -146,7 +142,7 @@
               this.current5=false
               this.current6=false
               this.current7=false
-            } else if (currentUrl.indexOf('subject') != -1) {
+            } else if (currentUrl == 'database') {
               this.current5 = true
               this.current1 = false
               this.current2=false
@@ -154,7 +150,7 @@
               this.current4=false
               this.current6=false
               this.current7=false
-            } else if (currentUrl.indexOf('database') != -1) {
+            } else if (currentUrl == 'vip') {
               this.current6 = true
               this.current1 = false
               this.current2=false
@@ -162,16 +158,15 @@
               this.current4=false
               this.current5=false
               this.current7=false
-            } else if (currentUrl.indexOf('vip') != -1) {
+            } else {
               this.current6 = false
               this.current1 = false
               this.current2=false
               this.current3=false
               this.current4=false
               this.current5=false
-              this.current7=true
+              this.current7=false
             }
-            //console.log('当前页面', currentUrl.indexOf('production'))
           },
           goHome(){
             this.$router.push({name:'home'})
@@ -211,11 +206,11 @@
       .layer{
         display: none;
         position: absolute;
-        right: 0;
+        left: 50%;
         top: 50px;
+        transform: translateX(-50%);
         background: #fff;
         width: 120px;
-       
         border:1px solid #e0e0e0;
         i{
           width: 6px;
@@ -381,7 +376,8 @@
         border-left: 1px solid #d8d8d8;
       }
       .tokenr{
-         float: right;
+        position: relative;
+        float: right;
       }
       .tokenr:hover .layer{
          display: block;

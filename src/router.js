@@ -114,7 +114,7 @@ const routers = [
     {name: 'payment',path:'/payment/:id/:type',component: payment},
     {name: 'alipay',path:'/alipay',component: alipay},
     {name: 'paySuccess',path:'/paySuccess',component: paySuccess},
-    {name: 'activityPlace',path:'/activity/place',component:activityPlace},
+    {name: 'activityPlace',path:'/place',component:activityPlace},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},

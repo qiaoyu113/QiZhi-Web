@@ -1,12 +1,12 @@
 <template>
-  <div class="invitelogin" id="invitelogin" v-set-title="title">
+  <div class="invitelogin" id="invitelogin">
       <div class="form">
         <p class="title">申请成为主办方</p>
         <el-form :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm1" label-width="160px" class="demo-ruleForm">
             <el-form-item label="账号设置" label-position="left" prop="varifyType">
                 <el-radio-group v-model="ruleForm1.varifyType">
-                    <el-radio label="0" value="">作者</el-radio>
-                    <el-radio label="4" value="">主办方</el-radio>
+                    <el-radio label="0" value="">作者（发布文章）</el-radio>
+                    <el-radio label="4" value="">主办方（发布活动）</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="账号" prop="account">
@@ -15,17 +15,17 @@
             <el-form-item label="名称" prop="adminName">
                 <el-input v-model="ruleForm1.adminName" placeholder="名称" class="nameinput"></el-input>
             </el-form-item>
-            <el-form-item label="所属组织/单位正式名称" prop="adminCompany">
+            <!-- <el-form-item label="所属组织/单位正式名称" prop="adminCompany">
                 <el-input v-model="ruleForm1.adminCompany" placeholder="名称" class="nameinput"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="组织/单位简介" prop="describe">
                 <el-input type="textarea" v-model="ruleForm1.describe" placeholder="100字以内，申请成功后将在主页中展示"></el-input>
             </el-form-item>
             <el-form-item label="头像" prop="adminLogo">
                 <div style="font-size:13px;color:#666;float: right;
-    margin-right: 197px;
-    line-height: 30px;
-    margin-top: 20px;">
+                    margin-right: 197px;
+                    line-height: 30px;
+                    margin-top: 20px;">
                     建议尺寸：200*200</br>
                     图片大小：不超过2M</br>
                     支持格式：JPG、GIF、PNG</br>
@@ -42,7 +42,8 @@
                 <div class="v_nox clearfix"> 
                     <div class="show"> 
                         <div class="picture" > 
-                            <img :src="headerImage" :onerror="errorImg01"/>
+                            <img v-if="headerImage!=''" :src="headerImage" :onerror="errorImg01"/>
+                            <img src="../../assets/image/default_photo.png" v-if="headerImage==''"/>
                         </div> 
                     </div>
                     <div class="v_show"> 
@@ -88,6 +89,7 @@
               返回首页
           </div>
       </div>
+      <div class="ceng" v-show="xiaoxishow"></div>
   </div>
 </template>
 
@@ -123,12 +125,13 @@ import {validate} from '../../assets/js/common/validate'
             }
         };
         let validateAccount = (rule, value, callback) =>{
-            var pass=/^(?![^a-zA-Z]+$)(?!\D+$)/
+            // var pass=/^(?![^a-zA-Z]+$)(?!\D+$)/
+            var pass=/^[0-9a-zA-Z]+$/
             if (value === '') {
                 callback(new Error('请填写账号'));
             }
             else if(!pass.test(value)) {
-                callback(new Error('数字和字母组合'));
+                callback(new Error('数字或字母组合'));
             }
             else{
                 callback();
@@ -379,9 +382,9 @@ import {validate} from '../../assets/js/common/validate'
                         }else{
                             clearInterval(that.$store.state.loginStore.timer);
                             that.isFlag = 1;
-                            var removeObj = document.getElementsByClassName('geetest_holder')[0];
-                            removeObj.parentNode.removeChild(removeObj);
-                            that.getgaptchas()
+                            // var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                            // removeObj.parentNode.removeChild(removeObj);
+                            // that.getgaptchas()
                         }
                         },1000);
                         }
@@ -435,6 +438,7 @@ import {validate} from '../../assets/js/common/validate'
         submitForm:function(formName){
             const that = this;
             that.ruleForm1.phone = that.ruleForm1.adminPhone
+            that.ruleForm1.adminCompany = that.ruleForm1.adminName
             // that.checkAccount();
             that.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -472,6 +476,7 @@ import {validate} from '../../assets/js/common/validate'
     width:480px;
     background: #FFFFFF;
     border: 1px solid #ccc;
+    z-index: 200;
     .top{
         height: 110px;
         text-align: center;
@@ -587,7 +592,7 @@ border-radius: 50%;
         position: relative;
         height: 140px;
         // padding: 3px 5px;
-        // border-radius: 50%;
+        border-radius: 50%;
         line-height: 30px;
         width: 140px;
         text-align: center;

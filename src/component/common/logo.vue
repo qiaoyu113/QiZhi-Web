@@ -1,6 +1,7 @@
 <template>
   <div id="logo" >
-      <img :src="logo" alt="" class="logo">
+      <img src="../../assets/image/logo.png" alt="" class="logo">
+      <!-- ./../assets/image/logo.png -->
   </div>
 </template>
 

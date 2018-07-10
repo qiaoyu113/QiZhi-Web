@@ -1,4 +1,4 @@
-e<template>
+<template>
     <div id="app" class="scroll" v-bind="{'minWidth':this.$route.name!='invitelogin'}">
         <navbar v-show="navshow==true"></navbar>
         <router-view class="view"></router-view>

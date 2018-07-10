@@ -179,9 +179,9 @@ import {loginService} from '../../service/loginService'
                             }else{
                                 clearInterval(that.$store.state.loginStore.timer);
                                 that.isFlag = 1;
-                                var removeObj = document.getElementsByClassName('geetest_holder')[0];
-                                removeObj.parentNode.removeChild(removeObj);
-                                that.getgaptchas()
+                                // var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                                // removeObj.parentNode.removeChild(removeObj);
+                                // that.getgaptchas()
                             }
                             },1000);
                             }

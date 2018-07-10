@@ -129,13 +129,13 @@
     margin: 0;
     background-image:none;
   }
-  .qqshare1{left:127px !important;}
-  .jiathis_style_32x32 .jiathis_button_tsina{display:inline-block;height:25px !important;width:25px !important;padding-left:12px !important;}
-  .jiathis_style_32x32 .jiathis_button_weixin{display:inline-block;height:25px !important;width:25px !important;padding-left:12px !important;}
+  .qqshare1{left:124px !important;}
+  .jiathis_style_32x32 .jiathis_button_tsina{display:inline-block;height:25px !important;width:25px !important;padding-left:5px !important;}
+  .jiathis_style_32x32 .jiathis_button_weixin{display:inline-block;height:25px !important;width:25px !important;padding-left:5px !important;}
   .jiathis_style_32x32{float: left;}
   .jtico_tsina{background: url('../../assets/image/sina.png') no-repeat !important;background-position:0 0 !important;background-size:contain !important;}
   .jtico_weixin{background: url('../../assets/image/wechat.png') no-repeat !important;background-position:0 0 !important;background-size:contain !important;}
-  .bds_qzone{float: left;width:20px;height:20px;display:block;background-image:url('../../assets/image/qq.png');background-position:0 0;background-size:contain;}
+  .bds_qzone{float: left;width:25px;height:25px;margin-left:4px;display:block;background-image:url('../../assets/image/qq.png');background-position:0 0;background-size:contain;}
   .bdshare-button-style0-16 a, .bdshare-button-style0-16 .bds_more{padding-left:10px;}
   .bdshare-button-style0-16 a:nth-of-type(1){background-image:url('../../assets/image/sina.png');background-position:0 0;background-size:contain;}
   .bdshare-button-style0-16 a:nth-of-type(2){background-image:url('../../assets/image/wechat.png');background-position:0 0;background-size:contain;}
