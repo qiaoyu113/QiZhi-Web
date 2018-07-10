@@ -8,7 +8,7 @@ const http = require('http');
 const API = require('request');
 
 // const isProd = process.env.NODE_ENV === 'production'
-const isProd = false
+const isProd = true
 
 
 const app = express()
@@ -52,11 +52,11 @@ const serve = (path, cache) => express.static(resolve(path), {
 
 
 app.use('/dister', serve('./dister', true))
-// app.use(favicon(path.resolve('./src/assets/image/common/favicon.ico')))
+app.use(favicon(path.resolve('./src/assets/image/logo.png')))
 app.use('/service-worker.js', serve('./dister/service-worker.js'))
 app.use('/src/assets/js/swiper.min.js', serve('./src/assets/js/swiper.min.js'))
 app.use('/src/assets/image/favicon.ico', serve('./src/assets/image/favicon.ico'))
-app.use('/src/assets/', serve('./src/assets/'))
+// app.use('/src/assets/', serve('./src/assets/'))
 app.use('/MP_verify_XvpMPNigMWz3yqY1.txt', serve('./MP_verify_XvpMPNigMWz3yqY1.txt'))
 
 
@@ -89,8 +89,8 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || 9200
-// const port = process.env.PORT || 9012  //测试
+// const port = process.env.PORT || 9200
+const port = process.env.PORT || 9012  //测试
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`)
 })
