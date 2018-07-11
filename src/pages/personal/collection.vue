@@ -15,8 +15,7 @@
         	 	 <p class="cancel" @click="open2(list)">取消收藏</p>
         	 </div>
         </div>
-      
-       
+        <div class="ts" v-if="prompt!=''">{{prompt}}</div>
         <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
     	
     </div>
@@ -40,6 +39,7 @@
                     totalPage:0
                 },
         data:[],
+        prompt:'',
         loadStatus:0,
         total:1,
       }
@@ -123,6 +123,11 @@
                         that.loadStatus = 2
                     }else {
                         that.loadStatus = 0
+                    }
+                    if(that.data==''||that.data==null){
+                        that.prompt='暂无收藏'
+                    }else{
+                       that.prompt=''
                     }
                   }
         });
@@ -218,6 +223,12 @@
   		 	 }
 
   		 } 
+       .ts{
+           margin-top: 40px;
+           text-align: center;
+           font-size: 16px;
+           color: #999;
+       }
   	}
     
       

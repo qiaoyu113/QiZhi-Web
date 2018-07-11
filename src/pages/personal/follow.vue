@@ -18,7 +18,7 @@
            <div class="rowbtn2" @click="open2(list.id)">取消关注</div>
            </div>
        </div>
-      
+      <div class="ts" v-if="prompt!=''">{{prompt}}</div>
     </div>
        <!--分页-->
     <div class="v_paging" v-if="inde>10">
@@ -46,6 +46,7 @@
            size:6,
         },
         data:'',
+        prompt:'',
       }
     },
     computed: {
@@ -100,6 +101,11 @@
                        that.data=res.data.datas.datas
                       that.inde=res.data.datas.totalPage * 10
                   }
+                  if(that.data=='' || that.data==null){
+                    that.prompt='暂无关注'
+                  }else{
+                     that.prompt=''
+                  }
         });
       },
       putCancleFollow(id){
@@ -144,6 +150,12 @@
     }
     .box{
       padding: 5px 0 40px;
+      .ts{
+           margin-top: 40px;
+           text-align: center;
+           font-size: 16px;
+           color: #999;
+       }
       .row{
          float: left;
          width: 277px;
