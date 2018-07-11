@@ -11,11 +11,9 @@
       <div class="boxrow clearfix" v-for="list in data" @click="postInnerletter(list.id)">
         <p class="boxrowl" :class="list.readStatus!=false ? 'ash':''" @click="gohome(list.modelType,list.modelTypeId)">{{list.content}}</p>
         <p class="boxrowr" :class="list.readStatus!=false ? 'ash':''">{{list.sendTime | stampFormate2}}</p>
-      </div>
-
-    
+      </div>    
       <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
-
+       <div class="ts" v-if="prompt!=''">{{prompt}}</div>
     </div>
    
   </div>
@@ -35,6 +33,7 @@ import {modularService} from '../../service/modularService'
            totalPage:0,
         },
         data:[],
+        prompt:'',
         loadStatus:0,
         total:1,
         tz:'',
@@ -82,6 +81,11 @@ import {modularService} from '../../service/modularService'
                         that.loadStatus = 2
                     }else {
                         that.loadStatus = 0
+                    }
+                     if(that.data=='' || that.data==null){
+                          that.prompt='暂无消息通知'
+                    }else{
+                        that.prompt=''
                     }
               
                  
@@ -188,6 +192,12 @@ import {modularService} from '../../service/modularService'
                 color: #999;
              }
       }
+      .ts{
+           margin-top: 40px;
+           text-align: center;
+           font-size: 16px;
+           color: #999;
+       }
     }
         
       
