@@ -21,6 +21,7 @@ const store = new Vuex.Store({
         // url:'http://wetuc.com',
 
         apiUrl:'https://mini.dtfind.com',
+        // apiUrl:'http://wj.tunnel.qydev.com', //王俊本地
         picHead:'http://test.resource.vjuzhen.com/',// 测试版
         redirect_uri:'http://wetuc.dtfind.com/wxlogin', 
         appId:'wxd5dd1b24ea1e7c02',

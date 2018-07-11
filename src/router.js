@@ -166,13 +166,13 @@ const router = new VueRouter({
     routes:routers
 })
 
-/*let isClient = typeof window != 'undefined' ? true : false
+let isClient = typeof window != 'undefined' ? true : false
 router.beforeEach((to, from, next) => {
 
     next()
 })
 router.afterEach((to, from, next) => {
 
-});*/
+});
 
 export default router

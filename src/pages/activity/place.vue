@@ -1,5 +1,5 @@
 <template>
-    <div class="block">
+    <div class="blockplace">
         <div class="mapblock">
             <mapBaidu v-if="place != undefined" :address="place"></mapBaidu>
         </div>
@@ -18,7 +18,6 @@ export default {
     mounted: function() {
         document.title = "活动地点"
         const that = this;
-    //    console.log('已传页面的值', that.place)
 
     },
     methods: {
@@ -26,8 +25,10 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-    .block {
+<style lang="less">
+    .blockplace {
+        margin-top: 0px !important;
+        padding-top: 0px !important;
         .page-title {
             z-index: 20;
             width: 100%;
@@ -52,7 +53,7 @@ export default {
             color: #999;
         }
         .mapblock {
-            margin-top: 1.333rem;
+            // margin-top: 1.333rem;
         }
     }
 </style>

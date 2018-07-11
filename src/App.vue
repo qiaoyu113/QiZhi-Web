@@ -8,9 +8,29 @@
 
 <script>
     import {appService} from './service/appService'
+    import {indexService} from './service/indexService'
+    // import {params} from './assets/js/za-source'
+    // import jsonp from 'jsonp'
+    // import axios from 'axios'
+    // import qs from 'qs'
+    // import {getRecommend} from './assets/js/jsonp/recommend'
+    // import {ERR_OK} from './assets/js/jsonp/config'
     import {filter} from './mixin/filter'
     export default {
         name: 'app',
+            // 添加以下代码
+        metaInfo () {
+            const title = '运联网_让世界重新看见物流'
+            const desc = '运联网是国内专注于物流产业的新媒体，是物流人成长与价值链接的平台，集物流趋势观察、行业研究、信息共享为一体，致力于物流产业链的共同繁荣和整体提升'
+            const keyword = '运联网、专线、供应链、三方物流、零担、快递、快运、整车、园区、仓储、大车队、公路货运、无车承运人、智慧物流、云仓、同城配送、最后一公里、冷链、物联网'
+            return {
+                title,
+                meta: [
+                    { vmid: 'description', name: 'description', content: desc },
+                    { vmid: 'keyWords', name: 'keyWords', content: keyword},
+                ]
+            }
+        },
         data() {
             return{
                 nocommon:null,
@@ -19,15 +39,13 @@
                 show:false,
                 navshow:true,
                 footershow:true,
+                ip:'',
             }
         },
         components: {},
         watch: {
             '$route' (to,from) {
                 const that = this;
-                // that.hasCommon();
-                // that.loginWay();
-                // that.hasInvite();
                 if(to.name!='qrcode' &&to.name!='qrcode' && to.name!='login' && to.name!='phone' && to.name!='register' && to.name!='find' && to.name!='bind' && to.name!='modifyPass'&& to.name!='wxlogin'&& to.name!='bindQrcode'&& to.name!='bindwxlogin'){
                     appService.checkLogin()
                 }
@@ -35,18 +53,62 @@
             }
         },
         mounted: function () {
-             
-            // this.hasCommon()
-            // this.loginWay();
-            // this.hasInvite()
+            // 获取ip
+            this.IpNum()
            if(this.$route.name == 'ticket' || this.$route.name == 'activityPlace'){
-                       this.navshow =false 
-                       this.footershow=false
-                     }
-
+                this.navshow =false 
+                this.footershow=false
+            }
             appService.onBridgeReady()
         },
         methods: {
+            // taobaoIp: function(item) {
+            //     const that = this
+            //     if (item != undefined && item != '') {
+            //         var url = 'http://ip.taobao.com/service/getIpInfo.php?ip='+item;
+            //         console.log('请求路径',url)
+            //         jsonp(url, { emulateJSON: true }, function (err, data) {
+            //             if (err) {
+            //                 console.error(err.message);
+            //             } else {
+            //                 console.log('淘宝返回', data)
+            //             }
+            //         });
+            //     }
+            // },
+            getId(item) {
+                // var url = 'http://ip.taobao.com/service/getIpInfo.php?ip='+item;
+                var url = 'http://ip.taobao.com/service/getIpInfo.php?ip=myip'
+                // axios.post(url, qs.stringify({ emulateJSON: true }))
+                //     .then(
+                //     (response) => {
+                //         console.log('7777777',response.data)
+                //         // if (parseInt(response.data.status) == 0) {
+                            
+                //         // }
+                //     }
+                // ).catch(function (error) {
+                //     console.log(error);
+                // });
+                var script = document.createElement('script');  
+                script.src = url;  
+                document.body.appendChild(script);
+                // getRecommend(item).then((res) => {
+                //     if (res.code === ERR_OK) {
+                //     console.log(2222222222,res.data)
+                // }
+                // })
+            },
+            IpNum(){
+                const that = this
+                indexService.getIp({
+                }).then(function (res) {
+                    that.ip = res.data.datas.data
+                    params.country = that.ip.country
+                    // that.getId(that.ip)
+                    console.log('ip地址',that.ip)
+                })
+            },
             goRegister:function(){
                 this.$router.push({name:'register'})
             },

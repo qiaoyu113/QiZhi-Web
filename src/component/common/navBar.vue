@@ -18,7 +18,7 @@
        <div class="tokenr clearfix">
         <router-link v-if="loginFlag" class="personname" to="">{{name}}</router-link>
         <i v-bind:class="{'enterMycenter':loginFlag}" class="iconfont icon-pep" @click="clickIcon()"></i>
-        <div class="layer">
+        <div class="layer" v-if="loginFlag">
            <i></i>
            <ul>
              <li><router-link :to="{name:'purchase'}">我的购买</router-link> </li>

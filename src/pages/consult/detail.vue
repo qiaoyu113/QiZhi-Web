@@ -117,12 +117,19 @@
     import hotPost from '../../component/list/hot-post.vue'
     import recommendAuth from '../../component/list/recommend-auth.vue'
     export default {
-    name: 'app',
     // 添加以下代码
     metaInfo () {
         const title = this.title
+        const desc = this.summary
+        // console.log('des',this.$store.state.homeStore.article.summary)
+        const keyword = this.keywordtag
         return {
-            title
+            title,
+            meta: [
+                { vmid: 'description', name: 'description', content: desc },
+                { vmid: 'keyWords', name: 'keyWords', content: keyword},
+            ]
+
         }
     },
     props: [],
@@ -170,6 +177,8 @@
     data () {
       return {
         title:'',
+        summary:'',
+        keywordtag:'',
         // newDetail:{},
         articleTypes:[],
         newsData:[],
@@ -218,6 +227,8 @@
         document.body.scrollTop = 0
         let _this=this
          _this.title = _this.newDetail.title
+         _this.summary = _this.newDetail.summary
+         _this.keywordtag = _this.newDetail.tag.join(',')
         _this.getMyFollowMain()
         _this.getType()
         _this.articleRead()

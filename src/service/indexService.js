@@ -201,6 +201,13 @@ export const indexService = {
     getIsApplyAdmin:function(params){
         return axios.get('/isApplyAdmin' + this.getParam(params));
     },
+    // 查询当前ip
+    // getIp:function(params){
+    //     return axios.post('/ip',qs.stringify(params));
+    // },
+    getIp: function(params){
+        return axios.get('/ip'+ this.getParam(params))
+    },
 
     getParam: function(param){
         let url = '';
