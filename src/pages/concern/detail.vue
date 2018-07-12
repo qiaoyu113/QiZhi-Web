@@ -123,6 +123,7 @@
                             break;
                          }
                       }
+                      that.title=that.author.hostCompany + '的主页'
 
                       if(that.concernstatus==2){
                           that.getActivities(that.author.id)
