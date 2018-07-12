@@ -9,6 +9,7 @@
 <script>
     import {appService} from './service/appService'
     import {indexService} from './service/indexService'
+    import {za} from './assets/js/demo'
     // import {params} from './assets/js/za-source'
     // import jsonp from 'jsonp'
     // import axios from 'axios'
@@ -104,9 +105,7 @@
                 indexService.getIp({
                 }).then(function (res) {
                     that.ip = res.data.datas.data
-                    params.country = that.ip.country
-                    // that.getId(that.ip)
-                    console.log('ip地址',that.ip)
+                    za(that.ip.country,that.ip.area,that.ip.city,that.ip.isp)
                 })
             },
             goRegister:function(){

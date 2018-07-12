@@ -169,18 +169,18 @@ export const indexService = {
         return axios.post('/activities/'+params.actId+'/order' ,qs.stringify(params))
     },
     // 点击订阅产品包价格查询
-    subscribeOrder: function(params){
-        return axios.put('/productpkgs/subscribe' + this.getParam(params))
-    },
-    // 获取orderNo
-    orderSubmit: function(params){
-        return axios.put('/productpkgs/ordersubmit', qs.stringify(params))
-        // return axios.put('/productpkgs/ordersubmit' + this.getParam(params))
-    },
-    // 支付页面生成支付二维码
-    getErweima: function(params){
-        return axios.put('/orders' + this.getParam(params))
-    },
+    // subscribeOrder: function(params){
+    //     return axios.put('/productpkgs/subscribe' + this.getParam(params))
+    // },
+    // // 获取orderNo
+    // orderSubmit: function(params){
+    //     return axios.put('/productpkgs/ordersubmit', qs.stringify(params))
+    //     // return axios.put('/productpkgs/ordersubmit' + this.getParam(params))
+    // },
+    // // 支付页面生成支付二维码
+    // getErweima: function(params){
+    //     return axios.put('/orders' + this.getParam(params))
+    // },
     // 用户是否购买过产品包
     mySinglePro:function(params){
         return axios.get('/users/getBought'+ this.getParam(params))
