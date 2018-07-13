@@ -75,15 +75,11 @@ Vue.filter('actDateFormate', function (value) {
     return result;
 })
 
-Vue.filter('readNumFormate',function(value) {
+Vue.filter('readNumFormate1',function(value) {
     let result =''
-    if(value >= 1000000000){
-        result = parseInt(value/1000000000) + "B"
-    } else if(value >= 1000000){
-        result = parseInt(value/1000000) + "m"
-    } else if(value >= 10000){
-        result = parseInt(value/1000) + "k"
-    } else if(value <= 9999){
+    if(value > 100000){
+        result = 100000+'+'
+    } else {
         result = value
     }
     return result

@@ -28,7 +28,7 @@
                         <img v-if="!isLike" src="../../assets/image/zan.png" class="zanbutton" alt="">
                         <img v-if="isLike" src="../../assets/image/yizan.png" class="zanbutton" alt="">
                         <!-- <i class="iconfont icon-xianxingzan"></i> -->
-                        <span class="weiquxiao">赞&nbsp;&nbsp;{{$store.state.homeStore.article.thumbsNum | readNumFormate}}</span>
+                        <span class="weiquxiao">赞&nbsp;&nbsp;{{$store.state.homeStore.article.thumbsNum | readNumFormate1}}</span>
                         <span v-if="isLike" class="quxiao">取消点赞</span>
                         
                     </span>
@@ -37,7 +37,7 @@
                         <img v-if="!isSave" src="../../assets/image/shou.png" class="zanbutton" alt="">
                         <img v-if="isSave" src="../../assets/image/yishou.png" class="zanbutton" alt="">
                         <!-- <i class="iconfont icon-xianxingxing"></i> -->
-                        <span class="weiquxiao">收藏&nbsp;&nbsp;{{$store.state.homeStore.article.collectNum | readNumFormate}}</span>
+                        <span class="weiquxiao">收藏&nbsp;&nbsp;{{$store.state.homeStore.article.collectNum | readNumFormate1}}</span>
                         <span v-if="isSave" class="quxiao">取消收藏</span>
                         
                     </span>
@@ -62,6 +62,7 @@
                     <div class="code-img hide"><img src="" width="280" height="280"></div>
                 </div>
             </div>
+            <!-- <comment></comment> -->
         </div>
         <div class="right">
           <!-- 热门文章 -->
@@ -116,12 +117,12 @@
     import homeList from '../../component/list/home-list.vue'
     import hotPost from '../../component/list/hot-post.vue'
     import recommendAuth from '../../component/list/recommend-auth.vue'
+    import comment from '../../component/common/comment.vue'
     export default {
     // 添加以下代码
     metaInfo () {
         const title = this.title
         const desc = this.summary
-        // console.log('des',this.$store.state.homeStore.article.summary)
         const keyword = this.keywordtag
         return {
             title,
@@ -210,7 +211,7 @@
         },
       }
     },
-    components: {share:share,homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth},
+    components: {share:share,homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth,comment:comment},
     watch: {
         '$route' (to,from) {
             this.$router.go(0)
@@ -597,7 +598,6 @@
             .article-label{margin-top: 25px}
             .article-label span{margin-right: 5px;font-size: 14px;color: #999999;}
             .article-label .category{font-size:14px;color:#389bff;text-align:left;}
-            .article-label .shuxian,.article-label .article-time{font-size:14px;text-align:left;}
             .article-label .user-role{font-size:14px;color:#999999;text-align:left;}
             .article-label .user-role:hover{text-decoration: underline}
             .article-keywords{margin-top: 35px}
@@ -605,7 +605,7 @@
             .article-keywords span{margin-right: 20px;}
             .article-keywords .label1{font-size:12px;color:#8492A6;text-align:center;background:#F9FAFC;border-radius:2px;height:22px;line-height: 22px;display: inline-block;padding: 0 10px}
             .article-keywords .label1:hover{background: #E5E9F2;color: #5E6D82;}
-            .detail-container .line{background:rgba(224,224,224,0.50);width:800px;height:1px;margin-top: 35px}
+            .detail-container .line{background:rgba(224,224,224,0.50);height:1px;margin-top: 35px}
             .article-look{margin-top: 40px;font-size:14px;color:#999999;position: relative;height: 45px;border: 1px solid transparent}
             .article-look>span{display:inline-block;background:#F9FAFC;border-radius:100px;width:150px;height:47px;line-height: 47px;text-align: center;margin-right: 10px;cursor: pointer;
                 vertical-align: middle;color:#8492A6;font-size: 14px;}
@@ -627,7 +627,6 @@
                     font: inherit;
                     vertical-align: top;
                     position: relative;
-                    margin: 0px;
                     padding: 15px;
                     background: #fafafa;
                     padding-left: 20px;
