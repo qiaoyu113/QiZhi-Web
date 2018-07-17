@@ -2,70 +2,77 @@
   <div class="" id="comments">
     <!--活动提问标题-->
     <div class="quiz-title">
-        <div class="quiz-text"><img src="../../assets/image/comments.png" alt=""> 活动提问</div>
+        <div class="quiz-text"><div></div> 文章评论</div>
     </div>
-    <!--评论窗口（未登录）-->
-    <div class="comment-no" v-if="!loginflag">
-        <el-input class="notext" type="textarea" resize="none" placeholder="参与评论请先登录" @focus="checkLogin()"></el-input>
-        <div class="comment-no-bottom">
-            <div class="comment-no-bottom-left">剩余<span class="area-text"> 600</span> 字</div>
-            <div class="comment-no-bottom-right">
-                <button class="comment-btn">发表评论</button>
-            </div>
-        </div>
-    </div>
-
-    <!--评论窗口（登录）-->
-    <div class="comment-no" v-if="loginflag">
-        <el-input class="notext" type="textarea" resize="none" placeholder="写评论"></el-input>
-        <div class="comment-no-bottom">
-            <div class="comment-no-bottom-left">剩余<span class="area-text"> 600</span> 字</div>
-            <div class="comment-no-bottom-right">
-                <button class="comment-btn" @click="publish()">发表评论</button>
-            </div>
-        </div>
-    </div>
+    <!-- 发表评论 -->
+    <commentInput :good="good" :list="1" v-on:comment="comment"></commentInput>
     <!-- 未发表评论 -->
-    <div class="none_comment">还没有用户发表评论</div>
+    <div class="none_comment" v-if="commentlists.length < 1">还没有用户发表评论</div>
     <!-- 所有评论条数(有评论) -->
-    <div class="common_num">
-        全部评论<span class="num">（118）</span>
-        <span class="line"></span>
+    <div class="common_num" v-if="commentlists.length > 0">
+        {{count}}条评论
     </div>
     
     <!--评论内容（个人）/ 未登录-->
-    <div class="comment-center">
+    <div class="comment-center" v-for="(item,index) in commentlists" :key="index">
         <div class="ping_top">
             <div class="comment-center-left">
-                <img src="../../assets/image/default_photo.png" height="40" width="40"/>
+                <img v-if="item.userHeadImg != null && item.userHeadImg != ''" :src="item.userHeadImg | picTurn" height="40" width="40"/>
+                <img v-if="item.userHeadImg == null || item.userHeadImg == ''" src="../../assets/image/default_photo.png" height="40" width="40"/>
             </div>
             <div class="comment-center-right">
-                <p class="comment-center-right-p1">木臂阿童铁</p>
-                <p class="comment-center-right-p2">2016-02-09 16:09:50</p>
+                <p class="comment-center-right-p1">{{item.userName}}</p>
+                <p class="comment-center-right-p2">{{item.commentTime | stampFormate2}}</p>
             </div>
         </div>
-        <div>
-            <p class="comment-center-right-p3">非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！</p>
-            <p class="comment-center-right-p4"><img src="../../assets/image/huifu.png" alt=""> 回复</p>
-        </div>
-        <!-- <div class="comment-center-right">
-            <div class="comment-center-reply">
-                <div class="comment-center-reply-top">
-                    <textarea class="area1" placeholder="请输入评论内容"></textarea>
-                </div>
-                <div class="comment-center-reply-bottom">
-                    <div class="comment-center-reply-left">还可以输入 <span>200</span> 字</div>
-                    <div class="comment-center-reply-right">
-                        <p>您必须<a href="###">登录</a>以后才可以提问</p>
-                        <button class="comment-center-ok" disabled>发表评论</button>
-                        <button class="comment-center-no">取消</button>
-                    </div>
-                </div>
+        <div style="overflow:hidden;">
+            <div class="replyLine">
+                <p class="comment-center-right-p3">{{item.content}}</p>
+                <p class="comment-center-right-p4">
+                    <span @click="onreply(item.id,item.userName,item.userId,0,index)"><img src="../../assets/image/huifu.png" alt="">回复</span>
+                </p>
+                <!-- 评论模块 -->
+                <!-- <div> -->
+                <commentInput ref="selectfood" :pagenum="page.num" :good="good" :index="index" @comment="comment" @close="close" v-if="show[index]"></commentInput>
+                <!-- </div> -->
+                <!-- <commentInput ref="selectfood" :good="good" @comment="comment"></commentInput> -->
             </div>
-        </div> -->
-        <!-- <div style="clear:both;"></div> -->
-    </div>
 
+            <div class="replaylist" v-if="item.comments != null && item.comments.length != 0">
+                <div class="single_reply" v-for="(replyuser,index1) in item.comments" :key="index1">
+                    <div class="single-top">
+                        <img class="touxiang" v-if="replyuser.userHeadImg != null && replyuser.userHeadImg != ''" :src="replyuser.userHeadImg | picTurn" height="40" width="40"/>
+                        <img class="touxiang" v-if="replyuser.userHeadImg == null || replyuser.userHeadImg == ''" src="../../assets/image/default_photo.png" alt="" height="40" width="40"/>
+                        <div class="name_right">
+                            <p class="namet"><span class="name1">{{replyuser.userName}}</span><span class="time">08-28-2016</span></p>
+                            <p class="nameb">
+                                <span class="name1">回复</span>
+                                <span class="name2">{{replyuser.originalUserName}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="single-bottom">
+                        <p class="comment-center-right-p3">{{replyuser.content}}</p>
+                        <p class="comment-center-right-p4" @click="addreply(item.id,replyuser.userName,replyuser.userId,1,index,item.comments.length,index1)"><img src="../../assets/image/huifu.png" alt="" >回复</p>
+                        <commentInput ref="selectfood" :pagenum="page.num" :good="good" :index="index1" @comment="comment" @close="close1" v-if="addShow[index1]"></commentInput>
+                        <!-- <commentInput :good="good" v-if="showreplay" @comment="comment"></commentInput> -->
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <el-pagination
+        v-if="count>5"
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="page.num"
+        :page-size="5"
+        layout="prev, pager, next, jumper"
+        :total="count*1">
+      </el-pagination>
             <!--分页-->
             <!-- <div id="demo1" style="position:relative;left:40px;"></div> -->
   </div>
@@ -74,38 +81,258 @@
 <script type="text/ecmascript-6">
     import {modularService} from '../../service/modularService'
     import {indexService} from '../../service/indexService'
+    import {userService} from '../../service/userService'
+    import commentInput from './commentInput.vue'
     export default {
-    props: [],
+    components:{'commentInput':commentInput},
+    props:['good'],
     data () {
       return {
         loginflag:'',
-        
+        id:'',
+        pageNo:1,
+        text:[],
+        backShow:false,
+        commentlists:[],
+        page:{num:1,size:5,total:''},
+        count:null,
+        showreplay:['','','','',''],
+        showreplay1:false,
+        show:[false,false,false,false,false],
+        addShow:[],
+        commentHtml:'',
+        // good
       }
     },
+    watch:{
+        show (cur, old) {
+            this.show = cur;
+            console.log('变化')
+        }
+    },
     mounted () {
+        this.upCallback()
         if(localStorage.token && localStorage.token!='undefined'){this.loginflag = true} else {this.loginflag = false}
     },
     methods: {
-        publish(){
-            
+        handleSizeChange(val) {
+            this.page.num = val
+            this.upCallback(val)
         },
-        checkLogin(){
-            console.log('进入')
-            this.$router.push({name:'login'})
+        handleCurrentChange(val) {
+            this.page.num = val
+            this.upCallback(val)
         },
+        //回复楼主
+        onreply:function(id,name,userId,type,index){
+            for(var i=0;i<this.show.length;i++){
+                this.show[i] = false
+                this.$set(this.show, i, false)
+            }
+            this.show[index] = true
+            this.$set(this.show, index, true)
+            if(this.loginflag == false){
+                this.$router.push({name:'login'})
+            } else {
+                this.$store.state.userId = userId;
+                this.$store.state.replyId = id;
+                this.$store.state.replyName = name;
+                this.$store.state.type = type;
+            }
+        },
+        //有回复
+        addreply:function(id,name,userId,type,index,list,index1){
+            //调用组件
+            for(var i=0;i<list;i++){
+                this.addShow[i] = false
+                this.$set(this.addShow, i, false)
+            }
+            console.log('sssssssssss',this.addShow)
+            this.addShow[index1] = true
+            this.$set(this.addShow, index1, true)
+            console.log('sssssssssss11',this.addShow)
+            if(this.loginflag == false){
+                this.$router.push({name:'login'})
+            } else {
+                this.$store.state.userId = userId;
+                this.$store.state.replyId = id;
+                this.$store.state.replyName = name;
+                this.$store.state.type = type;
+            }
+        },
+        upCallback(val){
+            let that = this;
+            console.log(val)
+            if(val != undefined){
+                that.page.num = val
+            } else {
+                that.page.num = 1
+            }
+            for(var i=0;i<that.addShow.length;i++){
+                that.addShow[i] = false
+                that.$set(that.addShow, i, false)
+            }
+            for(var i=0;i<that.show.length;i++){
+                that.show[i] = false
+                that.$set(that.show, i, false)
+            }
+            let params = {level:'1',pageNo:that.page.num,pageSize:that.page.size,parentId:'',typeId:that.good.id,type:that.good.type}
+
+            userService.getComments(params).then(function(res){
+                if(!res.data || !res.data.datas) return
+                let list = res.data.datas.datas
+                that.commentlists=res.data.datas.datas
+                that.count = res.data.datas.totalCount
+                if(that.good.type==1)that.$parent.total=res.data.datas.totalCount
+            })
+        },
+        close(close){
+            this.show[close] = false
+            this.$set(this.show, close, false)
+        },
+        close1(close){
+            console.log(99999999999,close)
+            this.addShow[close] = false
+            this.$set(this.addShow, close, false)
+        },
+        comment(comment){
+            this.commentlists=[]
+            console.log('000000000',comment)
+            if(comment == 2){
+                 this.upCallback()
+            } else {
+
+            }
+            this.upCallback(this.page.num)
+        }
     }
   }
 </script>
 <style lang="less">
   #comments{
     /*--活动提问标题--*/
-    .quiz-title{background:#ffffff;box-shadow:inset 0px -1px 0px 0px #eeeeee;width:100%;height:45px;margin:auto;margin-top:40px;}
-    .quiz-text{height:45px;line-height:45px;text-align: left;font-size: 16px;color: #3C4350;img{margin-top: 11px;margin-right: 15px;}}
-    .comment-no{background:#ffffff;border-radius:2px;width:100%;height:auto;margin:30px auto;.el-textarea__inner{height: 126px;background: #FFFFFF;border: 1px solid #C0CCDA;border-radius: 2px;}}
+    .el-pagination{
+        padding: 20px 0;
+    }
+    // .hideComment{display: none;}
+    .reply1{
+        margin-top: 15px;
+        overflow: hidden;
+        padding-bottom: 15px;
+        .queren{background: #4EAAFE;
+            border: 1px solid #1698F9;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.06);
+            font-size: 14px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            line-height: 14px;
+            text-align: center;
+            padding: 8px 20px;
+            // width: 84px;
+            // line-height: 36px;
+            // height: 36px;
+            float: right;
+            cursor: pointer;
+        }
+        .reply1b{
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        .quxiao1{
+            font-size: 14px;
+            color: #1F2D3D;
+            letter-spacing: 0;
+            line-height: 14px;
+            width: 84px;
+            line-height: 32px;
+            height: 32px;
+            text-align: center;
+            float: right;
+            cursor: pointer;
+        }
+        .notext{
+            .el-textarea__inner{
+                width: 100%;
+                height: 100px;
+                border-radius: 2px;
+            }
+        }
+
+    }
+    .replaylist{
+        width: 738px;
+        height: auto;
+        float: right;
+        overflow: hidden;
+        
+        .single_reply{
+            overflow: hidden;
+            margin-top: 40px;
+            .single-top{
+                height: 50px;
+                width: 100%;
+                overflow: hidden;
+                .touxiang{
+                    border-radius: 100%;
+                    float: left;
+                }
+                .name_right{
+                    margin-left: 10px;
+                    float: left;
+                    .namet{
+                        .name1{
+                            font-size: 14px;
+                            color: #000000;
+                            letter-spacing: 0;
+                        }
+                        .time{
+                            font-size: 12px;
+                            color: #8D8D8D;
+                            letter-spacing: 0;
+                            margin-left: 15px;
+                        }
+                    }
+                    .nameb{
+                        .name1{
+                            font-size: 13px;
+                            color: #6F6F6F;
+                            letter-spacing: 0.5px;
+                        }
+                        img{
+                            margin-left: 15px;
+                            border-radius: 100%;
+                        }
+                        .name2{
+                            font-size: 13px;
+                            margin-left: 5px;
+                            color: #20A0FF;
+                            letter-spacing: 0.5px;
+                        }
+                    }
+                }
+            }
+            .single-bottom{
+                padding: 15px;
+                background: #FBFBFD;
+                border-radius: 2px;
+            }
+        }
+        .single_reply:nth-child(1){
+            margin-top: 10px;
+        }
+        
+    }
+    
+    .quiz-title{background:#ffffff;width:100%;margin:auto;margin-top:40px;}
+    .quiz-text{height:22px;line-height:22px;text-align: left;font-size: 16px;color: #1F2D3D;div{    float: left;display: inline-block;margin-right: 15px;width: 4px;height:20px;background: #4EAAFE;margin-top: 1px; }img{margin-top: 11px;margin-right: 15px;}}
+    .comment-no{background:#ffffff;border-radius:2px;width:100%;height:auto;margin:30px auto;.el-textarea__inner{height: 100px;background: #FFFFFF;border: 1px solid #C0CCDA;border-radius: 2px;}}
     .comment-no-top{height:91px;box-sizing: border-box;padding:11px 16px;}
     .comment-no-top textarea{background:#ffffff;width:100%;height:66px;border:none;display: block;resize: none;}
     .comment-no-bottom{background:#fff;width:100%;height:41px;}
-    .comment-no-bottom-left{float:left;line-height:41px;font-size: 14px;color: #6F6F6F;letter-spacing: 0.54px;.area-text{font-size: 16px;color: #20A0FF;}}
+    .comment-no-bottom-left{float:left;Font-size: 14px;
+color: #99A9BF;
+letter-spacing: 0.54px;
+line-height: 14px;letter-spacing: 0.54px;.area-text{color: #20A0FF;}}
     .comment-no-bottom-right{float:right;}
     .comment-no-bottom-right p{float:left;line-height:41px;margin-right:10px;color:#999999;font-size:13px;}
     .comment-no-bottom-right p a{color:#000000;}
@@ -114,7 +341,15 @@
     .comment-no-bottom-right .comment-btn:hover{cursor: pointer;}
     .comment-no-bottom-right p span{color: #303030}
 
-    .common_num{padding-left:15px;position: relative;;height: 45px;line-height: 45px;margin-top: 30px;background: #FFFFFF;box-shadow: inset 0 -1px 0 0 rgba(224,224,224,0.50);font-size: 16px;color: #3C4350;.num{font-size: 13px;color: #999999;}.line{width: 116px;height: 2px;background: rgba(56,155,255,1);position: absolute;bottom: 0px;left: 0px;}}
+    .common_num{
+        height: 42px;line-height: 42px;
+        margin-top: 20px;
+        background: #FFFFFF;
+        box-shadow: 0 1px 0 0 #E5E9F2;font-size: 14px;
+        color: #1F2D3D;
+        letter-spacing: 0;
+        // line-height: 14px;
+        }
     .none_comment{font-size: 14px;
         height: 80px;
         text-align: center;
@@ -131,12 +366,12 @@
 
     /*--评论内容--*/
     .comment-center{background:#ffffff;box-shadow:inset 0px -1px 0px 0px #eeeeee;width:100%;margin:auto;padding-bottom:30px;margin-top:30px;overflow: hidden;}
-    .comment-center-left{width:40px;height:auto;float:left;}
+    .comment-center-left{width:40px;height:auto;float:left;img{border-radius: 100%;}}
     .comment-center-right{width:90%;margin-left:15px;float:left;}
     .comment-center-right-p1{font-size:14px;color:#000000;text-align:left;}
     .comment-center-right-p2{font-size:12px;color:#8D8D8D;text-align:left;margin-top:6px;margin-bottom:20px;}
-    .comment-center-right-p3{padding: 0 10px;font-size:13px;color: #555555;letter-spacing: 0.5px;line-height: 22px;text-align:left;}
-    .comment-center-right-p4{line-height:19px;padding: 0 10px;font-size: 13px;color: #666666;letter-spacing: 0.5px;text-align:left;float:right;margin-top:35px;}
+    .comment-center-right-p3{font-size:13px;color: #555555;letter-spacing: 0.5px;line-height: 22px;text-align:left;}
+    .comment-center-right-p4{line-height:19px;font-size: 13px;color: #666666;letter-spacing: 0.5px;text-align:right;margin-top:20px;}
     .comment-center-right-p4:hover{cursor: pointer;}
     .comment-center-right-p5{font-size:13px;color:#20a0ff;letter-spacing:0.49px;text-align:left;float:right;margin-top:15px;cursor: pointer;margin-right: 20px}
     /*--评论内容，官方回复--*/

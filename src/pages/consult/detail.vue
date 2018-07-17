@@ -62,6 +62,7 @@
                     <div class="code-img hide"><img src="" width="280" height="280"></div>
                 </div>
             </div>
+            <comment :good="good" v-if="good"></comment>
             <!-- <comment></comment> -->
         </div>
         <div class="right">
@@ -209,6 +210,9 @@
             summary: '',
             pics: ''
         },
+        showComment:false,
+        good:null,
+        total:''
       }
     },
     components: {share:share,homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth,comment:comment},
@@ -240,6 +244,9 @@
             if(_this.newDetail.createUserId != '1'){
                 _this.isFollowMain()
             }
+        }
+        _this.good = {
+            id:_this.$route.params.id,type:1
         }
     },
     methods: {
