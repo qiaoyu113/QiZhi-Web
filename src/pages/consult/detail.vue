@@ -62,7 +62,7 @@
                     <div class="code-img hide"><img src="" width="280" height="280"></div>
                 </div>
             </div>
-            <comment :good="good" v-if="good"></comment>
+            <!-- <comment :good="good" v-if="good"></comment> -->
             <!-- <comment></comment> -->
         </div>
         <div class="right">
@@ -225,12 +225,22 @@
         }
     },
     mounted () {
+        
         this.$refs.myShare.title = this.newDetail.title;
         this.$refs.myShare.desc = this.newDetail.summary;
         this.$refs.myShare.pics = this.$store.state.picHead + this.newDetail.poster;
         this.getHotNewsa()
         document.body.scrollTop = 0
         let _this=this
+        // function getNewDetaia(){
+            // console.log(9,_this.$route.params.id)
+            // indexService.getArticleDetail({id: _this.$route.params.id}).then(function (res) {
+            //     console.log(9999999999999,res.data)
+            //     // store.state.homeStore.article = res.data;
+            //     // store.state.homeStore.adminId = res.data.createUserId;
+            // });
+        // }
+        // console.log('3333',_this.newDetail)
          _this.title = _this.newDetail.title
          _this.summary = _this.newDetail.summary
          _this.keywordtag = _this.newDetail.tag.join(',')
