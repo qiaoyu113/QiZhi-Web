@@ -62,7 +62,7 @@
                     <div class="code-img hide"><img src="" width="280" height="280"></div>
                 </div>
             </div>
-            <!-- <comment :good="good" v-if="good"></comment> -->
+            <comment :good="good" v-if="good"></comment>
             <!-- <comment></comment> -->
         </div>
         <div class="right">

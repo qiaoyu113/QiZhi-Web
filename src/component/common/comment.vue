@@ -5,9 +5,9 @@
         <div class="quiz-text"><div></div> 文章评论</div>
     </div>
     <!-- 发表评论 -->
-    <commentInput :good="good" :list="1" v-on:comment="comment"></commentInput>
+    <commentInput :good="good" class="reply11" :list="1" v-on:comment="comment"></commentInput>
     <!-- 未发表评论 -->
-    <div class="none_comment" v-if="commentlists.length < 1">还没有用户发表评论</div>
+    <div class="none_comment" v-if="commentlists.length < 1">还没有评论，快来抢沙发吧~</div>
     <!-- 所有评论条数(有评论) -->
     <div class="common_num" v-if="commentlists.length > 0">
         {{count}}条评论
@@ -21,48 +21,34 @@
                 <img v-if="item.userHeadImg == null || item.userHeadImg == ''" src="../../assets/image/default_photo.png" height="40" width="40"/>
             </div>
             <div class="comment-center-right">
-                <p class="comment-center-right-p1">{{item.userName}}</p>
-                <p class="comment-center-right-p2">{{item.commentTime | stampFormate2}}</p>
+                <div style="overflow:hidden;">
+                    <p class="comment-center-right-p1">{{item.userName}}</p>
+                    <p class="comment-center-right-p2">{{item.commentTime | stampFormate2}}</p>
+                    <span class="huifu" @click="onreply(item.id,item.userName,item.userId,0,index)">回复</span>
+                </div>
+                <p class="comment-center-right-p3">{{item.content}}</p>
+                <commentInput ref="selectfood" class="reply2" :name="item.userName" :pagenum="page.num" :good="good" :index="index" @comment="comment" @close="close" v-if="show[index]"></commentInput>
             </div>
         </div>
         <div style="overflow:hidden;">
-            <div class="replyLine">
-                <p class="comment-center-right-p3">{{item.content}}</p>
-                <p class="comment-center-right-p4">
-                    <span @click="onreply(item.id,item.userName,item.userId,0,index)"><img src="../../assets/image/huifu.png" alt="">回复</span>
-                </p>
-                <!-- 评论模块 -->
-                <!-- <div> -->
-                <commentInput ref="selectfood" :pagenum="page.num" :good="good" :index="index" @comment="comment" @close="close" v-if="show[index]"></commentInput>
-                <!-- </div> -->
-                <!-- <commentInput ref="selectfood" :good="good" @comment="comment"></commentInput> -->
-            </div>
-
             <div class="replaylist" v-if="item.comments != null && item.comments.length != 0">
                 <div class="single_reply" v-for="(replyuser,index1) in item.comments" :key="index1">
                     <div class="single-top">
-                        <img class="touxiang" v-if="replyuser.userHeadImg != null && replyuser.userHeadImg != ''" :src="replyuser.userHeadImg | picTurn" height="40" width="40"/>
-                        <img class="touxiang" v-if="replyuser.userHeadImg == null || replyuser.userHeadImg == ''" src="../../assets/image/default_photo.png" alt="" height="40" width="40"/>
                         <div class="name_right">
-                            <p class="namet"><span class="name1">{{replyuser.userName}}</span><span class="time">08-28-2016</span></p>
+                            <div class="namet"><span class="name1">{{replyuser.userName}}</span>&nbsp;&nbsp;回复&nbsp;&nbsp;<span class="name2">{{replyuser.originalUserName}}</span>：<span>{{replyuser.content}}</span> </div>
                             <p class="nameb">
-                                <span class="name1">回复</span>
-                                <span class="name2">{{replyuser.originalUserName}}</span>
+                                <span class="time">{{replyuser.commentTime | stampFormate2}}</span>
+                                <span class="hf1" @click="addreply(item.id,replyuser.userName,replyuser.userId,1,index,item.comments.length,index1)">回复</span>
                             </p>
                         </div>
                     </div>
                     <div class="single-bottom">
-                        <p class="comment-center-right-p3">{{replyuser.content}}</p>
-                        <p class="comment-center-right-p4" @click="addreply(item.id,replyuser.userName,replyuser.userId,1,index,item.comments.length,index1)"><img src="../../assets/image/huifu.png" alt="" >回复</p>
-                        <commentInput ref="selectfood" :pagenum="page.num" :good="good" :index="index1" @comment="comment" @close="close1" v-if="addShow[index1]"></commentInput>
-                        <!-- <commentInput :good="good" v-if="showreplay" @comment="comment"></commentInput> -->
+                        <commentInput ref="selectfood" class="reply3" :name="replyuser.userName" :pagenum="page.num" :good="good" :index="index1" @comment="comment" @close="close1" v-if="addShow[index1]"></commentInput>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
-    
     <el-pagination
         v-if="count>5"
         background
@@ -73,8 +59,6 @@
         layout="prev, pager, next, jumper"
         :total="count*1">
       </el-pagination>
-            <!--分页-->
-            <!-- <div id="demo1" style="position:relative;left:40px;"></div> -->
   </div>
 </template>
 
@@ -189,15 +173,16 @@
         close(close){
             this.show[close] = false
             this.$set(this.show, close, false)
+            // for(var i = 0;i<this.show.length){
+
+            // }
         },
         close1(close){
-            console.log(99999999999,close)
             this.addShow[close] = false
             this.$set(this.addShow, close, false)
         },
         comment(comment){
             this.commentlists=[]
-            console.log('000000000',comment)
             if(comment == 2){
                  this.upCallback()
             } else {
@@ -213,10 +198,32 @@
     /*--活动提问标题--*/
     .el-pagination{
         padding: 20px 0;
+        text-align: right;
     }
-    // .hideComment{display: none;}
-    .reply1{
+    .huifu{
+        font-size: 14px;
+        color: #389BFF;
+        letter-spacing: 0.54px;
+        line-height: 14px;
+        float: right;
+        cursor: pointer;
+    }
+    .reply11{
         margin-top: 15px;
+    }
+    .reply2{
+        background: #F3FAFF;
+        border: 1px solid #EFF2F7;
+        padding: 20px !important;
+        margin-top: 15px;
+    }
+    .reply3{
+        background: #F3FAFF;
+        // border: 1px solid #EFF2F7;
+        padding: 20px !important;
+    }
+    .reply1{
+        // margin-top: 15px;
         overflow: hidden;
         padding-bottom: 15px;
         .queren{background: #4EAAFE;
@@ -228,9 +235,6 @@
             line-height: 14px;
             text-align: center;
             padding: 8px 20px;
-            // width: 84px;
-            // line-height: 36px;
-            // height: 36px;
             float: right;
             cursor: pointer;
         }
@@ -257,33 +261,40 @@
                 border-radius: 2px;
             }
         }
-
     }
     .replaylist{
-        width: 738px;
+        margin-top: 30px;
+        width: 698px;
         height: auto;
+        // padding: 20px;
         float: right;
+        // background: #F9FAFC;
+        border: 1px solid #EFF2F7;
         overflow: hidden;
-        
         .single_reply{
             overflow: hidden;
-            margin-top: 40px;
+            // margin-top: 40px;
             .single-top{
-                height: 50px;
-                width: 100%;
                 overflow: hidden;
+                padding: 20px;
+                background: #F9FAFC;
                 .touxiang{
                     border-radius: 100%;
                     float: left;
                 }
                 .name_right{
-                    margin-left: 10px;
+                    width: 100%;
                     float: left;
                     .namet{
+                        font-size: 14px;
+                        color: #666666;
+                        letter-spacing: 0;
+                        line-height: 22px;
                         .name1{
-                            font-size: 14px;
-                            color: #000000;
-                            letter-spacing: 0;
+                            color: #1F2D3D;
+                        }
+                        .name2{
+                            color: #1F2D3D;
                         }
                         .time{
                             font-size: 12px;
@@ -293,32 +304,29 @@
                         }
                     }
                     .nameb{
+                        margin-top: 12px;
+                        text-align: right;
+                        color: #99A9BF;
                         .name1{
-                            font-size: 13px;
-                            color: #6F6F6F;
-                            letter-spacing: 0.5px;
+                            font-size: 12px;
+                            color: #99A9BF;
+                            letter-spacing: 0;
                         }
-                        img{
-                            margin-left: 15px;
-                            border-radius: 100%;
+                        .hf1{
+                            font-size: 14px;
+                            color: #389BFF;
+                            letter-spacing: 0.54px;
+                            line-height: 14px;
+                            cursor: pointer;
+                            margin-left: 20px;
                         }
-                        .name2{
-                            font-size: 13px;
-                            margin-left: 5px;
-                            color: #20A0FF;
-                            letter-spacing: 0.5px;
-                        }
+                        
                     }
                 }
             }
-            .single-bottom{
-                padding: 15px;
-                background: #FBFBFD;
-                border-radius: 2px;
-            }
         }
         .single_reply:nth-child(1){
-            margin-top: 10px;
+            margin-top: 0px;
         }
         
     }
@@ -368,9 +376,9 @@ line-height: 14px;letter-spacing: 0.54px;.area-text{color: #20A0FF;}}
     .comment-center{background:#ffffff;box-shadow:inset 0px -1px 0px 0px #eeeeee;width:100%;margin:auto;padding-bottom:30px;margin-top:30px;overflow: hidden;}
     .comment-center-left{width:40px;height:auto;float:left;img{border-radius: 100%;}}
     .comment-center-right{width:90%;margin-left:15px;float:left;}
-    .comment-center-right-p1{font-size:14px;color:#000000;text-align:left;}
-    .comment-center-right-p2{font-size:12px;color:#8D8D8D;text-align:left;margin-top:6px;margin-bottom:20px;}
-    .comment-center-right-p3{font-size:13px;color: #555555;letter-spacing: 0.5px;line-height: 22px;text-align:left;}
+    .comment-center-right-p1{font-size:14px;color:#000000;text-align:left;float: left;}
+    .comment-center-right-p2{font-size:12px;color:#8D8D8D;text-align:left;float: left;line-height: 20px;margin-left: 20px;}
+    .comment-center-right-p3{font-size:13px;color: #555555;letter-spacing: 0.5px;line-height: 22px;text-align:left;margin-top: 15px;}
     .comment-center-right-p4{line-height:19px;font-size: 13px;color: #666666;letter-spacing: 0.5px;text-align:right;margin-top:20px;}
     .comment-center-right-p4:hover{cursor: pointer;}
     .comment-center-right-p5{font-size:13px;color:#20a0ff;letter-spacing:0.49px;text-align:left;float:right;margin-top:15px;cursor: pointer;margin-right: 20px}

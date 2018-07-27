@@ -85,8 +85,8 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || 9200
-// const port = process.env.PORT || 9012  //测试
+// const port = process.env.PORT || 9200
+const port = process.env.PORT || 9012  //测试
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`)
 })

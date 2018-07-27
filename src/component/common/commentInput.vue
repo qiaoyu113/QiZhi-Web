@@ -25,7 +25,7 @@
 <script>
     import {userService} from '../../service/userService'
     export default {
-        props:['good','list','index','pagenum'],
+        props:['good','list','index','pagenum','name'],
         data () {
             return {
                 goodisshow:false,
@@ -60,7 +60,9 @@
             console.log('是否登录',that.flag)
             if(!that.flag && this.list == '1'){
                 that.placeWord = ''
-            } else {
+            } else if (this.list != '1'){
+                that.placeWord = '回复'+this.name+'...'
+            }else {
                 that.placeWord = '请输入评论...'
             }
             
