@@ -8,7 +8,7 @@ const http = require('http');
 const API = require('request');
 
 // const isProd = process.env.NODE_ENV === 'production'
-const isProd = true
+const isProd = false
 const app = express()
 
 //尽量在其他中间件前使用compression
