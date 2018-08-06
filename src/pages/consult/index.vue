@@ -246,7 +246,7 @@
                 line-height: initial;
             }
             .el-radio.is-bordered:nth-child(1){
-                margin-left: 0px;
+                // margin-left: 0px;
             }
             .el-radio__input.is-checked+.el-radio__label{
                 color: #333333;
@@ -266,6 +266,7 @@
                 left: -3px;
             }
             .el-radio.is-bordered{
+                line-height: 30px;
                 border: none !important;
             }
         }
