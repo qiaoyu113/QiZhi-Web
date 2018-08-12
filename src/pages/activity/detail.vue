@@ -340,7 +340,11 @@ import addInfo from './addInfo.vue'
         this.$refs.myShare.title = this.detail.activityTitle;
         this.title = this.detail.activityTitle;
         this.summary = this.detail.activityTitle;
-        this.keywordtag = this.detail.actTag.join(',');
+        if(this.detail.actTag!=null && this.detail.actTag!=''){
+           this.keywordtag = this.detail.actTag.join(',');
+        }else{
+           this.keywordtag = '';
+        }
         this.$refs.myShare.desc = this.detail.activityAddress;
         this.$refs.myShare.pics = this.$store.state.picHead + this.detail.activityPoster;
         this.getTickets() //订单信息
