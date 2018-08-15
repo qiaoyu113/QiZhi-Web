@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="single-bottom">
-                        <commentInput ref="selectfood" class="reply3" :name="replyuser.userName" :pagenum="page.num" :good="good" :index="index1" @comment="comment" @close="close1" v-if="addShow[index1]"></commentInput>
+                        <commentInput ref="selectfood" class="reply3" :name="replyuser.userName" :pagenum="page.num" :good="good" :index="index+'000'+index1" @comment="comment" @close="close1" v-if="addShow[index+'000'+index1]"></commentInput>
                     </div>
                 </div>
             </div>
@@ -131,10 +131,10 @@
                 this.addShow[i] = false
                 this.$set(this.addShow, i, false)
             }
-            console.log('sssssssssss',this.addShow)
+            // console.log('sssssssssss',this.addShow)
             this.addShow[index1] = true
-            this.$set(this.addShow, index1, true)
-            console.log('sssssssssss11',this.addShow)
+            this.$set(this.addShow, index+'000'+index1, true)
+            // console.log('sssssssssss11',this.addShow)
             if(this.loginflag == false){
                 this.$router.push({name:'login'})
             } else {

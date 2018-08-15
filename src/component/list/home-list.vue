@@ -20,7 +20,7 @@
                     </div>
                 </div>    
                 <div class="bg_list_right_bottom">
-                    <div class="float-left indust_label" v-if="item.tag.length!=0">
+                    <div class="float-left indust_label" v-if="item.tag && item.tag.length!=0">
                         <!-- <i class="iconfont icon-pinpai"></i> -->
                         <!-- <router-link :to="{name:'keywords',params:{id:tagg[index]}}" v-for="(tagg,index) in item.tagId" :key="index">{{item.tag[index]}}</router-link> -->
                         <router-link to="" style="cursor:auto;" v-for="(tagg,index) in item.tagId" :key="index">{{item.tag[index]}}</router-link>

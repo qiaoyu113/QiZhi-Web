@@ -123,7 +123,7 @@
             store.state.homeStore.page = {pageNo:1,pageSize:20,queryType:1}
             function getarticleList(){
                 return indexService.getArticles(store.state.homeStore.page).then(function (res) {
-                    // console.log(res.data.datas.datas);
+                    // console.log(1,res.data.datas.datas.length);
                     store.state.homeStore.articleList = res.data.datas.datas
                     store.state.homeStore.page.total = res.data.datas.totalPage
                     store.state.homeStore.page.pageNo = 1
@@ -136,6 +136,7 @@
             }
             function getHotNews(){
                 return indexService.hotArticles({pageNo:1,pageSize:5,}).then(function (res) {
+                    // console.log(2,res.data.datas.datas.length);
                     if(res && res.data && res.data.datas){
                         store.state.homeStore.hotArticleList = res.data.datas.datas;
                     }
@@ -145,11 +146,13 @@
             function getAdminUsers(){
                 // gethotAuthor
                 return indexService.gethotAuthor({pageNo:1,pageSize:5,adminType:1,}).then(function (res) {
+                    // console.log(3,res.data.datas.length);
                     store.state.homeStore.hotAuthors = res.data.datas;
                 });
             }
             function getbanners(){
                 return indexService.listImgs({type:0}).then(function(res){
+                    // console.log(4,res.data.datas.length);
                     store.state.homeStore.bannerData = res.data.datas
                     // console.log(res.data.datas,222222);
                 })
@@ -157,6 +160,7 @@
             function getActivities(){
                 // gethotActivity
                 return indexService.gethotActivity({pageNo:1,pageSize:5,sortKey:'publishTime'}).then(function (res) {
+                    // console.log(5,res.data.datas.length);
                     store.state.homeStore.hotActivity = res.data.datas;
                     // console.log(res.data.datas.datas,333333);
                 });
@@ -247,6 +251,7 @@
                     that.page.totalPage = tabInfo.totalPage
                     that.page.totalCount = tabInfo.totalCount == null ? 0 : parseInt(tabInfo.totalCount);
                     let newArr = tabInfo.datas;
+                    console.log(6,newArr.length);
                     for(let i=0;i<newArr.length;i++){
                         that.$store.state.homeStore.articleList.push(newArr[i]);
                     }

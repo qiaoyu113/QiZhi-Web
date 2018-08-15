@@ -32,7 +32,7 @@
        </div>
         
         <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
-        <a href="http://admin.wetuc.com/admin/login" class="fabu">发布</a>
+        <a href="http://admin.wetuc.com/login" class="fabu">发布</a>
         <!-- <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link> -->
     </div>
   </div>
