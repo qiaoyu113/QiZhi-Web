@@ -12,8 +12,9 @@
            <div class="rowtitle">{{list.hostCompany}}</div>
            <div class="rowcon">{{list.hostDesc}}</div>
            <div class="rowlabel clearfix">
-             <div class="rowlabell"><p>粉丝 {{list.subNumw==null?'0':list.subNumw}} </p></div>
-             <div class="rowlabelr"><p> 文章 {{list.addArticleNum==null?'0':list.addArticleNum}} </p></div>
+             <div class="rowlabell"><p>粉丝 {{list.subNum==null?'0':list.subNum}} </p></div>
+             <div class="rowlabelr" v-if="titlep==1"><p> 文章 {{list.addArticleNum==null?'0':list.addArticleNum}} </p></div>
+             <div class="rowlabelr" v-if="titlep==2"><p> 活动 {{list.addActivityNum==null?'0':list.addActivityNum}} </p></div>
            </div>
            <div class="rowbtn2" @click="open2(list.id)">取消关注</div>
            </div>
