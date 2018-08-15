@@ -159,7 +159,7 @@
       },
       //提示
       open() {
-        this.$confirm('这个是会员专属资料,您还不是会员,开通之后就可以下载了', '提示', {
+        this.$confirm('开通会员后，即可免费下载', '提示', {
           confirmButtonText: '开通会员',
           cancelButtonText: '取消',
           type: 'warning'
