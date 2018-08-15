@@ -151,6 +151,10 @@
     @import url('assets/css/base.less');
      @import url('assets/css/html.less');
     @import url('assets/css/icon/iconfont.css');
+    .v-modal {
+        display: none!important;
+    }
+
     .view{
         margin-top: 60px;
         min-height:700px;

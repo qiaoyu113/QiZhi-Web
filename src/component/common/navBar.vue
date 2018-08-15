@@ -32,9 +32,14 @@
        </div>
         
         <router-link :to="{name:'search'}" id="nav_search"><i class="iconfont icon-sousuo"></i>搜索</router-link>
-        <a href="http://admin.wetuc.com/login" class="fabu">发布</a>
+        <a @click="showfabu" class="fabu">发布</a>
+
         <!-- <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link> -->
     </div>
+      <el-dialog title="发布" :visible.sync="dialogVisible">
+          <a class="btna" href="http://admin.wetuc.com/sponsor">去申请</a>
+          <a class="btnb" href="http://admin.wetuc.com/login">去登陆</a>
+      </el-dialog>
   </div>
 </template>
 
@@ -51,6 +56,7 @@
                 loginFlag:false,
                 name:'',
                 indexLogo:'',
+                dialogVisible:false,
                 current1:false,
                 current2:false,
                 current3:false,
@@ -82,6 +88,9 @@
             if(this.loginFlag){
               this.$router.push({name:'purchase'})
             } 
+          },
+          showfabu(){
+            this.dialogVisible = true;
           },
           getlogin(){
             const that = this;
@@ -197,6 +206,43 @@
     width: 100%;
     background: #FFFFFF;
     box-shadow: 0 5px 4px 0 rgba(201,201,201,0.10), inset 0 -1px 0 0 rgba(224,224,224,0.50);
+
+      .el-dialog__wrapper {
+          margin-top: 0!important;
+          background: rgba(0,0,0,.3)!important;
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-pack: center;
+          justify-content: center;
+          -ms-flex-align: center;
+          align-items: center;
+          .el-dialog__header {
+              padding: 20px 20px 10px;
+              text-align: center;
+          }
+      }
+    .btna{
+        background: #20A0FF;
+        text-align: center;
+        color: #fff;
+        font-size: 16px;
+        display: block;
+        width: 300px;
+        height: 50px;
+        line-height: 50px;
+        margin: -10px auto 14px;
+    }
+    .btnb{
+        display: block;
+        width: 300px;
+        height: 50px;
+        line-height: 50px;
+        background: #F5F5F5;
+        font-size: 16px;
+        text-align: center;
+        color: #303030;
+        margin: 10px auto;
+    }
     .nav_center{
       margin:0 auto;
       width: 90%;
