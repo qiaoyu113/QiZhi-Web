@@ -76,19 +76,23 @@ import {loginService} from '../../service/loginService'
             var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
            if (value === '') {
                 callback(new Error('请输入密码'));
-            } else if(!pass.test(value)) {
-                callback(new Error('数字和字母组合不少于6位'));
-            }else {
+            } 
+            // else if(!pass.test(value)) {
+            //     callback(new Error('数字和字母组合不少于6位'));
+            // }
+            else {
                 callback();
             }
         };
         let validatePass1 = (rule, value, callback) => {
-            var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+            // var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
            if (value === '') {
                 callback(new Error('请输入密码'));
-            } else if(!pass.test(value)) {
-                callback(new Error('数字和字母组合不少于6位'));
-            } else if(this.ruleForm2.password != this.ruleForm2.password1) {
+            } 
+            // else if(!pass.test(value)) {
+            //     callback(new Error('数字和字母组合不少于6位'));
+            // } 
+            else if(this.ruleForm2.password != this.ruleForm2.password1) {
                 callback(new Error('密码不一致'));
             }else {
                 callback();
@@ -235,9 +239,9 @@ import {loginService} from '../../service/loginService'
                             }else{
                                 clearInterval(that.$store.state.loginStore.timer);
                                 that.isFlag = 1;
-                                var removeObj = document.getElementsByClassName('geetest_holder')[0];
-                                removeObj.parentNode.removeChild(removeObj);
-                                that.getgaptchas()
+                                // var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                                // removeObj.parentNode.removeChild(removeObj);
+                                // that.getgaptchas()
                             }
                             },1000);
                             }

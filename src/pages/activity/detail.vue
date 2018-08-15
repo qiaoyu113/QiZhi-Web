@@ -1,13 +1,5 @@
 <template>
   <div class="" id="activity_detail">
-    <!--导航-->
-    <!-- <div class="activity-dh">
-        <span class="layui-breadcrumb">
-          <router-link :to="{name:'home'}">首页</router-link>&nbsp;>&nbsp;
-          <router-link :to="{name:'activity'}">活动</router-link>&nbsp;>&nbsp;{{detail.activityTitle}}
-        </span>
-    </div> -->
-
     <!--活动信息板块-->
     <div class="activity-message">
         <!-- <p class="tuiguang"><i class="iconfont icon-iconfontdaohanggonggao"></i> 推广本活动，赚取积分！</p> -->
@@ -47,8 +39,9 @@
                 <div class="activity-message-bottom-right-4">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/renwu.png" alt=""></div>
                     <div class="activity-message-bottom-right-4-right" v-if="detail.actApplyNum || detail.peoUpperLimit">
-                        <p class="right-4-p1" v-if="detail.actApplyNum!= 0 && detail.showUsers==1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名</p>
-                        <p class="right-4-p2" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
+                        <p class="right-4-p1" v-if="detail.actApplyNum!= 0 && detail.showUsers==1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名/</p>
+                        <!-- <p class="right-4-p1" @click="showPeoList()"><span>{{detail.actApplyNum}}</span>人已报名/</p> -->
+                        <p class="right-4-p1" v-if="detail.peoUpperLimit">限{{detail.peoUpperLimit}}人</p>
                     </div>
                     <div class="activity-message-bottom-right-4-right2">
                         <div class="right-4-img2"></div>
@@ -273,8 +266,16 @@ import addInfo from './addInfo.vue'
     // 添加以下代码
     metaInfo () {
         const title = this.title
+        const desc = this.summary
+        // console.log('des',this.$store.state.homeStore.article.summary)
+        const keyword = this.keywordtag
         return {
-            title
+            title,
+            meta: [
+                { vmid: 'description', name: 'description', content: desc },
+                { vmid: 'keyWords', name: 'keyWords', content: keyword},
+            ]
+
         }
     },
     asyncData({store,route}){
@@ -300,6 +301,8 @@ import addInfo from './addInfo.vue'
     data () {
       return {
         title:'',
+        summary:'',
+        keywordtag:'',
         num1: 1,
         state:['未开始','进行中','已结束'],
         tickets:[],
@@ -336,6 +339,12 @@ import addInfo from './addInfo.vue'
         //获取分享信息
         this.$refs.myShare.title = this.detail.activityTitle;
         this.title = this.detail.activityTitle;
+        this.summary = this.detail.activityTitle;
+        if(this.detail.actTag!=null && this.detail.actTag!=''){
+           this.keywordtag = this.detail.actTag.join(',');
+        }else{
+           this.keywordtag = '';
+        }
         this.$refs.myShare.desc = this.detail.activityAddress;
         this.$refs.myShare.pics = this.$store.state.picHead + this.detail.activityPoster;
         this.getTickets() //订单信息
@@ -350,7 +359,7 @@ import addInfo from './addInfo.vue'
             })
 
         }
-        // console.log(this.detail)
+        console.log(this.detail)
         window.scrollTo(0,0);
     },
     methods: {
@@ -391,12 +400,12 @@ import addInfo from './addInfo.vue'
             
             let url = 'http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress
             // console.log(url)
-            // window.open('http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress);
+            window.open('http://'+location.host+'/place?place='+ that.detail.city + that.detail.dist + that.detail.activityAddress);
             // http://localhost:9012/place?place=%E5%94%90%E5%B1%B1%E5%B8%82%E5%94%90%E5%B1%B1%E5%B8%82%E5%A4%A7%E5%8F%94%E5%A4%A7%E5%A9%B6%E5%90%A6
-            that.$router.push({
-                name: 'activityPlace',
-                query: {place: that.detail.city + that.detail.dist + that.detail.activityAddress}
-            })
+            // that.$router.push({
+            //     name: 'activityPlace',
+            //     query: {place: that.detail.city + that.detail.dist + that.detail.activityAddress}
+            // })
         },
         enterPublish(id){
             const that = this

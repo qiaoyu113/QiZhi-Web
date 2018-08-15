@@ -3,7 +3,7 @@
 推荐作者组件
 -->
 <template>
-    <router-link to="" class="recommendauth_list">
+    <div class="recommendauth_list">
         <router-link :to="{name:'concernDetail',query:{id:item.id,isFollow:item.isFollow}}" class="recommendauth_list_left float-left">
             <img v-if="item.hostLogo!=null && item.hostLogo!=''" :src="item.hostLogo| picTurn">
             <img v-if="item.hostLogo==null || item.hostLogo==''" src="../../assets/image/default_photo.png">
@@ -19,7 +19,7 @@
                 <div class="authorbtn2" @click="open2(item.id)" v-if="isFollow==true">取消关注</div>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 <script type="text/ecmascript-6">
 import {indexService} from '../../service/indexService'

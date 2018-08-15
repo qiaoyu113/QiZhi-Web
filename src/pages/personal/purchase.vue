@@ -83,6 +83,7 @@
         </div>
         </div>
         <load-more :page="page.num" :total="$store.state.homeStore.page.total" :status="loadStatus" @loadMore="loadmore"></load-more>
+        <div class="ts" v-if="prompt!=''">{{prompt}}</div>
     </div>
     <div class="box2" v-if="titlep==2">
         <div class="row clearfix">
@@ -123,6 +124,7 @@ import {modularService} from '../../service/modularService'
            totalPage:0
         },
         data:[],
+        prompt:'',
         loadStatus:0,
         total:1,
       }
@@ -143,7 +145,7 @@ import {modularService} from '../../service/modularService'
       goticket:function(id,actId){
 
          // this.$router.push({path:"/ticket",query:{id:id,actId:actId}}) 
-            window.open(window.location. origin + '/ticket?id='+id+'&actId='+actId)
+            window.open(window.location. origin + '/ticket/'+id)
       },
       gopayment:function(orderNo,money){
 
@@ -179,6 +181,12 @@ import {modularService} from '../../service/modularService'
                     }else {
                         that.loadStatus = 0
                     }
+                    if(that.data=='' || that.data==null){
+                          that.prompt='暂无购买'
+                    }else{
+                        that.prompt=''
+                    }
+
                   }
         });
       },
@@ -285,6 +293,12 @@ import {modularService} from '../../service/modularService'
     }
     .box1{
        width: 100%;
+        .ts{
+           margin-top: 40px;
+           text-align: center;
+           font-size: 16px;
+           color: #999;
+       }
        .rowbox{
          .rowtype{
            margin-top: 25px;

@@ -20,7 +20,7 @@
                     <span class="validateFromPhone validateWaiting" v-else><i class="mid-line"></i>(<span id="countDown">90</span>s)重新获取</span>
                 </div>
                 <el-form-item label="" prop="newPassword">
-                    <el-input type="newPassword" v-model="ruleForm2.newPassword" auto-complete="off" placeholder="设置6-20位密码"></el-input>
+                    <el-input type="newPassword" v-model="ruleForm2.newPassword" auto-complete="off" placeholder="密码"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="submitForm('ruleForm2')">完成</el-button>
@@ -44,9 +44,11 @@ import {loginService} from '../../service/loginService'
             var pass=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
            if (value === '') {
                 callback(new Error('请输入密码'));
-            } else if(!pass.test(value)) {
-                callback(new Error('数字和字母组合不少于6位'));
-            }else {
+            } 
+            // else if(!pass.test(value)) {
+            //     callback(new Error('数字和字母组合不少于6位'));
+            // }
+            else {
                 callback();
             }
         };
@@ -179,9 +181,9 @@ import {loginService} from '../../service/loginService'
                             }else{
                                 clearInterval(that.$store.state.loginStore.timer);
                                 that.isFlag = 1;
-                                var removeObj = document.getElementsByClassName('geetest_holder')[0];
-                                removeObj.parentNode.removeChild(removeObj);
-                                that.getgaptchas()
+                                // var removeObj = document.getElementsByClassName('geetest_holder')[0];
+                                // removeObj.parentNode.removeChild(removeObj);
+                                // that.getgaptchas()
                             }
                             },1000);
                             }

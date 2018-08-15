@@ -11,6 +11,14 @@ export const indexService = {
     listImgs: function(params){
         return axios.get('/banners'+ this.getParam(params))
     },
+    // 热门作者
+    gethotAuthor: function(params){
+        return axios.get('/authors/hot'+ this.getParam(params))
+    },
+    // 热门活动
+    gethotActivity: function(params){
+        return axios.get('/activities/hot'+ this.getParam(params))
+    },
     // 文章列表请求
     getArticles: function(params){
         return axios.get('/articles'+ this.getParam(params))
@@ -161,18 +169,18 @@ export const indexService = {
         return axios.post('/activities/'+params.actId+'/order' ,qs.stringify(params))
     },
     // 点击订阅产品包价格查询
-    subscribeOrder: function(params){
-        return axios.put('/productpkgs/subscribe' + this.getParam(params))
-    },
-    // 获取orderNo
-    orderSubmit: function(params){
-        return axios.put('/productpkgs/ordersubmit', qs.stringify(params))
-        // return axios.put('/productpkgs/ordersubmit' + this.getParam(params))
-    },
-    // 支付页面生成支付二维码
-    getErweima: function(params){
-        return axios.put('/orders' + this.getParam(params))
-    },
+    // subscribeOrder: function(params){
+    //     return axios.put('/productpkgs/subscribe' + this.getParam(params))
+    // },
+    // // 获取orderNo
+    // orderSubmit: function(params){
+    //     return axios.put('/productpkgs/ordersubmit', qs.stringify(params))
+    //     // return axios.put('/productpkgs/ordersubmit' + this.getParam(params))
+    // },
+    // // 支付页面生成支付二维码
+    // getErweima: function(params){
+    //     return axios.put('/orders' + this.getParam(params))
+    // },
     // 用户是否购买过产品包
     mySinglePro:function(params){
         return axios.get('/users/getBought'+ this.getParam(params))
@@ -192,6 +200,13 @@ export const indexService = {
     /* 是否已经申请主办方 */
     getIsApplyAdmin:function(params){
         return axios.get('/isApplyAdmin' + this.getParam(params));
+    },
+    // 查询当前ip
+    // getIp:function(params){
+    //     return axios.post('/ip',qs.stringify(params));
+    // },
+    getIp: function(params){
+        return axios.get('/ip'+ this.getParam(params))
     },
 
     getParam: function(param){

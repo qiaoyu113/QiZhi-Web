@@ -6,8 +6,8 @@
                     <p class="title">运联传媒</p>
                     <span></span>
                     <p class="desp">
-                        电话：010-62958252        传真：010-52071961</br>
-                        投稿邮箱：bianshunrong#tucmedia.com（发邮件请把#换成@）</br>
+                        电话：010-62958252 &nbsp;</br>
+                        投稿邮箱：tucmedia@126.com</br>
                         客服微信：010-62958252</br>
                         地址:北京市海淀区学清路甲18号中关村东升科技园学院园D609室
                     </p>

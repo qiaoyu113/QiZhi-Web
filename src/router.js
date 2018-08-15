@@ -114,7 +114,7 @@ const routers = [
     {name: 'payment',path:'/payment/:id/:type',component: payment},
     {name: 'alipay',path:'/alipay',component: alipay},
     {name: 'paySuccess',path:'/paySuccess',component: paySuccess},
-    {name: 'activityPlace',path:'/activity/place',component:activityPlace},
+    {name: 'activityPlace',path:'/place',component:activityPlace},
     // 付费阅读
     {name: 'subject',path:'/subject',component: subject},
     {name: 'subjectDetail',path:'/subject/:id',component: subjectDetail},
@@ -124,7 +124,7 @@ const routers = [
     {name: 'vip',path:'/vip',component: vip},
     {name: 'vipPoints',path:'/vip/points',component: vipPoints},
      //电子票
-    {name: 'ticket',path:'/ticket',component: ticket},
+    {name: 'ticket',path:'/ticket/:id',component: ticket},
     // 申请成为主办方
     {name: 'sponsor',path:'/sponsor',component: sponsor},
 
@@ -166,13 +166,13 @@ const router = new VueRouter({
     routes:routers
 })
 
-/*let isClient = typeof window != 'undefined' ? true : false
+let isClient = typeof window != 'undefined' ? true : false
 router.beforeEach((to, from, next) => {
 
     next()
 })
 router.afterEach((to, from, next) => {
 
-});*/
+});
 
 export default router

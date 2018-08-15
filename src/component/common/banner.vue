@@ -56,7 +56,13 @@
           },
           clickLink:function(index){
             if(!this.canClick) return;
-            window.location.href = this.bannerData[index].picLink
+            console.log('跳转路径url',this.bannerData[index].picLink)
+            if(this.bannerData[index].picLink.indexOf('http')!=-1){
+                 window.location.href = this.bannerData[index].picLink
+            } else {
+                window.location.href = 'http://'+this.bannerData[index].picLink
+            }
+            // window.open(this.bannerData[index].picLink)
             // if(this.bannerData[index].bannerType== '0'){
             //   window.location.href = this.bannerData[index].picLink
             // }

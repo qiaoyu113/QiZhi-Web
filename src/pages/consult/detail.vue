@@ -24,9 +24,23 @@
                 </div>
                 <div class="line"></div>
                 <div class="article-look">
-                    <span class="praise" v-bind:class="{'praise1':isLike}" @click="likeClick"><i class="iconfont icon-xianxingzan"></i>赞<span class="num">{{$store.state.homeStore.article.thumbsNum | readNumFormate}}</span></span>
+                    <span class="praise" v-bind:class="{'praise1':isLike}" @click="likeClick">
+                        <img v-if="!isLike" src="../../assets/image/zan.png" class="zanbutton" alt="">
+                        <img v-if="isLike" src="../../assets/image/yizan.png" class="zanbutton" alt="">
+                        <!-- <i class="iconfont icon-xianxingzan"></i> -->
+                        <span class="weiquxiao">赞&nbsp;&nbsp;{{$store.state.homeStore.article.thumbsNum | readNumFormate1}}</span>
+                        <span v-if="isLike" class="quxiao">取消点赞</span>
+                        
+                    </span>
                     <!-- <span class="praise"><i class="iconfont icon-xing"></i>赞<span class="num">23</span></span> -->
-                    <span class="collection" v-bind:class="{'praise1':isSave}" @click="saveClick"><i class="iconfont icon-xianxingxing"></i>收藏<span class="num">{{$store.state.homeStore.article.collectNum | readNumFormate}}</span></span>
+                    <span class="collection" v-bind:class="{'praise1':isSave}" @click="saveClick">
+                        <img v-if="!isSave" src="../../assets/image/shou.png" class="zanbutton" alt="">
+                        <img v-if="isSave" src="../../assets/image/yishou.png" class="zanbutton" alt="">
+                        <!-- <i class="iconfont icon-xianxingxing"></i> -->
+                        <span class="weiquxiao">收藏&nbsp;&nbsp;{{$store.state.homeStore.article.collectNum | readNumFormate1}}</span>
+                        <span v-if="isSave" class="quxiao">取消收藏</span>
+                        
+                    </span>
                     <!-- <span class="collection"><i class="iconfont icon-zan"></i>收藏<span class="num">1</span></span> -->
                     <span class="m-read" v-bind:class="{'praise1':phoneRead}" @click="clickPhone"><i class="iconfont icon-shoujiyuedu" style="font-size:18px;"></i>手机阅读</span>
                     <div v-show="phoneRead" class="ceng"></div>
@@ -38,18 +52,18 @@
                         <canvas class="canvas" id="canvas1"></canvas>
                     </div>
                     <div class="p1" style="height:60px;float:right;"><span style="margin-top:10px;float:left;">分享到 :</span>
-                        <div class="bdsharebuttonbox" style="float:left;display:inline-block;transform: scale(.8);margin-left:0px;">
+                    <share :option="myShareOption" ref="myShare" style="display:inline-block;margin-top: 5px;margin-left: 10px;"></share>
+                        <!-- <div class="bdsharebuttonbox" style="float:left;display:inline-block;transform: scale(.8);margin-left:0px;">
                             <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                             <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
                             <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"></a>
-                            <!-- <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a> -->
-                            <!-- <a href="#" class="bds_more" data-cmd="more"></a>
-                            <a class="bds_count" data-cmd="count"></a> -->
-                        </div>
+                        </div> -->
                     </div>
                     <div class="code-img hide"><img src="" width="280" height="280"></div>
                 </div>
             </div>
+            <comment :good="good" v-if="good"></comment>
+            <!-- <comment></comment> -->
         </div>
         <div class="right">
           <!-- 热门文章 -->
@@ -98,18 +112,26 @@
 
 <script type="text/ecmascript-6">
     import {modularService} from '../../service/modularService'
+    import share from '../../component/common/share.vue'
     import QRCode from 'qrcode'
     import {indexService} from '../../service/indexService'
     import homeList from '../../component/list/home-list.vue'
     import hotPost from '../../component/list/hot-post.vue'
     import recommendAuth from '../../component/list/recommend-auth.vue'
+    import comment from '../../component/common/comment.vue'
     export default {
-    name: 'app',
     // 添加以下代码
     metaInfo () {
         const title = this.title
+        const desc = this.summary
+        const keyword = this.keywordtag
         return {
-            title
+            title,
+            meta: [
+                { vmid: 'description', name: 'description', content: desc },
+                { vmid: 'keyWords', name: 'keyWords', content: keyword},
+            ]
+
         }
     },
     props: [],
@@ -157,6 +179,8 @@
     data () {
       return {
         title:'',
+        summary:'',
+        keywordtag:'',
         // newDetail:{},
         articleTypes:[],
         newsData:[],
@@ -179,13 +203,19 @@
         author:'',
         id:'',//id
         isFollow:'', //是否关注
-        hotArticleLists:{}
+        hotArticleLists:{},
+        myShareOption: {
+            title: '',
+            desc: '',
+            summary: '',
+            pics: ''
+        },
+        showComment:false,
+        good:null,
+        total:''
       }
     },
-    components: {homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth},
-    beforeCreate(){
-        window._bd_share_main = "";
-    },
+    components: {share:share,homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth,comment:comment},
     watch: {
         '$route' (to,from) {
             this.$router.go(0)
@@ -195,36 +225,25 @@
         }
     },
     mounted () {
+        
+        this.$refs.myShare.title = this.newDetail.title;
+        this.$refs.myShare.desc = this.newDetail.summary;
+        this.$refs.myShare.pics = this.$store.state.picHead + this.newDetail.poster;
         this.getHotNewsa()
         document.body.scrollTop = 0
         let _this=this
+        // function getNewDetaia(){
+            // console.log(9,_this.$route.params.id)
+            // indexService.getArticleDetail({id: _this.$route.params.id}).then(function (res) {
+            //     console.log(9999999999999,res.data)
+            //     // store.state.homeStore.article = res.data;
+            //     // store.state.homeStore.adminId = res.data.createUserId;
+            // });
+        // }
+        // console.log('3333',_this.newDetail)
          _this.title = _this.newDetail.title
-        //  console.log('社群号',_this.hotArticleList)
-        //引入百度分享
-        _this.$nextTick(function () {
-            window._bd_share_config ={
-                "common":{
-                    "bdSnsKey":{},
-                    "bdText" : _this.$store.state.homeStore.article.title,
-                    "bdDesc" : _this.$store.state.homeStore.article.summary,
-                    "bdPic" : _this.$store.state.picHead + _this.$store.state.homeStore.article.poster,
-                    "bdMini":"2",
-                    "bdStyle":"1",
-                    "bdSize":"32",
-                    onAfterClick:_this.syt
-                },
-                "share":{
-                    "bdSize":"32",
-                },
-                "image":{"viewList":["qzone","tsina","tqq","renren","weixin"],
-                "viewText":"分享到：","viewSize":"30"},
-                "selectShare":{"bdContainerClass":null,"bdSelectMiniList":null}
-            };
-            const s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5);
-            document.body.appendChild(s);
-        })
+         _this.summary = _this.newDetail.summary
+         _this.keywordtag = _this.newDetail.tag.join(',')
         _this.getMyFollowMain()
         _this.getType()
         _this.articleRead()
@@ -235,6 +254,9 @@
             if(_this.newDetail.createUserId != '1'){
                 _this.isFollowMain()
             }
+        }
+        _this.good = {
+            id:_this.$route.params.id,type:1
         }
     },
     methods: {
@@ -504,15 +526,43 @@
         margin: 0 auto;
         margin-top: 40px;
         overflow: hidden;
+        .quxiao{display: none;color:#8492A6;}
+        .praise1:hover{
+            .quxiao{
+                display: inline-block;
+            }
+            .weiquxiao{
+                display: none;
+            }
+        }
+        .zanbutton{
+            width: 24px;
+            margin-right: 5px;
+            vertical-align: text-bottom;
+        }
+        .bds_qzone{
+            width: 25px;
+            height: 25px;
+            .jiathis_style_32x32 .jiathis_button_weixin{
+                padding-left: 5px !important;
+            }
+            .jiathis_style_32x32 .jiathis_button_tsina{
+                 padding-left: 5px !important;
+            }
+        }
         .left{
             width: 760px;
             float: left;
             /*标签样式*/
             .praise1{
                 box-shadow: none !important;
-                color:#389bff !important;
-                border: 1px solid #389bff !important;
-                i{color:#389bff !important;}
+                color:#389BFF !important;
+                background: #E8F5FF !important;
+                // border: 1px solid #389bff !important;
+                i{color:#389BFF !important;}
+            }
+            .praise:hover{
+                background: #F3FAFF;
             }
             #canvas1{
                 height: 270px !important;
@@ -565,18 +615,17 @@
             .article-label{margin-top: 25px}
             .article-label span{margin-right: 5px;font-size: 14px;color: #999999;}
             .article-label .category{font-size:14px;color:#389bff;text-align:left;}
-            .article-label .shuxian,.article-label .article-time{font-size:14px;text-align:left;}
             .article-label .user-role{font-size:14px;color:#999999;text-align:left;}
             .article-label .user-role:hover{text-decoration: underline}
             .article-keywords{margin-top: 35px}
             .article-keywords .text{margin-right: 10px;font-size:13px;color:#999999;text-align:left;}
             .article-keywords span{margin-right: 20px;}
-            .article-keywords .label1{font-size:12px;color:#999999;text-align:center;background:#ffffff;border:1px solid #eff2f6;border-radius:2px;height:22px;line-height: 22px;display: inline-block;padding: 0 10px}
-            // .article-keywords .label1 .shape{background:url("../../images/PC/icon/Shape.png");width:16px;height:16px;display: inline-block;position: relative;top:3px;margin-right: 8px;}
-            .detail-container .line{background:rgba(224,224,224,0.50);width:800px;height:1px;margin-top: 35px}
+            .article-keywords .label1{font-size:12px;color:#8492A6;text-align:center;background:#F9FAFC;border-radius:2px;height:22px;line-height: 22px;display: inline-block;padding: 0 10px}
+            .article-keywords .label1:hover{background: #E5E9F2;color: #5E6D82;}
+            .detail-container .line{background:rgba(224,224,224,0.50);height:1px;margin-top: 35px}
             .article-look{margin-top: 40px;font-size:14px;color:#999999;position: relative;height: 45px;border: 1px solid transparent}
-            .article-look>span{display:inline-block;background:#fafafa;border-radius:2px;width:140px;height:40px;line-height: 40px;text-align: center;margin-right: 10px;cursor: pointer;background:#fafafa;
-                box-shadow:inset 0px 1px 0px 0px rgba(224,224,224,0.50), inset -1px 0px 0px 0px rgba(224,224,224,0.50), inset 0px -1px 0px 0px rgba(224,224,224,0.50), inset 1px 0px 0px 0px rgba(224,224,224,0.50);vertical-align: middle}
+            .article-look>span{display:inline-block;background:#F9FAFC;border-radius:100px;width:150px;height:47px;line-height: 47px;text-align: center;margin-right: 10px;cursor: pointer;
+                vertical-align: middle;color:#8492A6;font-size: 14px;}
             .article-look .praised{font-size:14px;color:#389bff;line-height:45px;vertical-align: middle;background:#ffffff;box-shadow:0px 5px 4px 0px rgba(225,225,225,0.10), inset 0px 1px 0px 0px #389bff, inset -1px 0px 0px 0px #389bff, inset 1px 0px 0px 0px #389bff, inset 0px -1px 0px 0px #389bff; }
             .article-look .collectioned{font-size:14px;color:#389bff;background:#ffffff;box-shadow:0px 5px 4px 0px rgba(225,225,225,0.10), inset 0px 1px 0px 0px #389bff, inset -1px 0px 0px 0px #389bff, inset 1px 0px 0px 0px #389bff, inset 0px -1px 0px 0px #389bff;}
             .article-look .m-readed{font-size:14px;color:#389bff;background:#ffffff;box-shadow:0px 5px 4px 0px rgba(225,225,225,0.10), inset 0px 1px 0px 0px #389bff, inset -1px 0px 0px 0px #389bff, inset 1px 0px 0px 0px #389bff, inset 0px -1px 0px 0px #389bff;}
@@ -595,7 +644,6 @@
                     font: inherit;
                     vertical-align: top;
                     position: relative;
-                    margin: 0px;
                     padding: 15px;
                     background: #fafafa;
                     padding-left: 20px;

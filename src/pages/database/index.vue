@@ -41,7 +41,7 @@
                     <div class="td td4">{{list.downloadCount}}</div>
                     <div class="td td5">{{list.createTime | stampFormate}}</div>
                     <div class="td td6">{{list.adminName}}</div>
-                    <div class="td td7" @click="getUserCenter(list.name,list.url,list.suffix,list.form)" >
+                    <div class="td td7" @click="getUserCenter(list.name,list.url,list.suffix,list.form,list.id)" >
                    <!--  <a :href="'https://mini.dtfind.com/downloads/url?urlStr='+ list.url+'&fileName='+list.name+'&form='+list.suffix"> -->
                     下载
                     <!-- </a> -->
@@ -178,13 +178,13 @@
           this.getDocuments()
       },
         //获取我的信息
-      getUserCenter (name,url,suffix,form){
+      getUserCenter (name,url,suffix,form,id){
         let that = this;
         modularService.getUserCenter().then(function (res) {
                   if(res.data.code==200){
                        let data=res.data.datas.user
                        that.myVip=data.myVip.vip
-                       that.getDownloadsUrl (name,url,suffix,form)
+                       that.getDownloadsUrl (name,url,suffix,form,id)
                   }
         });
       },
@@ -206,7 +206,7 @@
       },
       
       //获取资料库下载地址
-      getDownloadsUrl (name,url,suffix,form){
+      getDownloadsUrl (name,url,suffix,form,id){
         let that = this;
         // that.getUserCenter()
         if(that.myVip!=null){
@@ -220,7 +220,11 @@
                   if(res.data.code==200){
                        // that.data=res.data.datas.datas
                       // that.inde=res.data.datas.totalPage * 10
-
+                  }
+               });
+     modularService.getDocuments({documentId:id}).then(function (res) {
+                  if(res.data.code==200){
+                      
                   }
                });
           }
