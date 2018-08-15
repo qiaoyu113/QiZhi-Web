@@ -37,7 +37,7 @@
         <!-- <router-link v-if="loginFlag" class="personimg" :to="{name:''}"><img v-if="indexLogo!=null && indexLogo!=''" :src="this.$store.state.picHead + indexLogo" alt=""></router-link> -->
     </div>
       <el-dialog title="发布" :visible.sync="dialogVisible">
-          <a class="btna" href="http://admin.wetuc.com/sponsor">去申请</a>
+          <a class="btna" href="http://wetuc.com/sponsor">去申请</a>
           <a class="btnb" href="http://admin.wetuc.com/login">去登陆</a>
       </el-dialog>
   </div>
