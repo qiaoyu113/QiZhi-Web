@@ -88,6 +88,7 @@
 .banner{
     width: 800px;
     height: 400px;
+    .el-carousel{width:100%;height: 100%}
     .homebanner{
         background-color: #ccc;
     }
