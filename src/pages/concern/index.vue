@@ -5,7 +5,8 @@
       <div class="titleli"><p :class="titlep==1?'v_p':''" @click="titleindex(1)">认证作者</p></div>
       <div class="titleli"><p :class="titlep==2?'v_p':''" @click="titleindex(2)">活动主办方</p></div>
     </div>
-    <div class="author">推荐作者</div>
+    <div class="author" v-if="titlep==1">推荐作者</div>
+    <div class="author" v-if="titlep==2">推荐主办方</div>
     <div class="authorapply" @click="enterSponsor()">申请成为<span v-if="titlep==1">作者</span><span v-if="titlep==2">主办方</span></div>
     <div class="box clearfix">
        <div class="row" v-for="list in data" @click="goconcernDetail(list.id,list.isFollow)" :style="{backgroundImage: 'url(' + picHead + list.hostLogo + ')'}">
