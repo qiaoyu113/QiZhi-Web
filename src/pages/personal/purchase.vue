@@ -7,7 +7,7 @@
     <div class="box1" v-if="titlep==1">
        
         <div class="rowbox"  v-for="list in data">
-          <div class="rowtype">
+          <div class="rowtype clearfix">
               <p class="paymentp" v-if="list.status ==1">待付款</p>
               <p class="paymentp" v-if="list.status ==2">待审核</p>
               <p class="paymentp" v-if="list.status ==3">已付款</p>
@@ -17,7 +17,7 @@
               <p class="paymentp" v-if="list.status ==7">退款中</p>
               <p class="paymentp" v-if="list.status ==8">退款失败</p>
               <p class="paymentp" v-if="list.status ==9">审核通过</p>
-              <p class="paymentp" v-if="list.status ==10">审核不通过</p>
+              <p class="paymentp" v-if="list.status ==10">审核未通过</p>
               <p class="paymentp" v-if="list.status ==11">退款申请中</p>
               <p class="paymentp" v-if="list.status ==12">退款拒绝</p>
               <p class="paymentp" v-if="list.status ==13">撤销申请</p>
@@ -27,6 +27,8 @@
               <p class="paymentp" v-if="list.status ==17">待发货</p>
               <p class="paymentp" v-if="list.status ==18">已发货</p>
               <p class="paymentp" v-if="list.status ==19">交易完成</p>
+              <div class="rowtyper" v-if="list.status ==10 && list.comment!=null">拒绝理由：{{list.comment}}</div>
+              <div class="rowtyper" v-if="list.status ==12 && list.comment !=null">拒绝理由：{{list.comment}}</div>
           </div>
           <div class="rownumber">
               <p>下单时间: {{list.createTime | stampFormate2}} | 订单编号: {{list.orderNo}}</p>
@@ -302,9 +304,25 @@ import {modularService} from '../../service/modularService'
        .rowbox{
          .rowtype{
            margin-top: 25px;
-           color: #20A0FF;
-           font-size: 16px;
-           line-height: 21px;
+
+           .paymentp{
+                               color: #20A0FF;
+                              font-size: 16px;
+                            line-height: 21px;
+                   // font-size: 12px;
+                   // color: #505050;
+                   float: left;
+                   // line-height: 16px;
+                   // margin: 10px 0 20px 0;
+                 }
+                 .rowtyper{
+                  float: left;
+                  margin-left: 20px;
+                  font-size: 14px;
+                  line-height: 21px;
+                  color: #666;
+
+                 }
          }
          .rownumber{
             margin-top: 5px;
@@ -455,12 +473,7 @@ import {modularService} from '../../service/modularService'
 
                    }
                  }
-                 .paymentp{
-                   font-size: 12px;
-                   color: #505050;
-                   line-height: 16px;
-                   margin: 10px 0 20px 0;
-                 }
+                 
                  .ticket{
                    width: 100%;
                    height: 28px;
