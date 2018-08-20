@@ -10,7 +10,6 @@
     import {appService} from './service/appService'
     import {indexService} from './service/indexService'
     import {za} from './assets/js/demo'
-    // import {params} from './assets/js/za-source'
     // import jsonp from 'jsonp'
     // import axios from 'axios'
     // import qs from 'qs'
@@ -47,6 +46,7 @@
         watch: {
             '$route' (to,from) {
                 const that = this;
+                that.IpNum()
                 if(to.name!='qrcode' &&to.name!='qrcode' && to.name!='login' && to.name!='phone' && to.name!='register' && to.name!='find' && to.name!='bind' && to.name!='modifyPass'&& to.name!='wxlogin'&& to.name!='bindQrcode'&& to.name!='bindwxlogin'){
                     appService.checkLogin()
                 }
@@ -104,8 +104,17 @@
                 const that = this
                 indexService.getIp({
                 }).then(function (res) {
-                    that.ip = res.data.datas.data
-                    za(that.ip.country,that.ip.area,that.ip.city,that.ip.isp)
+                    if(res.data.code == 200){
+                        if(res.data.datas != undefined){
+                            that.ip = res.data.datas.data
+                            za(that.ip.country,that.ip.region,that.ip.city,that.ip.isp)
+                        } else {
+                            za('其他','其他','其他','其他')
+                        }
+                    } else {
+                        za('其他','其他','其他','其他')
+                    }
+                    
                 })
             },
             goRegister:function(){
