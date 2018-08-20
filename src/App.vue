@@ -104,9 +104,10 @@
                 const that = this
                 indexService.getIp({
                 }).then(function (res) {
-                    if(res.data.datas.data != 'undefined'){
+                    if(res.data.datas != undefined){
                         that.ip = res.data.datas.data
                         za(that.ip.country,that.ip.region,that.ip.city,that.ip.isp)
+                    } else {
                     }
                 })
             },
