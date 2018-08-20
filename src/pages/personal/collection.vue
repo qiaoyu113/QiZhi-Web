@@ -8,9 +8,9 @@
     </div>
     <div class="box">
         <div class="row clearfix" v-for="list in data">
-        	 <div class="rowl"><img :src="picHead + list.cover"/></div>
+        	 <div class="rowl" @click="godetails(list.typeId)"><img :src="picHead + list.cover"/></div>
         	 <div class="rowr">
-        	 	 <p class="h3">{{list.title}}</p>
+        	 	 <p class="h3" @click="godetails(list.typeId)">{{list.title}}</p>
         	 	 <p class="conp">{{list.collectTime | stampFormate2}}</p>
         	 	 <p class="cancel" @click="open2(list)">取消收藏</p>
         	 </div>
@@ -132,6 +132,14 @@
                   }
         });
       },
+      godetails:function(id){
+         let that=this
+           if(that.titlep==1){
+             that.$router.push({name:"passage",params:{id:id}}) 
+           }else{
+              that.$router.push({name:"activityDetail",params:{id:id}}) 
+           }
+      },
 
       loadmore(i){
                 //loadstatus为加载状态，每次收到接口数据后要修改该状态
@@ -182,6 +190,7 @@
   		 	 	 float: left;
   		 	 	 width: 224px;
   		 	 	 height: 150px;
+           cursor: pointer;
   		 	 	 img{
   		 	 	 	 width: 100%;
   		 	 	 	 height: 100%;
@@ -199,6 +208,7 @@
   		 	 	 	 font-size: 16px;
   		 	 	 	 color: #303030;
   		 	 	 	 line-height: 50px;
+             cursor: pointer;
   		 	 	 }
   		 	 	 .conp{
   		 	 	 	 font-size: 14px;

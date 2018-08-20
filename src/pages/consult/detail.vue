@@ -147,13 +147,15 @@
                 store.state.homeStore.hotAuthors = res.data.datas.datas;
             });
         }
-        function getHotNews(){
-            return indexService.hotArticles({pageNo:1,pageSize:5,adminId:'5b03cb415a70005fde728993'}).then(function (res) {
-                store.state.homeStore.hotArticleList = res.data.datas.datas;
-            });
-        }
+        // function getHotNews(){
+        //     return indexService.hotArticles({pageNo:1,pageSize:5,adminId:'5b03cb415a70005fde728993'}).then(function (res) {
+        //         store.state.homeStore.hotArticleList = res.data.datas.datas;
+        //     });
+        // }
         return Promise.all([
-            getNewDetai(),getHotNews(),getAdminUsers()
+            getNewDetai(),
+            // getHotNews(),
+            getAdminUsers()
         ])
     },
     computed:{
@@ -164,10 +166,10 @@
             get: function () { return this.$store.state.homeStore.article || []},
             set: function (newValue) {return newValue}
         },
-        hotArticleList: {
-            get: function () { return this.$store.state.homeStore.hotArticleList || []},
-            set: function (newValue) {return newValue}
-        },
+        // hotArticleList: {
+        //     get: function () { return this.$store.state.homeStore.hotArticleList || []},
+        //     set: function (newValue) {return newValue}
+        // },
         hotAuthors:{
             get: function () { return this.$store.state.homeStore.hotAuthors || []},
             set: function (newValue) {return newValue}
@@ -215,7 +217,7 @@
         total:''
       }
     },
-    components: {share:share,homeList:homeList,hotPost:hotPost,recommendAuth:recommendAuth,comment:comment},
+    components: {share:share,hotPost:hotPost,comment:comment},
     watch: {
         '$route' (to,from) {
             this.$router.go(0)
@@ -225,7 +227,6 @@
         }
     },
     mounted () {
-        
         this.$refs.myShare.title = this.newDetail.title;
         this.$refs.myShare.desc = this.newDetail.summary;
         this.$refs.myShare.pics = this.$store.state.picHead + this.newDetail.poster;
@@ -521,6 +522,9 @@
 </script>
 <style lang="less">
   #new{
+      .sm_list_head{background:#fafafa;width:360px;height:45px;line-height: 45px;position: relative;}
+    .sm_list_head img{/*width:16px;height:20px;*/margin-left: 3px;margin-top: 10px;}
+    .sm_list_head span{font-size:16px;color:#3c4350;text-align:left;margin-left: 20px}
       .content-sy{
         width: 1200px;
         margin: 0 auto;

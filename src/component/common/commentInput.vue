@@ -142,10 +142,10 @@
                     }
                     userService.postComments(that.comment).then(function(res){
                         if(that.good.type==1){
-                            alert('进入1')
+                            // alert('进入1')
                             that.$emit('comment',2)
                         }else{
-                            alert('进入2')
+                            // alert('进入2')
                             if(res.datas = 'success'){
                                 that.pagenum = 1
                                 that.$parent.upCallback(that.pagenum)

@@ -118,7 +118,7 @@
                   if(res.data.code==200){
                       that.author=res.data.datas
                       for(let i=0;i<that.author.roles.length;i++){
-                         if(that.author.roles[i]==2){
+                         if(that.author.roles[i]=='5b5931547ce9cf107444f16d'){
                            that.concernstatus=2
                             break;
                          }
