@@ -1,6 +1,6 @@
     export function za (country1,province1,city1,isp1) {
         (function () {
-            console.log('za测试的',country1,province1+'1',city1,isp1)
+            // console.log('za测试的',country1,province1+'1',city1,isp1)
         //     params.country = country1;
         // params.province = province1;
         // params.city = city1;
