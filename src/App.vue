@@ -104,12 +104,17 @@
                 const that = this
                 indexService.getIp({
                 }).then(function (res) {
-                    if(res.data.datas != undefined){
-                        that.ip = res.data.datas.data
-                        za(that.ip.country,that.ip.region,that.ip.city,that.ip.isp)
+                    if(res.data.code == 200){
+                        if(res.data.datas != undefined){
+                            that.ip = res.data.datas.data
+                            za(that.ip.country,that.ip.region,that.ip.city,that.ip.isp)
+                        } else {
+                            za('其他','其他','其他','其他')
+                        }
                     } else {
                         za('其他','其他','其他','其他')
                     }
+                    
                 })
             },
             goRegister:function(){
