@@ -108,6 +108,7 @@
                         that.ip = res.data.datas.data
                         za(that.ip.country,that.ip.region,that.ip.city,that.ip.isp)
                     } else {
+                        za('其他','其他','其他','其他')
                     }
                 })
             },

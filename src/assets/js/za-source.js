@@ -1,5 +1,6 @@
 (function () {
     var params = {};
+    // alert('进入');
     //Document对象数据
     if (document) {
         params.domain = document.domain || '';
