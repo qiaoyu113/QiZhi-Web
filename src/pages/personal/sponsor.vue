@@ -316,10 +316,10 @@ import {validate} from '../../assets/js/common/validate'
 
                        this.headerImage = roundedCanvas.toDataURL(); 
                 modularService.postBase({base64Img:that.headerImage,width:that.width,height:that.height}).then(function(res){
-                   console.log(res)
+                //    console.log(res)
                     that.headImg = res.data.datas;
                     that.ruleForm1.adminLogo = that.headImg
-                    console.log('图片地址',that.ruleForm1.adminLogo)
+                    // console.log('图片地址',that.ruleForm1.adminLogo)
                           // commonService.putUpdate({headImg:img}).then(function(res){
                           //               // that.getUsersprofile()
                           //          })

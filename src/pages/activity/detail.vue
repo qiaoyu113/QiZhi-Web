@@ -28,7 +28,7 @@
                 <div class="activity-message-bottom-right-2">
                     <div class="activity-message-bottom-right-3-left"><img src="../../assets/image/shijian.png" alt=""> </div>
                     <div class="activity-message-bottom-right-2-right">
-                        <p>{{detail.signupStartTime | stampFormate4}}至&nbsp;{{detail.signupEndTime | stampFormate4}}<span>{{state[detail.actStauts]}}</span></p>
+                        <p>{{detail.signupStartTime | stampFormate4}}&nbsp;至&nbsp;{{detail.signupEndTime | stampFormate4}}<span>{{state[detail.actStauts]}}</span></p>
                     </div>
                 </div>
                 <div class="activity-message-bottom-right-3">
@@ -99,6 +99,12 @@
             <div class="blue_line"></div>
         </div>
         <div class="html-content" v-html="detail.activityDetails"></div>
+        
+    </div>
+    <div class="quiz-title" style="margin-top:40px;">
+        <div style="width:800px;">
+            <comment :good="good" v-if="good"></comment>
+        </div>
     </div>
 
     <!--活动详情（未完善）-->
@@ -121,139 +127,7 @@
               <load-more v-if="peopleList.length!=0" :page="page.num" :total="page.totalPage" :status="loadStatus" @loadMore="loadmore"></load-more>
           </div>
       </div>
-    <!--活动提问标题-->
-    <!-- <div class="quiz-title">
-        <div class="quiz-text">活动提问</div>
-    </div> -->
-
-    <!--评论窗口（登录）-->
-    <!-- <div class="comment-no">
-        <div class="comment-no-top">
-            <textarea class="area" placeholder="请输入评论内容"></textarea>
-        </div>
-        <div class="comment-no-bottom">
-            <div class="comment-no-bottom-left">还可以输入 <span class="area-text">200</span> 字</div>
-            <div class="comment-no-bottom-right">
-                <p>您好,<span>13273286382</span></p>
-                <button class="comment-btn">发表</button>
-            </div>
-        </div>
-    </div> -->
-
-    <!--评论内容（个人）/ 未登录-->
-    <!-- <div class="comment-center">
-        <div class="comment-center-left">
-            <img src="../compentent/qiaoyu/images/comment-center-head.png" height="60" width="60"/>
-        </div>
-        <div class="comment-center-right">
-            <p class="comment-center-right-p1">木臂阿童铁</p>
-            <p class="comment-center-right-p2">2016-02-09 16:09:50</p>
-            <p class="comment-center-right-p3">非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！</p>
-            <p class="comment-center-right-p4">回复</p>
-            <div class="comment-center-reply">
-                <div class="comment-center-reply-top">
-                    <textarea class="area1" placeholder="请输入评论内容"></textarea>
-                </div>
-                <div class="comment-center-reply-bottom">
-                    <div class="comment-center-reply-left">还可以输入 <span>200</span> 字</div>
-                    <div class="comment-center-reply-right">
-                        <p>您必须<a href="###">登录</a>以后才可以提问</p>
-                        <button class="comment-center-ok" disabled>发表</button>
-                        <button class="comment-center-no">取消</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div> -->
-
-    <!--评论内容（个人）/ 登录-->
-    <!-- <div class="comment-center">
-        <div class="comment-center-left">
-            <img src="../compentent/qiaoyu/images/comment-center-head.png" height="60" width="60"/>
-        </div>
-        <div class="comment-center-right">
-            <p class="comment-center-right-p1">木臂阿童铁</p>
-            <p class="comment-center-right-p2">2016-02-09 16:09:50</p>
-            <p class="comment-center-right-p3">非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！</p>
-            <p class="comment-center-right-p4">回复</p>
-            <div class="comment-center-reply">
-                <div class="comment-center-reply-top">
-                    <textarea class="area1" placeholder="请输入评论内容"></textarea>
-                </div>
-                <div class="comment-center-reply-bottom">
-                    <div class="comment-center-reply-left">还可以输入 <span>200</span> 字</div>
-                    <div class="comment-center-reply-right">
-                        <p>您好，<span>木臂阿童铁</span></p>
-                        <button class="comment-center-yes">发表</button>
-                        <button class="comment-center-no">取消</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div> -->
-
-    <!--评论内容（官方回复）/ 未登录-->
-    <!-- <div class="comment-center">
-        <div class="comment-center-left">
-            <img src="../compentent/qiaoyu/images/comment-center-head.png" height="60" width="60"/>
-        </div>
-        <div class="comment-center-right">
-            <p class="comment-center-right-p1">木臂阿童铁</p>
-            <p class="comment-center-right-p2">2016-02-09 16:09:50</p>
-            <p class="comment-center-right-p3">非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！</p>
-            <div class="comment-center-right-reply">
-                <p class="comment-center-right-reply1">官方回复<span>2016-02-09 16:09:50</span></p>
-                <p class="comment-center-right-reply2">当我和世界不一样，那就让我不一样，坚持对我来说就是一当开关当我和世界不一样，那就让我不一样，坚持对我来说就是一当开关当我和世界不一样，那就让我不一样，坚持对我来说就是一当开关当我和世界不一样，那就让我不一样，坚持对我来说就是一当开关</p>
-            </div>
-            <p class="comment-center-right-p4">回复</p>
-            <div class="comment-center-reply">
-                <div class="comment-center-reply-top">
-                    <textarea class="area1" placeholder="请输入评论内容"></textarea>
-                </div>
-                <div class="comment-center-reply-bottom">
-                    <div class="comment-center-reply-left">还可以输入 <span>200</span> 字</div>
-                    <div class="comment-center-reply-right">
-                        <p>您必须<a href="###">登录</a>以后才可以提问</p>
-                        <button class="comment-center-ok" disabled>发表</button>
-                        <button class="comment-center-no">取消</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div> -->
-
-    <!--回复成功后的显示效果-->
-    <!-- <div class="comment-center">
-        <div class="comment-center-left">
-            <img src="../compentent/qiaoyu/images/comment-center-head.png" height="60" width="60"/>
-        </div>
-        <div class="comment-center-right">
-            <p class="comment-center-right-p1">木臂阿童铁 <span>回复</span><span>13245675432</span></p>
-            <p class="comment-center-right-p2">2016-02-09 16:09:50</p>
-            <p class="comment-center-right-p3">非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！非常给力的活动，我已经迫不及待想要参加了，有没有人跟我一起的啊，求组队！</p>
-            <p class="comment-center-right-p4">回复</p>
-            <div class="comment-center-reply">
-                <div class="comment-center-reply-top">
-                    <textarea class="area1" placeholder="请输入评论内容"></textarea>
-                </div>
-                <div class="comment-center-reply-bottom">
-                    <div class="comment-center-reply-left">还可以输入 <span>200</span> 字</div>
-                    <div class="comment-center-reply-right">
-                        <p>您好，<span>木臂阿童铁</span></p>
-                        <button class="comment-center-yes">发表</button>
-                        <button class="comment-center-no">取消</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div> -->
-
-    <!--分页-->
-    <!-- <div id="demo1" style="position:relative;left:40px;"></div> -->
+      
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -262,6 +136,7 @@ import share from '../../component/common/share.vue'
 import {commonService} from '../../service/commonService'
 import {indexService} from '../../service/indexService'
 import addInfo from './addInfo.vue'
+import comment from '../../component/common/comment.vue'
   export default {
     // 添加以下代码
     metaInfo () {
@@ -332,9 +207,11 @@ import addInfo from './addInfo.vue'
             totalPage:0
         },
         showPeople:false,
+        showComment:false,
+        good:null,
       }
     },
-    components: {share,'add-info':addInfo},
+    components: {share,'add-info':addInfo,comment:comment},
     mounted () {
         //获取分享信息
         this.$refs.myShare.title = this.detail.activityTitle;
@@ -359,7 +236,10 @@ import addInfo from './addInfo.vue'
             })
 
         }
-        console.log(this.detail)
+        this.good = {
+            id:this.$route.params.id,type:2
+        }
+        // console.log(this.detail)
         window.scrollTo(0,0);
     },
     methods: {
@@ -601,6 +481,9 @@ import addInfo from './addInfo.vue'
 </script>
 <style lang="less">
   #activity_detail{
+      #comments .quiz-text div{
+          margin-top: 9px!important;
+      }
     //   position: relative;
     .erweima{position: absolute;top:271px;right:0px;}
     .tuiguang{
@@ -822,8 +705,8 @@ import addInfo from './addInfo.vue'
       margin: 0 auto;
       margin-top: 15px;
     .quiz-text{
-        height: 60px;
-        line-height: 60px;
+        height: 40px;
+        line-height: 40px;
         font-size: 18px;
         color: #303030;
         position: relative;
@@ -831,7 +714,7 @@ import addInfo from './addInfo.vue'
         .blue_line{
             position: absolute;
             left:0;
-            top: 20px;
+            top: 9px;
             background: #20A0FF;
             width: 4px;
             height: 20px;
