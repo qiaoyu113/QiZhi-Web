@@ -102,9 +102,9 @@
         
     </div>
     <div class="quiz-title" style="margin-top:40px;">
-        <div style="width:800px;">
+        <!-- <div style="width:800px;">
             <comment :good="good" v-if="good"></comment>
-        </div>
+        </div> -->
     </div>
 
     <!--活动详情（未完善）-->
