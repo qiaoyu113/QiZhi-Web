@@ -46,7 +46,9 @@
         watch: {
             '$route' (to,from) {
                 const that = this;
-                that.IpNum()
+                if(location.host == 'wetuc.com'){
+                    that.IpNum()
+                }
                 if(to.name!='qrcode' &&to.name!='qrcode' && to.name!='login' && to.name!='phone' && to.name!='register' && to.name!='find' && to.name!='bind' && to.name!='modifyPass'&& to.name!='wxlogin'&& to.name!='bindQrcode'&& to.name!='bindwxlogin'){
                     appService.checkLogin()
                 }
@@ -55,7 +57,9 @@
         },
         mounted: function () {
             // 获取ip
-            this.IpNum()
+            if(location.host == 'wetuc.com'){
+                    this.IpNum()
+                }
            if(this.$route.name == 'ticket' || this.$route.name == 'activityPlace'){
                 this.navshow =false 
                 this.footershow=false
