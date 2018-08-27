@@ -214,7 +214,7 @@
             that.open()
 
           }else {
-    location.href='https://mini.dtfind.com/downloads/url?urlStr='+ url +'&fileName='+ name +'&form='+suffix
+    location.href='https://mini.wetuc.com/downloads/url?urlStr='+ url +'&fileName='+ name +'&form='+suffix
     
     modularService.getDownloadsUrl({form:form,urlStr:url,fileName:name}).then(function (res) {
                   if(res.data.code==200){
