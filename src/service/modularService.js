@@ -123,8 +123,8 @@ export const modularService = {
         return axios.get('/downloads/url'+ this.getParam(params))
     },
      // 资料库下载+1
-   getDocuments: function(params){
-        return axios.get('/documents/'+ this.getParam(params))
+   putDocuments: function(params){
+        return axios.put('/documents'+ this.getParam(params))
     },
 
     getParam: function(param){

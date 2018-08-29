@@ -215,7 +215,8 @@
 
           }else {
             let su=url.substring(url.lastIndexOf('.')+1)
-    location.href='https://mini.wetuc.com/downloads/url?urlStr='+ url +'&fileName='+ name +'&form='+su
+            let state= that.$store.state.apiUrl
+    location.href=state + '/downloads/url?urlStr='+ url +'&fileName='+ name +'&form='+su
     
     modularService.getDownloadsUrl({form:form,urlStr:url,fileName:name}).then(function (res) {
                   if(res.data.code==200){
@@ -223,9 +224,9 @@
                       // that.inde=res.data.datas.totalPage * 10
                   }
                });
-     modularService.getDocuments({documentId:id}).then(function (res) {
+     modularService.putDocuments({documentId:id}).then(function (res) {
                   if(res.data.code==200){
-                      
+                      that.getDocuments()
                   }
                });
           }
