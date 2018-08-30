@@ -69,6 +69,13 @@ const setup = (resolve) => {require(['./pages/personal/setup.vue'],resolve)}
 const ticket = (resolve) => {require(['./pages/personal/ticket.vue'],resolve)}
 const sponsor = (resolve) => {require(['./pages/personal/sponsor.vue'],resolve)}
 
+//品牌站
+const brand = (resolve) => {require(['./pages/brand/index.vue'],resolve)}
+const brandweb = (resolve) => {require(['./pages/brand/brandweb.vue'],resolve)}
+const brandDatabase = (resolve) => {require(['./pages/brand/database.vue'],resolve)}
+const brandImg = (resolve) => {require(['./pages/brand/brandImg.vue'],resolve)}
+const brandNew = (resolve) => {require(['./pages/brand/brandNews.vue'],resolve)}
+
 
 const alipay = (resolve) => {require(['./pages/activity/alipay.vue'],resolve)} //支付宝支付
 const paySuccess = (resolve) => {require(['./pages/activity/payOk.vue'],resolve)} //支付成功
@@ -158,6 +165,12 @@ const routers = [
     {name: 'bindQrcode', path:'/bindQrcode',component: bindQrcode}, // 绑定微信二维码页面
     {name: 'bindwxlogin', path:'/bindwxlogin',component: bindwxlogin}, // 绑定微信页面
     {name: 'agreement', path:'/agreement',component: agreement}, // 条款页面
+    //品牌站
+    {name: 'brand', path:'/brand',component: brand},
+    {name: 'brandweb', path:'/brandweb',component: brandweb},
+    {name: 'brandDatabase', path:'/brandDatabase',component: brandDatabase},
+    {name: 'brandImg', path:'/brandImg',component: brandImg},
+    {name: 'brandNew', path:'/brandNew',component: brandNew},
 ]
 
 const router = new VueRouter({

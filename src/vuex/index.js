@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     // 定义状态
     state: {
         //正式版
-        apiUrl:'https://mini.wetuc.com', 
+        // apiUrl:'https://mini.wetuc.com',
+        apiUrl:'http://mini.dtfind.com',
         picHead:'http://resource.wetuc.com/',// 资源地址
         redirect_uri:'http://wetuc.com/wxlogin', //微信指向页面
         appId:'wx7160f239f04c65da',
