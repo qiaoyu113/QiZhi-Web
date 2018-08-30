@@ -260,7 +260,7 @@ function analyzeBrowser(userAgent) {
         name: 'IE',
         agentKey: 'Trident'
     }, {
-        name: '其他',
+        name: '',
         agentKey: ''
     }];
     for (var i = 0, length = browserKeyArr.length; i < length; i++) {

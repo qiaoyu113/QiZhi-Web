@@ -15,7 +15,7 @@
         <p class="pleaseLogin" v-if="list=='1' && !flag">请先<router-link :to="{name:'login'}">登录</router-link>再发表评论</p>
         <div class="reply1b">
             <div class="comment-no-bottom-left">剩余<span class="area-text"> {{maxNum}}</span> 字</div>
-            <div class="queren" v-if="list!='1'" @click="issuefun()">确认</div>
+            <div class="queren" v-if="list!='1'" @click="issuefun(index)">确认</div>
             <div class="quxiao1" v-if="list!='1'" @click="writeing(index)">取消</div>
             <div class="queren" v-if="list=='1'" @click="issuefun()">发表评论</div>
         </div>
@@ -57,7 +57,7 @@
             } else {
                 that.flag = true
             }
-            console.log('是否登录',that.flag)
+            // console.log('是否登录',that.flag)
             if(!that.flag && this.list == '1'){
                 that.placeWord = ''
             } else if (this.list != '1'){
@@ -81,12 +81,12 @@
                 this.$emit('close',index)
             },
             //发送评论
-            issuefun:function(id,name){
+            issuefun:function(index){
                 let that = this;
                 that.commentbox = !that.commentbox;
                 // that.$store.commit('increment',that.data);
-                if(that.$store.state.type === 0){//一级回复
-                console.log('一级回复')
+                if(that.$store.state.type === 0){//2级回复
+                // console.log('2级回复')
                     that.comment = {
                         parentId:that.$store.state.replyId,
                         type:String(that.good.type),//这里需要上一页传文章类型；
@@ -103,13 +103,14 @@
                         }else{
                             if(res.datas = 'success'){
                                 that.$parent.upCallback(that.pagenum)
+                                that.$emit('close',index)
                             }else{
                             }
                         }
 
                     })
-                }else if(that.$store.state.type === 1){//二级回复
-                 console.log('二级回复')
+                }else if(that.$store.state.type === 1){//3级回复
+                //  console.log('3级回复')
                     that.comment = {
                         parentId:that.$store.state.replyId,
                         type:String(that.good.type),//这里需要上一页传文章类型；
@@ -122,17 +123,23 @@
                     }
                     userService.postComments(that.comment).then(function(res){
                         if(that.good.type==1){
+                            // console.log('.type==1')
                             that.$emit('comment',1)
+                            that.$emit('close',index)
                         }else{
                             if(res.datas = 'success'){
+                                // console.log('3级回复,success')
+                                that.$emit('close',index)
                                 that.$parent.upCallback(that.pagenum)
                             }else{
+                                // console.log('3级回复,else')
+                                that.$emit('close',index)
 //                            that.$router.push({name:'login'});
                             }
                         }
                     })
                 }else{
-                     console.log('三级回复')
+                    //  console.log('1级回复')
                     that.comment = {
                         type:that.good.type,//这里需要上一页传文章类型；
                         typeId:that.good.id,
@@ -144,12 +151,16 @@
                         if(that.good.type==1){
                             // alert('进入1')
                             that.$emit('comment',2)
+                            that.maxNum = 600
                         }else{
                             // alert('进入2')
                             if(res.datas = 'success'){
-                                that.pagenum = 1
+                                // that.pagenum = 1
                                 that.$parent.upCallback(that.pagenum)
+                                that.$emit('close',index)
+                                that.maxNum = 600
                             }else{
+                                that.maxNum = 600
 //                            that.$router.push({name:'login'});
                             }
                         }

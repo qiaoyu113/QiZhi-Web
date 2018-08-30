@@ -251,7 +251,7 @@
                     that.page.totalPage = tabInfo.totalPage
                     that.page.totalCount = tabInfo.totalCount == null ? 0 : parseInt(tabInfo.totalCount);
                     let newArr = tabInfo.datas;
-                    console.log(6,newArr.length);
+                    // console.log(6,newArr.length);
                     for(let i=0;i<newArr.length;i++){
                         that.$store.state.homeStore.articleList.push(newArr[i]);
                     }

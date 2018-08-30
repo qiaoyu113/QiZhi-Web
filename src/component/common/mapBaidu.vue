@@ -1,5 +1,10 @@
 <template>
-<div class="bm-view" id="dituContent"></div>
+<div>
+    <!-- <a v-if="center.lng!=null" :href="'http://api.map.baidu.com/marker?location='+center.lat+','+center.lng+'&title='+address+'&output=html'">导航</a> -->
+    <!-- <a v-if="center.lng!=null" :href="'http://api.map.baidu.com/direction?origin='+latCurrent+','+lngCurrent+'&destination='+center.lat+','+center.lng+'&mode=driving&region='+address+'&output=html'">导航</a> -->
+    <div class="bm-view" id="dituContent"></div>
+</div>
+
 </template>
 
 <script>
@@ -14,7 +19,10 @@ export default {
                 lat: null
             },
             zoom: 15,
-            address1: this.$props.address
+            address1: this.$props.address,
+            latCurrent:null,
+            lngCurrent:null,
+
         }
     },
     mounted() {
@@ -24,6 +32,17 @@ export default {
     methods: {
         addressChange: function(address) {
             const that = this
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                    var mk = new BMap.Marker(r.point);
+                    map.addOverlay(mk);
+                    //map.panTo(r.point);//地图中心点移到当前位置
+                    that.latCurrent = r.point.lat;
+                    that.lngCurrent = r.point.lng;
+                    // alert('我的位置：'+ that.latCurrent + ',' + that.lngCurrent);
+                }
+            })
             if (address != undefined && address != '') {
                 var url = 'http://api.map.baidu.com/geocoder/v2/?ak=u24QGLsg5apOIGYBTqxnBTC0aebFdEom&output=json&address=' + encodeURIComponent(address);
                 //根据地点名称获取经纬度信息
@@ -59,8 +78,10 @@ export default {
         this.setMapEvent();//设置地图事件
         this.addMapControl();//向地图添加控件
         this.addMarker();//向地图中添加marker
+        
       },
       createMap(){
+          const that = this
         var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
         // console.log('经纬度',this.center.lng,this.center.lat)
         var point = new BMap.Point(this.center.lng,this.center.lat);//定义一个中心点坐标

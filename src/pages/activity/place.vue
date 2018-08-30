@@ -1,6 +1,7 @@
 <template>
     <div class="blockplace">
         <div class="mapblock">
+            
             <mapBaidu v-if="place != undefined" :address="place"></mapBaidu>
         </div>
     </div>

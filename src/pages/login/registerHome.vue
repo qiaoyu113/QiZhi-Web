@@ -32,7 +32,7 @@
                         <el-checkbox name="checked" label="1">我已注册并同意</el-checkbox>
                     </el-checkbox-group> -->
                     <span style="color:#999;margin-top:-10px;float: left;">注册即表示同意</span>
-                    <router-link class="argumentItem" @click="enterAgree" to="">《运联通服务协议》</router-link>
+                    <a class="argumentItem" @click="enterAgree">《运联通服务协议》</a>
                     <router-link class="argumentItem" style="float:right;" :to="{name:'login'}">返回登录</router-link>
                 <!-- </el-form-item> -->
               </el-form>
@@ -162,6 +162,7 @@ import {loginService} from '../../service/loginService'
         },
         methods: {
             enterAgree(){
+                // console.log('http://'+location.host+'/agreement')
                 window.open('http://'+location.host+'/agreement')
             },
             changeCheck:function(){

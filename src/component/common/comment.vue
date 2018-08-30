@@ -2,7 +2,8 @@
   <div class="" id="comments">
     <!--活动提问标题-->
     <div class="quiz-title">
-        <div class="quiz-text"><div></div> 文章评论</div>
+        <div class="quiz-text" v-if="this.$route.name == 'passage'"><div></div> 文章评论</div>
+        <div class="quiz-text" v-if="this.$route.name == 'activityDetail'"><div></div> 活动评论</div>
     </div>
     <!-- 发表评论 -->
     <commentInput :good="good" class="reply11" :list="1" v-on:comment="comment"></commentInput>
@@ -91,7 +92,7 @@
     watch:{
         show (cur, old) {
             this.show = cur;
-            console.log('变化')
+            // console.log('变化')
         }
     },
     mounted () {
@@ -132,9 +133,10 @@
                 this.$set(this.addShow, i, false)
             }
             // console.log('sssssssssss',this.addShow)
-            this.addShow[index1] = true
+            // this.addShow[index1] = true
+            this.addShow[index+'000'+index1] = true
             this.$set(this.addShow, index+'000'+index1, true)
-            // console.log('sssssssssss11',this.addShow)
+            // console.log('sssssssssss11',this.addShow[index+'000'+index1])
             if(this.loginflag == false){
                 this.$router.push({name:'login'})
             } else {
@@ -146,7 +148,7 @@
         },
         upCallback(val){
             let that = this;
-            console.log(val)
+            // console.log(val)
             if(val != undefined){
                 that.page.num = val
             } else {
