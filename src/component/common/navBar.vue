@@ -21,7 +21,8 @@
         <div class="layer" v-if="loginFlag">
            <i></i>
            <ul>
-             <li><router-link :to="{name:'purchase'}">我的购买</router-link> </li>
+             <li><router-link :to="{name:'purchase'}">个人中心</router-link> </li>
+             <!--<li><router-link :to="{name:'purchase'}">我的购买</router-link> </li>-->
              <!-- <li><router-link :to="{name:''}">我的推广</router-link> </li> -->
              <!-- <li><router-link :to="{name:'integral'}">我的积分</router-link> </li> -->
              <!-- <li><router-link :to="{name:'code'}">兑换码</router-link> </li> -->
