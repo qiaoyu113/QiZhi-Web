@@ -37,7 +37,6 @@
                         img.forEach(function(item){
                             that.brandImg.push({picUrl:item.img});
                         })
-                        console.log(that.brandImg)
                         that.brandBanner = res.data.datas.webs
                     }
                 })
