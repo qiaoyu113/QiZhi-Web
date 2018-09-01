@@ -1,7 +1,7 @@
 <template>
     <div class="brand" id="brand">
         <div class="brandImg">
-            <img :src="brandImg" alt="">
+            <z-banner :bannerData="brandImg" :canClick="'true'"></z-banner>
         </div>
         <div class="brandList">
             <div class="brandBanner" @click="goBrand(item.url)" v-for="item in brandBanner">
@@ -17,7 +17,7 @@
         props: [],
         data () {
             return {
-                brandImg:'',
+                brandImg:[],
                 brandBanner:[],
                 id:this.$route.query.id
             }
@@ -33,7 +33,11 @@
                     adminId:id
                 },id).then(function(res){
                     if(res.data.success){
-                        that.brandImg = that.$store.state.picHead + res.data.datas.brandHome.background;
+                        let img = res.data.datas.banners;
+                        img.forEach(function(item){
+                            that.brandImg.push({picUrl:item.img});
+                        })
+                        console.log(that.brandImg)
                         that.brandBanner = res.data.datas.webs
                     }
                 })
@@ -49,6 +53,9 @@
     #brand{
         max-width:1000px;
         margin:60px auto;
+        .banner{
+            width: 100%;
+        }
         .brandImg{
             width:100%;
             img{
