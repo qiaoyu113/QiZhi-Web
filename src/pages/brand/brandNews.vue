@@ -44,7 +44,7 @@
         },
         methods: {
             index(){
-                this.$router.push({name:'brand',query:{id:this.adminId}})
+                this.$router.push({name:'brand',query:{id:this.id}})
             },
             onload(id){
                 let that = this;

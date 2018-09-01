@@ -42,7 +42,7 @@
                 },
                 routerName:'图片库',
                 id:this.$route.query.id,
-                adminId:this.$route.query.adminId,
+                adminId:this.$route.query.id,
                 imgSrc:'',
                 imgText:'',
                 imgShow:false
@@ -66,7 +66,7 @@
                 this.onload (this.id)
             },
             index(){
-                this.$router.push({name:'brand',query:{id:this.adminId}})
+                this.$router.push({name:'brand',query:{id:this.id}})
             },
             onload(id){
                 let that = this;
