@@ -6,6 +6,7 @@
         <div class="brandImgList">
             <div class="imgBox" v-for="item in imgList" @click="openImg(item.img,item.description)">
                 <img :src="$store.state.picHead + item.img" alt="">
+                <p>{{item.description}}</p>
             </div>
         </div>
         <!--分页-->
