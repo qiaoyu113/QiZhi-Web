@@ -94,7 +94,7 @@
                     if(res.data.success){
                         let img = res.data.datas.banners;
                         img.forEach(function(item){
-                            that.brandImg.push({picUrl:item.img});
+                            that.brandImg.push({picUrl:item.img,picLink:item.link});
                         })
                         that.brandBanner = res.data.datas.webs;
                         that.bottom_zhuban = res.data.datas.brandHome.bottom_zhuban;
